@@ -16,29 +16,35 @@ const BTO_DATA = {
   lastUpdated: "30 August 2026",
 
   /* Official pages each figure came from. Shown on the guide page and
-     linked beside the calculator, so anyone can check the numbers. */
+     linked beside the calculator, so anyone can check the numbers.
+
+     NOTE: HDB redesigned hdb.gov.sg in 2026 and dropped "/residential/"
+     from their URLs, which broke every old link. Most links here point to
+     MyNiceHome, HDB's own buyer-facing site, which has been stable.
+     If a link 404s, search the page title on hdb.gov.sg rather than
+     guessing at a path. */
   sources: {
     eligibility:  { label: "HDB — flat eligibility and income ceilings",
-                    url: "https://www.hdb.gov.sg/residential/buying-a-flat/understanding-your-eligibility-and-housing-loan-options/flat-and-grant-eligibility/couples-and-families" },
-    grants:       { label: "HDB / MyNiceHome — CPF housing grants",
+                    url: "https://www.hdb.gov.sg/buying-a-flat/flat-grant-and-loan-eligibility/couples-and-families" },
+    grants:       { label: "HDB MyNiceHome — CPF housing grants",
                     url: "https://www.mynicehome.gov.sg/get-started/hdb-grants-guide/" },
-    loans:        { label: "HDB / MyNiceHome — housing loans",
+    loans:        { label: "HDB MyNiceHome — housing loans",
                     url: "https://www.mynicehome.gov.sg/get-started/hdb-loans-guide/" },
     msrTdsr:      { label: "MAS — MSR and TDSR rules",
                     url: "https://www.mas.gov.sg/regulation/explainers/new-housing-loans/msr-and-tdsr-rules" },
     classification:{ label: "HDB — Standard, Plus and Prime framework",
-                    url: "https://www.hdb.gov.sg/cs/infoweb/residential/buying-a-flat/finding-a-flat/standard-plus-and-prime-housing-models" },
-    flatTypes:    { label: "MyNiceHome — flat types and classifications",
+                    url: "https://www.hdb.gov.sg/buying-a-flat/bto-sbf-and-open-booking-of-flats/finding-a-new-flat/standard-plus-and-prime-housing-framework" },
+    flatTypes:    { label: "HDB MyNiceHome — flat types and classifications",
                     url: "https://www.mynicehome.gov.sg/get-started/hdb-flat-types-classification-guide/" },
-    timeline:     { label: "HDB — buying procedure timeline",
-                    url: "https://www.hdb.gov.sg/residential/buying-a-flat/buying-procedure-for-new-flats/timeline" },
-    ballot:       { label: "HDB — how the BTO ballot works",
-                    url: "https://www.hdb.gov.sg/about-us/news-and-publications/publications/hdbspeaks/balloting-process-for-buildtoorder-bto-flats" },
-    btoGuide:     { label: "MyNiceHome — how to buy a BTO flat",
+    timeline:     { label: "HDB MyNiceHome — how to buy an HDB flat, step by step",
+                    url: "https://www.mynicehome.gov.sg/get-started/hdb-buying-guide/" },
+    ballot:       { label: "HDB MyNiceHome — current BTO sales launch",
+                    url: "https://www.mynicehome.gov.sg/get-started/hdb-bto-sales-launch/" },
+    btoGuide:     { label: "HDB MyNiceHome — how to buy a BTO flat",
                     url: "https://www.mynicehome.gov.sg/get-started/hdb-bto-sbf-buying-guide/" },
-    priority:     { label: "MyNiceHome — priority schemes",
+    priority:     { label: "HDB MyNiceHome — priority schemes",
                     url: "https://www.mynicehome.gov.sg/get-started/hdb-priority-schemes-guide/" },
-    hfe:          { label: "MyNiceHome — applying for an HFE letter",
+    hfe:          { label: "HDB MyNiceHome — applying for an HFE letter",
                     url: "https://www.mynicehome.gov.sg/get-started/hdb-hfe-guide/" }
   },
 

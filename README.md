@@ -166,6 +166,12 @@ Every figure links back to the official page it came from. Those URLs live in
 $14,000 → $16,000; singles 35+ $7,000 → $8,000), and the EHG maximum rose to
 $120,000 in August 2024. Both are reflected in the data file.
 
+**HDB moved their website in 2026** and dropped `/residential/` from every URL,
+which broke all the old links. Most sources now point to
+[MyNiceHome](https://www.mynicehome.gov.sg/), HDB's own buyer-facing site, which has
+been more stable. If a source link 404s, search the page title on hdb.gov.sg rather
+than guessing at a new path — and check the links periodically.
+
 When you revise figures:
 
 1. Verify against the official page in `BTO_DATA.sources`.
