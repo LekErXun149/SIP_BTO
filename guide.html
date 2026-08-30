@@ -26,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=2">
 </head>
 <body>
 
@@ -47,6 +47,8 @@
       <p>The old mature/non-mature split is gone. Every new project is now classified by its location, and the category changes how long you must live there and what you give back if you sell.</p>
     </div>
 
+    <div class="notice-slot"></div>
+
     <div class="table-scroll">
       <table id="classTable">
         <thead>
@@ -56,6 +58,7 @@
       </table>
     </div>
 
+    <div class="src-slot" data-src="classification"></div>
     <div class="quiz-slot" data-quiz="classification"></div>
   </div>
 </section>
@@ -75,6 +78,7 @@
         <tbody></tbody>
       </table>
     </div>
+    <div class="src-slot" data-src="flatTypes"></div>
   </div>
 </section>
 
@@ -94,6 +98,7 @@
       </table>
     </div>
 
+    <div class="src-slot" data-src="grants"></div>
     <div class="quiz-slot" data-quiz="money"></div>
   </div>
 </section>
@@ -117,9 +122,20 @@
   </div>
 </section>
 
-<script src="data/bto-data.js"></script>
-<script src="js/progress.js"></script>
-<script src="js/nav.js"></script>
+<section style="background:#fff; border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Check us</div>
+      <h2>Every figure, sourced</h2>
+      <p>This site is educational, and housing policy changes. Don't take our word for any of it — each number links back to the official page it came from.</p>
+    </div>
+    <div class="src-all"></div>
+  </div>
+</section>
+
+<script src="data/bto-data.js?v=2"></script>
+<script src="js/progress.js?v=2"></script>
+<script src="js/nav.js?v=2"></script>
 <script>
   /* Standard / Plus / Prime — rows built from the data file */
   const rows = [
@@ -149,6 +165,7 @@
     `<div class="term"><dt>${t.term}</dt><dd>${t.def}</dd></div>`
   ).join("");
 </script>
-<script src="js/quiz.js"></script>
+<script src="js/sources.js?v=2"></script>
+<script src="js/quiz.js?v=2"></script>
 </body>
 </html>

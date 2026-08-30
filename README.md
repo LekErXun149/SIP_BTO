@@ -41,6 +41,7 @@ SIP_BTO/
 │
 ├── js/
 │   ├── nav.js            shared nav bar + footer (injected into every page)
+│   ├── sources.js        renders source links and the policy notice
 │   ├── progress.js       auto-save, file export/import, close warning
 │   ├── block.js          the lit-window block graphic
 │   ├── calculator.js     affordability logic
@@ -116,6 +117,12 @@ locally.
 
 ---
 
+## Cache busting
+
+CSS and JS links carry a version number, e.g. `css/style.css?v=2`. Browsers cache
+these files aggressively, so **bump the number in every page** whenever you change
+a shared file — otherwise returning visitors keep seeing the old version.
+
 ## Deploying
 
 The site is hosted on GitHub Pages from the `main` branch, root folder.
@@ -144,15 +151,33 @@ the same time without merge conflicts. Keep it that way.
 
 ---
 
-## Accuracy
+## Accuracy and sources
 
-Figures were checked against publicly available HDB rules as of the date in
-`BTO_DATA.lastUpdated` (`data/bto-data.js`). They are estimates for education only,
-not financial advice — grant amounts and eligibility depend on an applicant's HFE
-letter, and policies change.
+Every figure links back to the official page it came from. Those URLs live in
+`BTO_DATA.sources` (`data/bto-data.js`) and are rendered by `js/sources.js`:
 
-Update `lastUpdated` whenever you revise the figures, and verify against
-[hdb.gov.sg](https://www.hdb.gov.sg) before doing so.
+```html
+<div class="src-slot" data-src="grants"></div>   <!-- one source link -->
+<div class="src-all"></div>                      <!-- the full list -->
+<div class="notice-slot"></div>                  <!-- current policy notice -->
+```
+
+**Policy changes fast.** Income ceilings were raised on 24 August 2026 (families
+$14,000 → $16,000; singles 35+ $7,000 → $8,000), and the EHG maximum rose to
+$120,000 in August 2024. Both are reflected in the data file.
+
+When you revise figures:
+
+1. Verify against the official page in `BTO_DATA.sources`.
+2. Update the number in `BTO_DATA.rules`.
+3. Update `BTO_DATA.lastUpdated`.
+4. Update or clear `BTO_DATA.notice` — set it to `null` to hide the banner.
+
+The EHG amount is an **estimate**. HDB publishes the maximum and the income ceiling
+but not the full band table, so `js/calculator.js` tapers evenly between them. It is
+labelled as an estimate wherever it appears. Don't present it as exact.
+
+These figures are for education only and are not financial advice.
 
 ---
 

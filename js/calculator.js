@@ -45,17 +45,29 @@ function restoreControls(){
   document.getElementById("income").max = fam ? 16000 : 9000;
 }
 
-/* Enhanced CPF Housing Grant — tiered estimate */
+/* Enhanced CPF Housing Grant — ESTIMATE ONLY.
+   HDB publishes the maximum ($120,000 families / $60,000 singles) and the
+   income ceiling ($9,000 / $4,500), but not the full band table, so this
+   tapers evenly across $500 income bands from the maximum down to a $5,000
+   floor at the ceiling. Treat it as a ballpark; the real figure comes from
+   your HFE letter. Source: BTO_DATA.sources.grants */
 function ehg(income, isFamily){
   const ceiling = isFamily ? R.ehgCeilingFamily : R.ehgCeilingSingle;
   if(income > ceiling) return 0;
+
   const maxGrant = isFamily ? R.ehgMaxFamily : R.ehgMaxSingle;
-  const baseBand = isFamily ? 1500 : 750;
+  const floor    = isFamily ? 5000 : 2500;    // smallest band
+  const baseBand = isFamily ? 1500 : 750;     // full grant at or below this
   const bandSize = isFamily ? 500  : 250;
-  const step     = isFamily ? 5000 : 2500;
+
   if(income <= baseBand) return maxGrant;
+
+  const totalBands = Math.ceil((ceiling - baseBand) / bandSize);
   const bandsAbove = Math.ceil((income - baseBand) / bandSize);
-  return Math.max(0, maxGrant - bandsAbove * step);
+  const step = (maxGrant - floor) / totalBands;
+
+  /* round to the nearest $1,000 so it reads like a grant, not a calculation */
+  return Math.max(floor, Math.round((maxGrant - bandsAbove * step) / 1000) * 1000);
 }
 
 function monthlyRepay(loan, annualRatePct, years){

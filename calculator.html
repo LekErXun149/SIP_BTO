@@ -26,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=2">
 </head>
 <body>
 
@@ -40,6 +40,7 @@
 
 <section>
   <div class="wrap">
+    <div class="notice-slot"></div>
     <div class="calc">
 
       <!-- ---------- inputs ---------- -->
@@ -102,7 +103,7 @@
           <div class="stat">
             <div class="k">Estimated EHG grant</div>
             <div class="v ok mono" id="rGrant">$0</div>
-            <div class="sub">Enhanced CPF Housing Grant</div>
+            <div class="sub">Enhanced CPF Housing Grant — estimate</div>
           </div>
           <div class="stat">
             <div class="k">Max loan · 75% LTV</div>
@@ -144,6 +145,19 @@
           <div class="sub" id="rTdsrSub"></div>
         </div>
 
+        <div class="panel" style="padding:20px 22px">
+          <h3 style="font-size:16px; margin-bottom:6px">Where these numbers come from</h3>
+          <div class="src-slot" data-src="eligibility"></div>
+          <div class="src-slot" data-src="grants"></div>
+          <div class="src-slot" data-src="loans"></div>
+          <div class="src-slot" data-src="msrTdsr"></div>
+          <p class="src-note" style="margin-top:14px">
+            The grant figure is an estimate — HDB publishes the maximum and the income
+            ceiling but not the full band table, so it tapers evenly between them.
+            Your actual grant is confirmed in your HFE letter.
+          </p>
+        </div>
+
         <div class="cta-row" style="margin-top:6px">
           <a class="btn btn-dark" href="journey.html">Next: walk the journey →</a>
         </div>
@@ -153,9 +167,10 @@
   </div>
 </section>
 
-<script src="data/bto-data.js"></script>
-<script src="js/progress.js"></script>
-<script src="js/nav.js"></script>
-<script src="js/calculator.js"></script>
+<script src="data/bto-data.js?v=2"></script>
+<script src="js/progress.js?v=2"></script>
+<script src="js/nav.js?v=2"></script>
+<script src="js/sources.js?v=2"></script>
+<script src="js/calculator.js?v=2"></script>
 </body>
 </html>

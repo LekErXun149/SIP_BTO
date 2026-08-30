@@ -6,21 +6,58 @@
    Note: this is a .js file rather than .json on purpose — a .json
    file loaded with fetch() fails when you open pages directly from
    your computer (file://). This works both locally and on GitHub.
-   Figures current as of mid-2026 — always verify at hdb.gov.sg.
+   Figures checked 30 August 2026 against HDB's own pages (see `sources`
+   below). Income ceilings were raised at the National Day Rally on
+   23 August 2026, effective 24 August 2026 — always re-verify at hdb.gov.sg.
    ============================================================ */
 
 const BTO_DATA = {
 
-  lastUpdated: "August 2026",
+  lastUpdated: "30 August 2026",
+
+  /* Official pages each figure came from. Shown on the guide page and
+     linked beside the calculator, so anyone can check the numbers. */
+  sources: {
+    eligibility:  { label: "HDB — flat eligibility and income ceilings",
+                    url: "https://www.hdb.gov.sg/residential/buying-a-flat/understanding-your-eligibility-and-housing-loan-options/flat-and-grant-eligibility/couples-and-families" },
+    grants:       { label: "HDB / MyNiceHome — CPF housing grants",
+                    url: "https://www.mynicehome.gov.sg/get-started/hdb-grants-guide/" },
+    loans:        { label: "HDB / MyNiceHome — housing loans",
+                    url: "https://www.mynicehome.gov.sg/get-started/hdb-loans-guide/" },
+    msrTdsr:      { label: "MAS — MSR and TDSR rules",
+                    url: "https://www.mas.gov.sg/regulation/explainers/new-housing-loans/msr-and-tdsr-rules" },
+    classification:{ label: "HDB — Standard, Plus and Prime framework",
+                    url: "https://www.hdb.gov.sg/cs/infoweb/residential/buying-a-flat/finding-a-flat/standard-plus-and-prime-housing-models" },
+    flatTypes:    { label: "MyNiceHome — flat types and classifications",
+                    url: "https://www.mynicehome.gov.sg/get-started/hdb-flat-types-classification-guide/" },
+    timeline:     { label: "HDB — buying procedure timeline",
+                    url: "https://www.hdb.gov.sg/residential/buying-a-flat/buying-procedure-for-new-flats/timeline" },
+    ballot:       { label: "HDB — how the BTO ballot works",
+                    url: "https://www.hdb.gov.sg/about-us/news-and-publications/publications/hdbspeaks/balloting-process-for-buildtoorder-bto-flats" },
+    btoGuide:     { label: "MyNiceHome — how to buy a BTO flat",
+                    url: "https://www.mynicehome.gov.sg/get-started/hdb-bto-sbf-buying-guide/" },
+    priority:     { label: "MyNiceHome — priority schemes",
+                    url: "https://www.mynicehome.gov.sg/get-started/hdb-priority-schemes-guide/" },
+    hfe:          { label: "MyNiceHome — applying for an HFE letter",
+                    url: "https://www.mynicehome.gov.sg/get-started/hdb-hfe-guide/" }
+  },
+
+  /* Recent policy change worth flagging to users. Set to null to hide. */
+  notice: {
+    date: "24 August 2026",
+    text: "Income ceilings were raised at the National Day Rally on 23 August 2026. Families buying a new flat are now assessed against $16,000 (up from $14,000), and singles aged 35+ against $8,000 (up from $7,000). This applies to HFE letter applications from 24 August 2026.",
+    source: "https://www.mynicehome.gov.sg/get-started/hdb-grants-guide/"
+  },
 
   /* ---------- policy figures used by the calculator ---------- */
   rules: {
-    incomeCeilingFamily: 14000,      // BTO family ceiling, per month
-    incomeCeilingSingle: 7000,       // singles 35+, 2-room Flexi
+    incomeCeilingFamily: 16000,      // raised from 14000 on 24 Aug 2026
+    incomeCeilingSingle: 8000,       // raised from 7000 on 24 Aug 2026
     ehgCeilingFamily: 9000,          // EHG grant income ceiling
     ehgCeilingSingle: 4500,
-    ehgMaxFamily: 80000,             // maximum EHG grant
-    ehgMaxSingle: 40000,
+    incomeCeilingExtended: 24000,    // extended families; each nucleus still capped at 16000
+    ehgMaxFamily: 120000,            // raised from 80000 in Aug 2024
+    ehgMaxSingle: 60000,             // raised from 40000 in Aug 2024
     hdbLoanRate: 2.6,                // HDB concessionary rate, %
     bankLoanRate: 3.5,               // illustrative bank rate, %
     ltv: 0.75,                       // max loan-to-value for HDB loan
@@ -117,12 +154,12 @@ const BTO_DATA = {
 
   /* ---------- grants ---------- */
   grants: [
-    { name:"Enhanced CPF Housing Grant (EHG)", amount:"Up to $80,000 (families) / $40,000 (singles)",
-      who:"First-timers. Income ceiling $9,000 for families, $4,500 for singles. The lower your income, the larger the grant." },
-    { name:"Proximity Housing Grant (PHG)", amount:"Varies",
-      who:"Buyers living with or near their parents or children — applies to resale flats, not new BTO." },
-    { name:"Family Grant", amount:"Varies",
-      who:"First-timer families buying a resale flat." }
+    { name:"Enhanced CPF Housing Grant (EHG)", amount:"Up to $120,000 (families) / $60,000 (singles)",
+      who:"First-timers. Income ceiling $9,000 for families, $4,500 for singles. The lower your income, the larger the grant. This is the only grant available on a new BTO flat." },
+    { name:"CPF Housing Grant for Resale Flats", amount:"Up to $80,000 (2- to 4-room) / $50,000 (5-room or bigger)",
+      who:"First-timer families buying a resale flat. Income ceiling $16,000. Not available on BTO." },
+    { name:"Proximity Housing Grant (PHG)", amount:"$30,000 living with, or $20,000 living within 4km",
+      who:"Buyers living with or near parents or children. Resale flats only, not BTO. Singles receive half." }
   ],
 
   /* ---------- glossary ---------- */
