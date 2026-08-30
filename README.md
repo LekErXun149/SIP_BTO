@@ -47,9 +47,23 @@ SIP_BTO/
 │   ├── journey.js        stage simulator logic
 │   └── quiz.js           quiz component
 │
-└── data/
-    └── bto-data.js       ALL policy figures and content
+├── data/
+│   └── bto-data.js       ALL policy figures and content
+│
+├── img/
+│   ├── favicon.ico       browser tab icon
+│   ├── favicon-32.png
+│   ├── apple-touch-icon.png
+│   └── preview.png       1200x630 card shown when the link is shared
+│
+├── make_images.py        regenerates the images above (optional)
+├── README.md
+└── .gitignore
 ```
+
+The images are generated from the site's own design tokens by `make_images.py`,
+so there is no third-party artwork and no licensing question. To change them,
+edit the colours at the top of that script and run `python3 make_images.py`.
 
 ---
 

@@ -160,10 +160,9 @@ const PROGRESS = (function(){
       return;
     }
     const bits = [];
-    if(data.journeyStep > 0) bits.push(`journey stage ${data.journeyStep}`);
-    if(data.calculator)      bits.push("calculator");
-    const ticked = Object.values(data.checklist).filter(Boolean).length;
-    if(ticked) bits.push(`${ticked} checklist item${ticked === 1 ? "" : "s"}`);
+    if(data.calculator)      bits.push("Affordability");
+    if(data.journeyStep > 0) bits.push("The journey");
+    if(Object.values(data.checklist).some(Boolean)) bits.push("Checklist");
 
     el.innerHTML = dirtySinceExport
       ? `<span class="dot warn"></span>Saved on this device (${bits.join(", ")}) — not yet downloaded as a file.`
