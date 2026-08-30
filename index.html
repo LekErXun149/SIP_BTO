@@ -4,177 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KeyQuest — Your BTO journey, from ballot to keys</title>
+<meta name="description" content="An interactive guide to Singapore's HDB BTO process. Check what you can afford, walk through all six stages, and learn the rules before you apply.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --paper:#F5F1E8; --surface:#FFFFFF; --ink:#19203F; --ink-soft:#535A78;
-    --amber:#E89A2C; --amber-deep:#A9690F; --amber-glow:#F7C873;
-    --line:#E5DCCB; --ok:#2E7D5B; --warn:#C2552E;
-    --dusk-a:#1B2348; --dusk-b:#3C2E54; --dusk-c:#8A4F3A;
-    --r:12px; --r-lg:18px;
-    --shadow:0 1px 0 rgba(25,32,63,.04), 0 14px 34px -22px rgba(25,32,63,.35);
-  }
-  *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{
-    margin:0; background:var(--paper); color:var(--ink);
-    font-family:"IBM Plex Sans",system-ui,sans-serif; line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-  }
-  h1,h2,h3{font-family:"Bricolage Grotesque",sans-serif; line-height:1.08; letter-spacing:-.01em; margin:0}
-  .mono{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums}
-  a{color:inherit}
-  .wrap{max-width:1080px; margin:0 auto; padding:0 22px}
-
-  /* ---------- nav ---------- */
-  nav{position:sticky; top:0; z-index:50; background:rgba(245,241,232,.86);
-    backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
-  .nav-in{display:flex; align-items:center; justify-content:space-between; height:62px}
-  .brand{display:flex; align-items:center; gap:10px; font-family:"Bricolage Grotesque",sans-serif; font-weight:800; font-size:19px}
-  .key-dot{width:26px; height:26px; border-radius:7px; background:var(--ink); position:relative; display:grid; place-items:center}
-  .key-dot span{width:7px; height:7px; border-radius:50%; background:var(--amber); box-shadow:0 0 10px var(--amber-glow)}
-  .nav-links{display:flex; gap:26px; font-size:14.5px; font-weight:500}
-  .nav-links a{text-decoration:none; color:var(--ink-soft)}
-  .nav-links a:hover{color:var(--ink)}
-  @media(max-width:640px){.nav-links{display:none}}
-
-  /* ---------- hero ---------- */
-  .hero{background:linear-gradient(160deg,var(--dusk-a) 0%,var(--dusk-b) 58%,var(--dusk-c) 130%); color:#F3EEE4; overflow:hidden}
-  .hero-in{display:grid; grid-template-columns:1.15fr .85fr; gap:40px; align-items:center; padding:74px 0 86px}
-  .eyebrow{font-family:"IBM Plex Mono",monospace; font-size:12.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--amber-glow); margin-bottom:18px}
-  .hero h1{font-size:clamp(34px,5.4vw,58px); font-weight:800}
-  .hero h1 em{font-style:normal; color:var(--amber)}
-  .hero p{font-size:17.5px; color:#D7D2E4; max-width:46ch; margin:20px 0 30px}
-  .cta-row{display:flex; gap:14px; flex-wrap:wrap}
-  .btn{display:inline-flex; align-items:center; gap:9px; border:none; cursor:pointer; font-family:inherit;
-    font-weight:600; font-size:15px; padding:13px 22px; border-radius:10px; text-decoration:none; transition:transform .15s ease, background .15s ease}
-  .btn-amber{background:var(--amber); color:#241704}
-  .btn-amber:hover{background:var(--amber-glow); transform:translateY(-1px)}
-  .btn-ghost{background:rgba(255,255,255,.08); color:#F3EEE4; border:1px solid rgba(255,255,255,.22)}
-  .btn-ghost:hover{background:rgba(255,255,255,.16)}
-
-  /* ---------- block facade ---------- */
-  .block{position:relative; margin:0 auto; width:240px}
-  .block-body{background:#2A2F52; border:1px solid rgba(247,200,115,.18); border-radius:10px 10px 4px 4px; padding:14px; box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
-  .floor{display:grid; grid-template-columns:repeat(4,1fr); gap:9px; margin-bottom:9px}
-  .floor:last-child{margin-bottom:0}
-  .win{aspect-ratio:3/4; border-radius:3px; background:#1A1E3A; border:1px solid rgba(255,255,255,.05); transition:background .5s ease, box-shadow .5s ease}
-  .floor.lit .win{background:var(--amber); border-color:var(--amber-glow); box-shadow:0 0 12px -1px var(--amber-glow), inset 0 0 4px rgba(255,255,255,.4)}
-  .floor.lit .win:nth-child(3){background:#1A1E3A; box-shadow:none; border-color:rgba(255,255,255,.05)} /* a dark window adds life */
-  .block-base{height:16px; background:#20243f; border-radius:0 0 8px 8px; margin:0 -4px; border:1px solid rgba(247,200,115,.12); border-top:none}
-  .block-cap{height:8px; width:60%; margin:0 auto 0; background:#20243f; border-radius:5px 5px 0 0}
-  .block-label{text-align:center; font-family:"IBM Plex Mono",monospace; font-size:12px; color:#B9B4CC; margin-top:14px; letter-spacing:.04em}
-
-  /* ---------- sections ---------- */
-  section{padding:72px 0}
-  .sec-head{max-width:60ch; margin-bottom:34px}
-  .sec-eyebrow{display:inline-flex; align-items:center; gap:8px; font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--amber-deep); margin-bottom:14px}
-  .sec-eyebrow::before{content:""; width:22px; height:2px; background:var(--amber)}
-  .sec-head h2{font-size:clamp(27px,3.6vw,40px); font-weight:800}
-  .sec-head p{color:var(--ink-soft); font-size:17px; margin-top:12px}
-
-  /* ---------- calculator ---------- */
-  .calc{display:grid; grid-template-columns:1fr 1.05fr; gap:26px; align-items:start}
-  @media(max-width:860px){.calc{grid-template-columns:1fr} .hero-in{grid-template-columns:1fr; padding:54px 0 64px} .block{margin-top:8px}}
-  .panel{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); padding:26px; box-shadow:var(--shadow)}
-  .field{margin-bottom:20px}
-  .field:last-child{margin-bottom:0}
-  .field label{display:flex; justify-content:space-between; align-items:baseline; font-weight:600; font-size:14.5px; margin-bottom:9px}
-  .field .val{font-family:"IBM Plex Mono",monospace; color:var(--amber-deep); font-size:15px}
-  input[type=range]{width:100%; height:6px; -webkit-appearance:none; appearance:none; background:var(--line); border-radius:99px; outline:none}
-  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; width:20px; height:20px; border-radius:50%; background:var(--amber); border:3px solid #fff; box-shadow:0 1px 6px rgba(168,105,15,.5); cursor:pointer}
-  input[type=range]::-moz-range-thumb{width:20px; height:20px; border-radius:50%; background:var(--amber); border:3px solid #fff; cursor:pointer}
-  .seg{display:inline-flex; background:var(--paper); border:1px solid var(--line); border-radius:9px; padding:3px; gap:3px}
-  .seg button{border:none; background:none; font-family:inherit; font-weight:600; font-size:13.5px; color:var(--ink-soft); padding:7px 14px; border-radius:7px; cursor:pointer}
-  .seg button.on{background:var(--ink); color:#fff}
-  .hint{font-size:12.5px; color:var(--ink-soft); margin-top:7px}
-
-  .results{display:flex; flex-direction:column; gap:14px}
-  .verdict{border-radius:var(--r-lg); padding:20px 22px; border:1px solid var(--line); background:var(--surface); box-shadow:var(--shadow)}
-  .verdict.ok{border-color:#BFE0CF; background:#F2FAF6}
-  .verdict.no{border-color:#EBC6B6; background:#FCF3EF}
-  .verdict h3{font-size:20px; display:flex; align-items:center; gap:10px}
-  .pill{font-family:"IBM Plex Mono",monospace; font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:99px; letter-spacing:.03em}
-  .pill.ok{background:#DCEFE5; color:#1F5B40}
-  .pill.no{background:#F4DACE; color:#8E3A1B}
-  .verdict p{margin:10px 0 0; font-size:14px; color:var(--ink-soft)}
-
-  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px}
-  @media(max-width:430px){.grid2{grid-template-columns:1fr}}
-  .stat{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:16px 18px}
-  .stat .k{font-size:12.5px; color:var(--ink-soft); font-weight:500}
-  .stat .v{font-family:"IBM Plex Mono",monospace; font-size:23px; font-weight:600; margin-top:4px; letter-spacing:-.01em}
-  .stat .sub{font-size:12px; color:var(--ink-soft); margin-top:3px}
-  .stat .v.warn{color:var(--warn)}
-  .stat .v.ok{color:var(--ok)}
-
-  .msr-bar{height:10px; border-radius:99px; background:var(--line); overflow:hidden; margin-top:10px}
-  .msr-fill{height:100%; width:0; border-radius:99px; background:var(--ok); transition:width .5s ease, background .3s ease}
-
-  /* ---------- journey ---------- */
-  .journey{background:#fff; border-top:1px solid var(--line); border-bottom:1px solid var(--line)}
-  .jcols{display:grid; grid-template-columns:300px 1fr; gap:40px; align-items:start}
-  @media(max-width:860px){.jcols{grid-template-columns:1fr}}
-  .jblock-card{background:linear-gradient(165deg,var(--dusk-a),var(--dusk-b)); border-radius:var(--r-lg); padding:28px 24px 22px; position:sticky; top:80px}
-  .jprogress{margin-top:18px; color:#CFC9DE; font-family:"IBM Plex Mono",monospace; font-size:12.5px; text-align:center}
-  .jbar{height:7px; border-radius:99px; background:rgba(255,255,255,.12); overflow:hidden; margin-top:10px}
-  .jbar-fill{height:100%; width:0; background:linear-gradient(90deg,var(--amber),var(--amber-glow)); border-radius:99px; transition:width .5s ease}
-
-  .stage-card{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); padding:30px; box-shadow:var(--shadow); min-height:340px; display:flex; flex-direction:column}
-  .stage-no{font-family:"IBM Plex Mono",monospace; font-size:13px; color:var(--amber-deep); letter-spacing:.1em}
-  .stage-card h3{font-size:26px; font-weight:800; margin:8px 0 4px}
-  .stage-meta{display:flex; gap:8px; flex-wrap:wrap; margin:14px 0 18px}
-  .tag{font-family:"IBM Plex Mono",monospace; font-size:11.5px; padding:5px 11px; border-radius:99px; background:var(--paper); border:1px solid var(--line); color:var(--ink-soft)}
-  .stage-card>p{font-size:15.5px; color:#3b4060; margin:0 0 16px}
-  .tip{background:#FBF3E4; border:1px solid #F1DDB4; border-radius:var(--r); padding:13px 15px; font-size:13.5px; color:#7A5510; margin-top:auto}
-  .tip b{color:var(--amber-deep)}
-  .jnav{display:flex; justify-content:space-between; gap:12px; margin-top:20px}
-  .btn-dark{background:var(--ink); color:#fff}
-  .btn-dark:hover{background:#272f55; transform:translateY(-1px)}
-  .btn-dark:disabled{opacity:.35; cursor:not-allowed; transform:none}
-  .btn-line{background:none; border:1px solid var(--line); color:var(--ink)}
-  .btn-line:hover{background:var(--paper)}
-  .btn-line:disabled{opacity:.35; cursor:not-allowed}
-
-  .win-celebrate{text-align:center; padding:8px 0}
-  .win-celebrate .big{font-size:46px; line-height:1}
-  .win-celebrate h3{font-size:24px; margin:10px 0 4px}
-  .win-celebrate p{color:var(--ink-soft); font-size:14.5px; margin:0}
-
-  /* ---------- footer ---------- */
-  footer{padding:40px 0 56px; color:var(--ink-soft); font-size:13px}
-  .disclaimer{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:18px 20px; max-width:760px; line-height:1.65}
-  .disclaimer b{color:var(--ink)}
-  .foot-mark{margin-top:22px; font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.04em}
-
-  @media(prefers-reduced-motion:reduce){*{transition:none!important; scroll-behavior:auto!important}}
-  :focus-visible{outline:3px solid var(--amber); outline-offset:2px; border-radius:4px}
-</style>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-<nav>
-  <div class="wrap nav-in">
-    <div class="brand"><span class="key-dot"><span></span></span>KeyQuest</div>
-    <div class="nav-links">
-      <a href="#afford">Affordability</a>
-      <a href="#journey">The journey</a>
-      <a href="#about">About</a>
-    </div>
-  </div>
-</nav>
 
 <header class="hero">
   <div class="wrap hero-in">
     <div>
       <div class="eyebrow">Singapore · HDB Build-To-Order</div>
       <h1>From ballot to keys, <em>one floor at a time.</em></h1>
-      <p>Work out what you can afford, then play through the whole BTO journey — six stages, three to five years, lit up step by step until you're home.</p>
+      <p>Work out what you can afford, learn the rules that actually matter, then play through the whole BTO journey — six stages, three to five years, lit up step by step until you're home.</p>
       <div class="cta-row">
-        <a class="btn btn-amber" href="#afford">Check what I can afford →</a>
-        <a class="btn btn-ghost" href="#journey">Walk the journey</a>
+        <a class="btn btn-amber" href="calculator.html">Check what I can afford →</a>
+        <a class="btn btn-ghost" href="journey.html">Walk the journey</a>
       </div>
     </div>
     <div class="block" aria-hidden="true">
@@ -186,326 +32,49 @@
   </div>
 </header>
 
-<!-- ================= AFFORDABILITY ================= -->
-<section id="afford">
+<section>
   <div class="wrap">
     <div class="sec-head">
-      <div class="sec-eyebrow">Step one</div>
-      <h2>Can you afford it?</h2>
-      <p>Slide in your numbers. We'll check the income ceiling, estimate your grant, and see whether the monthly repayment fits the 30% cap — all live, in your browser.</p>
+      <div class="sec-eyebrow">Start anywhere</div>
+      <h2>Four ways in</h2>
+      <p>Most people arrive with one of these questions. Pick the one that's yours.</p>
     </div>
 
-    <div class="calc">
-      <!-- inputs -->
-      <div class="panel">
-        <div class="field">
-          <label>Household type</label>
-          <div class="seg" id="segType" role="group" aria-label="Household type">
-            <button class="on" data-type="family">Couple / family</button>
-            <button data-type="single">Single (35+)</button>
-          </div>
-          <div class="hint" id="typeHint">Family BTO income ceiling: $14,000/month.</div>
-        </div>
+    <div class="cards3">
+      <a class="card" href="calculator.html">
+        <div class="card-no">01</div>
+        <h3>Can I afford it?</h3>
+        <p>Slide in your income and target price. See the income ceiling, your grant estimate, the downpayment, and whether the monthly repayment fits the 30% cap.</p>
+      </a>
+      <a class="card" href="journey.html">
+        <div class="card-no">02</div>
+        <h3>What actually happens?</h3>
+        <p>Six stages from your first form to your front door, with the timing, cost and one honest tip for each. Clear a stage, light a floor.</p>
+      </a>
+      <a class="card" href="guide.html">
+        <div class="card-no">03</div>
+        <h3>What do the terms mean?</h3>
+        <p>Standard, Plus and Prime explained side by side, plus flat types, grants, and a glossary — with quick quizzes to check it stuck.</p>
+      </a>
+    </div>
 
-        <div class="field">
-          <label>Gross monthly income <span class="val" id="incVal">$8,000</span></label>
-          <input type="range" id="income" min="1000" max="16000" step="100" value="8000" aria-label="Gross monthly income">
-        </div>
-
-        <div class="field">
-          <label>Savings for downpayment (CPF + cash) <span class="val" id="savVal">$80,000</span></label>
-          <input type="range" id="savings" min="0" max="300000" step="5000" value="80000" aria-label="Savings available">
-        </div>
-
-        <div class="field">
-          <label>Target flat price <span class="val" id="priceVal">$450,000</span></label>
-          <input type="range" id="price" min="100000" max="800000" step="5000" value="450000" aria-label="Target flat price">
-          <div class="hint">New flats typically range from about $100k (2-room, non-central) to $600k+ (larger or Prime).</div>
-        </div>
-
-        <div class="field">
-          <label>Loan type</label>
-          <div class="seg" id="segLoan" role="group" aria-label="Loan type">
-            <button class="on" data-rate="2.6">HDB · 2.6%</button>
-            <button data-rate="3.5">Bank · ~3.5%</button>
-          </div>
-          <div class="hint" id="loanHint">HDB concessionary rate is 2.6%. Bank rates vary — 3.5% is illustrative.</div>
-        </div>
-
-        <div class="field">
-          <label>Loan tenure <span class="val" id="tenVal">25 years</span></label>
-          <input type="range" id="tenure" min="10" max="25" step="1" value="25" aria-label="Loan tenure in years">
-        </div>
-      </div>
-
-      <!-- results -->
-      <div class="results">
-        <div class="verdict" id="verdict">
-          <h3><span id="verdictTitle">Eligible to apply</span> <span class="pill ok" id="verdictPill">CHECK</span></h3>
-          <p id="verdictText"></p>
-        </div>
-
-        <div class="grid2">
-          <div class="stat">
-            <div class="k">Estimated EHG grant</div>
-            <div class="v ok mono" id="rGrant">$0</div>
-            <div class="sub">Enhanced CPF Housing Grant (estimate)</div>
-          </div>
-          <div class="stat">
-            <div class="k">Max loan · 75% LTV</div>
-            <div class="v mono" id="rLoan">$0</div>
-            <div class="sub" id="rLoanSub">Downpayment 25%</div>
-          </div>
-          <div class="stat">
-            <div class="k">Downpayment needed</div>
-            <div class="v mono" id="rDown">$0</div>
-            <div class="sub" id="rDownSub">vs your savings</div>
-          </div>
-          <div class="stat">
-            <div class="k">Monthly repayment</div>
-            <div class="v mono" id="rMonthly">$0</div>
-            <div class="sub" id="rMonthlySub">over 25 yrs</div>
-          </div>
-        </div>
-
-        <div class="stat">
-          <div class="k">Mortgage Servicing Ratio — repayment as % of income (cap 30%)</div>
-          <div class="v mono" id="rMsr">0%</div>
-          <div class="msr-bar"><div class="msr-fill" id="msrFill"></div></div>
-          <div class="sub" id="rMsrSub"></div>
-        </div>
-      </div>
+    <div style="margin-top:18px">
+      <a class="card" href="checklist.html">
+        <div class="card-no">04</div>
+        <h3>What do I need to prepare?</h3>
+        <p>A tickable checklist of the documents, fees and decisions needed at each stage — so nothing catches you out on the day.</p>
+      </a>
     </div>
   </div>
 </section>
 
-<!-- ================= JOURNEY ================= -->
-<section id="journey" class="journey">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="sec-eyebrow">Step two</div>
-      <h2>Play through the journey</h2>
-      <p>Six stages from your first form to your front door. Tap through — each stage you clear lights another floor of your block.</p>
-    </div>
-
-    <div class="jcols">
-      <div class="jblock-card">
-        <div class="block" aria-hidden="true">
-          <div class="block-cap"></div>
-          <div class="block-body" id="journeyBlock"></div>
-          <div class="block-base"></div>
-        </div>
-        <div class="jprogress" id="jProgress">Not started</div>
-        <div class="jbar"><div class="jbar-fill" id="jBarFill"></div></div>
-      </div>
-
-      <div class="stage-card" id="stageCard">
-        <!-- filled by JS -->
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= ABOUT ================= -->
-<footer id="about">
-  <div class="wrap">
-    <div class="disclaimer">
-      <b>About these numbers.</b> KeyQuest is an educational tool built to make the BTO process easier to understand — it is not financial, legal, or housing advice. Figures reflect publicly available rules as of mid-2026: family income ceiling $14,000 (singles $7,000 for 2-room Flexi), EHG up to $80,000, HDB loan rate 2.6%, max 75% loan-to-value, and a 30% Mortgage Servicing Ratio cap. Grant and repayment figures are estimates only. Policies change, and your actual eligibility, grants, and loan depend on your HDB Flat Eligibility (HFE) letter. <b>Always verify with HDB at hdb.gov.sg and the HDB Flat Portal before making any decisions.</b>
-    </div>
-    <div class="foot-mark">KeyQuest · a starter you can build on · swap the copy, colours, and data freely.</div>
-  </div>
-</footer>
-
+<script src="data/bto-data.js"></script>
+<script src="js/block.js"></script>
+<script src="js/nav.js"></script>
 <script>
-  // ---------- shared: build a block facade (floors of windows) ----------
-  function buildBlock(el, floors, winsPerFloor){
-    el.innerHTML = "";
-    for(let f=0; f<floors; f++){
-      const row = document.createElement("div");
-      row.className = "floor";
-      row.dataset.floor = f;
-      for(let w=0; w<winsPerFloor; w++){
-        const win = document.createElement("div");
-        win.className = "win";
-        row.appendChild(win);
-      }
-      el.appendChild(row);
-    }
-  }
-  function lightFloors(el, n){
-    [...el.children].forEach((row,i)=>{
-      // light from the bottom up
-      row.classList.toggle("lit", i >= el.children.length - n);
-    });
-  }
-
   const heroBlock = document.getElementById("heroBlock");
   buildBlock(heroBlock, 6, 4);
-  lightFloors(heroBlock, 3); // ambient half-lit
-
-  // ---------- AFFORDABILITY CALCULATOR ----------
-  const sgd = n => "$" + Math.round(n).toLocaleString("en-SG");
-  let state = { type:"family", income:8000, savings:80000, price:450000, rate:2.6, tenure:25 };
-
-  // Enhanced CPF Housing Grant estimate (tiered)
-  function ehg(income, isFamily){
-    const ceiling = isFamily ? 9000 : 4500;
-    if(income > ceiling) return 0;
-    const maxGrant = isFamily ? 80000 : 40000;
-    const baseBand = isFamily ? 1500 : 750;
-    const bandSize = isFamily ? 500 : 250;
-    const step     = isFamily ? 5000 : 2500;
-    if(income <= baseBand) return maxGrant;
-    const bandsAbove = Math.ceil((income - baseBand) / bandSize);
-    return Math.max(0, maxGrant - bandsAbove * step);
-  }
-  function monthlyRepay(loan, annualRatePct, years){
-    const r = annualRatePct/100/12, n = years*12;
-    if(r === 0) return loan/n;
-    return loan * r / (1 - Math.pow(1+r, -n));
-  }
-
-  function render(){
-    const isFamily = state.type === "family";
-    const ceiling = isFamily ? 14000 : 7000;
-    const eligible = state.income <= ceiling;
-
-    // verdict
-    const v = document.getElementById("verdict");
-    v.classList.toggle("ok", eligible);
-    v.classList.toggle("no", !eligible);
-    document.getElementById("verdictTitle").textContent = eligible ? "Within the income ceiling" : "Over the income ceiling";
-    const pill = document.getElementById("verdictPill");
-    pill.textContent = eligible ? "ELIGIBLE" : "OVER CEILING";
-    pill.className = "pill " + (eligible ? "ok" : "no");
-    document.getElementById("verdictText").textContent = eligible
-      ? `A ${isFamily?"family":"single (aged 35+)"} can apply with income up to ${sgd(ceiling)}/month. You're at ${sgd(state.income)}.`
-      : `The ${isFamily?"family BTO":"single 2-room Flexi"} ceiling is ${sgd(ceiling)}/month — you're ${sgd(state.income-ceiling)} above it. A resale flat has no income ceiling.`;
-
-    // grant
-    document.getElementById("rGrant").textContent = sgd(ehg(state.income, isFamily));
-
-    // loan & downpayment (75% LTV)
-    const loan = state.price * 0.75;
-    const down = state.price * 0.25;
-    document.getElementById("rLoan").textContent = sgd(loan);
-    document.getElementById("rDown").textContent = sgd(down);
-    const dsub = document.getElementById("rDownSub");
-    if(state.savings >= down){ dsub.textContent = "covered by your savings ✓"; }
-    else { dsub.textContent = "short by " + sgd(down - state.savings); }
-
-    // monthly repayment
-    const m = monthlyRepay(loan, state.rate, state.tenure);
-    document.getElementById("rMonthly").textContent = sgd(m);
-    document.getElementById("rMonthlySub").textContent = `over ${state.tenure} yrs at ${state.rate}%`;
-
-    // MSR
-    const msrPct = (m / state.income) * 100;
-    const rMsr = document.getElementById("rMsr");
-    rMsr.textContent = msrPct.toFixed(1) + "%";
-    const within = msrPct <= 30;
-    rMsr.className = "v mono " + (within ? "ok" : "warn");
-    const fill = document.getElementById("msrFill");
-    fill.style.width = Math.min(100, msrPct/30*100) + "%";
-    fill.style.background = within ? "var(--ok)" : "var(--warn)";
-    document.getElementById("rMsrSub").textContent = within
-      ? "Within the 30% cap — repayment looks sustainable."
-      : "Exceeds the 30% cap — lower the price, extend tenure, or raise income.";
-  }
-
-  // input wiring
-  const bind = (id, key, fmt) => {
-    const el = document.getElementById(id);
-    el.addEventListener("input", () => {
-      state[key] = +el.value;
-      if(fmt) document.getElementById(fmt.target).textContent = fmt.f(+el.value);
-      render();
-    });
-  };
-  bind("income","income",{target:"incVal", f:v=>sgd(v)});
-  bind("savings","savings",{target:"savVal", f:v=>sgd(v)});
-  bind("price","price",{target:"priceVal", f:v=>sgd(v)});
-  bind("tenure","tenure",{target:"tenVal", f:v=>v+" years"});
-
-  document.getElementById("segType").addEventListener("click", e=>{
-    const b = e.target.closest("button"); if(!b) return;
-    [...e.currentTarget.children].forEach(x=>x.classList.remove("on"));
-    b.classList.add("on");
-    state.type = b.dataset.type;
-    const fam = state.type === "family";
-    document.getElementById("typeHint").textContent = fam
-      ? "Family BTO income ceiling: $14,000/month."
-      : "Singles (35+) can buy a 2-room Flexi; ceiling $7,000/month.";
-    document.getElementById("income").max = fam ? 16000 : 9000;
-    render();
-  });
-  document.getElementById("segLoan").addEventListener("click", e=>{
-    const b = e.target.closest("button"); if(!b) return;
-    [...e.currentTarget.children].forEach(x=>x.classList.remove("on"));
-    b.classList.add("on");
-    state.rate = +b.dataset.rate;
-    render();
-  });
-  render();
-
-  // ---------- JOURNEY SIMULATOR ----------
-  const stages = [
-    { t:"Get your HFE letter", time:"~2–3 weeks", cost:"Free", what:"Apply for your HDB Flat Eligibility letter on the HDB Flat Portal (it pulls your details via Myinfo). It confirms what you can buy, the grants you qualify for, and how much you can borrow — sort this before applying.", tip:"Apply early. The HFE letter takes time to process and is your gateway to everything that follows." },
-    { t:"Apply in a launch", time:"1-week window", cost:"$10 fee", what:"BTO launches open around four times a year (Feb, May, Aug, Nov). During the one-week window you pick up to four projects or units through the portal and pay a $10 application fee.", tip:"Watch the live application rates during the week, then apply near the end when you can see how competitive each project is." },
-    { t:"Ballot & queue number", time:"Results in ~2 months", cost:"—", what:"A computerised ballot assigns your queue number. Important: a queue number is not a guaranteed flat — it only sets your turn to choose. Priority schemes and the 2-Ballot Chance can improve your odds.", tip:"Popular 4- and 5-room flats can have success rates under 10%. Don't count on first time — the 2BC scheme rewards repeat tries." },
-    { t:"Book & select your flat", time:"From ~4 weeks after results", cost:"Option fee", what:"Based on your queue number, you're invited (about two weeks ahead) to pick your actual unit from what's left, pay the option fee, and apply for your grants. A lower queue number means more choice of stack and floor.", tip:"Have a backup unit in mind. The best-facing stacks near the MRT go fast once selection opens." },
-    { t:"Sign the lease", time:"Within ~9 months of booking", cost:"Downpayment + stamp duty", what:"You sign the Agreement for Lease and settle the downpayment and stamp duty, paid with CPF, cash, or both. This locks in your flat.", tip:"Reconfirm your financing now — your monthly repayment must still fit within the 30% Mortgage Servicing Ratio." },
-    { t:"Wait, then collect keys", time:"~2.5–4 years build", cost:"Remaining payment", what:"Construction takes a few years. Before keys, you reapply for the HFE letter so HDB can reassess your loan on current income, settle any remaining payment, and then — you collect your keys.", tip:"Tradition says roll a pineapple into your new home for good fortune. Three to five years after you started, you're finally home." }
-  ];
-  const journeyBlock = document.getElementById("journeyBlock");
-  buildBlock(journeyBlock, stages.length, 4);
-  let step = 0; // 0 = not started; 1..6 = stages cleared / current
-
-  function renderStage(){
-    const card = document.getElementById("stageCard");
-    const cleared = step; // floors lit = stages cleared
-    lightFloors(journeyBlock, cleared);
-    const bar = document.getElementById("jBarFill");
-    bar.style.width = (cleared / stages.length * 100) + "%";
-    document.getElementById("jProgress").textContent =
-      cleared === 0 ? "Not started" :
-      cleared === stages.length ? "Home — 6 of 6 cleared 🔑" :
-      `Stage ${cleared} of ${stages.length}`;
-
-    if(step === stages.length){
-      card.innerHTML = `
-        <div class="win-celebrate" style="margin:auto">
-          <div class="big">🔑🍍</div>
-          <h3>Keys collected — welcome home.</h3>
-          <p>You've walked all six stages, from your first form to your front door. In real life that's three to five years — but every lit window was a step worth taking.</p>
-        </div>
-        <div class="jnav">
-          <button class="btn btn-line" id="prevBtn">← Back</button>
-          <button class="btn btn-amber" id="restartBtn">Start over</button>
-        </div>`;
-      document.getElementById("prevBtn").onclick = ()=>{ step--; renderStage(); };
-      document.getElementById("restartBtn").onclick = ()=>{ step=0; renderStage(); };
-      return;
-    }
-
-    const s = stages[step];
-    card.innerHTML = `
-      <div class="stage-no">STAGE ${String(step+1).padStart(2,"0")} / ${String(stages.length).padStart(2,"0")}</div>
-      <h3>${s.t}</h3>
-      <div class="stage-meta">
-        <span class="tag">⏱ ${s.time}</span>
-        <span class="tag">💲 ${s.cost}</span>
-      </div>
-      <p>${s.what}</p>
-      <div class="tip"><b>Tip · </b>${s.tip}</div>
-      <div class="jnav">
-        <button class="btn btn-line" id="prevBtn" ${step===0?"disabled":""}>← Back</button>
-        <button class="btn btn-dark" id="nextBtn">${step===stages.length-1?"Collect keys 🔑":"Clear stage →"}</button>
-      </div>`;
-    document.getElementById("prevBtn").onclick = ()=>{ if(step>0){ step--; renderStage(); } };
-    document.getElementById("nextBtn").onclick = ()=>{ step++; renderStage(); };
-  }
-  renderStage();
+  lightFloors(heroBlock, 3);
 </script>
 </body>
 </html>

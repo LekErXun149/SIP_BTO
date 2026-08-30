@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The journey — KeyQuest</title>
+<meta name="description" content="Play through all six stages of the HDB BTO process, from your HFE letter to key collection.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="page-head">
+  <div class="wrap">
+    <div class="eyebrow">Step two</div>
+    <h1>Play through the journey</h1>
+    <p>Six stages from your first form to your front door — around three to five years in real life. Tap through them here. Each stage you clear lights another floor of your block.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="jcols">
+
+      <div class="jblock-card">
+        <div class="block" aria-hidden="true">
+          <div class="block-cap"></div>
+          <div class="block-body" id="journeyBlock"></div>
+          <div class="block-base"></div>
+        </div>
+        <div class="jprogress" id="jProgress">Not started</div>
+        <div class="jbar"><div class="jbar-fill" id="jBarFill"></div></div>
+      </div>
+
+      <div class="stage-card" id="stageCard"><!-- filled by js/journey.js --></div>
+
+    </div>
+
+    <div class="cta-row" style="margin-top:26px">
+      <a class="btn btn-line" href="checklist.html">What do I need to prepare? →</a>
+    </div>
+  </div>
+</section>
+
+<script src="data/bto-data.js"></script>
+<script src="js/block.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/journey.js"></script>
+</body>
+</html>

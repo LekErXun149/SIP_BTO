@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide — KeyQuest</title>
+<meta name="description" content="Standard, Plus and Prime explained, plus HDB flat types, grants and a glossary of BTO terms — with quick quizzes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="page-head">
+  <div class="wrap">
+    <div class="eyebrow">The rules that matter</div>
+    <h1>What you need to know</h1>
+    <p>The four things that trip people up most: which category your flat falls into, what size you actually need, what money you can get, and what all the acronyms mean. Quick quizzes along the way.</p>
+  </div>
+</header>
+
+<!-- ---------- Standard / Plus / Prime ---------- -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Since October 2024</div>
+      <h2>Standard, Plus, or Prime</h2>
+      <p>The old mature/non-mature split is gone. Every new project is now classified by its location, and the category changes how long you must live there and what you give back if you sell.</p>
+    </div>
+
+    <div class="table-scroll">
+      <table id="classTable">
+        <thead>
+          <tr><th>&nbsp;</th><th>Standard</th><th>Plus</th><th>Prime</th></tr>
+        </thead>
+        <tbody><!-- filled by script below --></tbody>
+      </table>
+    </div>
+
+    <div class="quiz-slot" data-quiz="classification"></div>
+  </div>
+</section>
+
+<!-- ---------- flat types ---------- -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Sizing up</div>
+      <h2>Which flat type?</h2>
+      <p>Bigger isn't automatically better — a larger flat means a larger loan and a longer wait, since competition is fiercest for 4- and 5-room units.</p>
+    </div>
+
+    <div class="table-scroll">
+      <table id="flatTable">
+        <thead><tr><th>Flat type</th><th>Rough size</th><th>Typically suits</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ---------- grants ---------- -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Free money, with conditions</div>
+      <h2>Grants you might get</h2>
+      <p>Grants are separate from the income ceiling for buying. You can be eligible to apply for a flat but still earn too much for the grant.</p>
+    </div>
+
+    <div class="table-scroll">
+      <table id="grantTable">
+        <thead><tr><th>Grant</th><th>Worth</th><th>Who qualifies</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="quiz-slot" data-quiz="money"></div>
+  </div>
+</section>
+
+<!-- ---------- glossary ---------- -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Decoder</div>
+      <h2>Every acronym, plainly</h2>
+      <p>HDB paperwork is dense with these. Here's what each one actually means.</p>
+    </div>
+
+    <dl class="terms" id="glossary"></dl>
+
+    <div class="quiz-slot" data-quiz="journey"></div>
+
+    <div class="cta-row" style="margin-top:26px">
+      <a class="btn btn-dark" href="calculator.html">Try the affordability calculator →</a>
+    </div>
+  </div>
+</section>
+
+<script src="data/bto-data.js"></script>
+<script src="js/nav.js"></script>
+<script>
+  /* Standard / Plus / Prime — rows built from the data file */
+  const rows = [
+    ["Where",            "where"],
+    ["Minimum Occupation Period", "mop"],
+    ["Subsidies",        "subsidy"],
+    ["Give back on resale", "clawback"],
+    ["Resale buyers",    "resale"],
+    ["Renting out",      "rent"]
+  ];
+  document.querySelector("#classTable tbody").innerHTML = rows.map(([label, key]) =>
+    `<tr><td>${label}</td>${BTO_DATA.classification.map(c => `<td>${c[key]}</td>`).join("")}</tr>`
+  ).join("");
+
+  /* flat types */
+  document.querySelector("#flatTable tbody").innerHTML = BTO_DATA.flatTypes.map(f =>
+    `<tr><td>${f.type}</td><td class="mono">${f.size}</td><td>${f.who}</td></tr>`
+  ).join("");
+
+  /* grants */
+  document.querySelector("#grantTable tbody").innerHTML = BTO_DATA.grants.map(g =>
+    `<tr><td>${g.name}</td><td>${g.amount}</td><td>${g.who}</td></tr>`
+  ).join("");
+
+  /* glossary */
+  document.getElementById("glossary").innerHTML = BTO_DATA.glossary.map(t =>
+    `<div class="term"><dt>${t.term}</dt><dd>${t.def}</dd></div>`
+  ).join("");
+</script>
+<script src="js/quiz.js"></script>
+</body>
+</html>

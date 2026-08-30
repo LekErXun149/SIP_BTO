@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist — KeyQuest</title>
+<meta name="description" content="Documents, fees and decisions to prepare at each stage of the HDB BTO process.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="page-head">
+  <div class="wrap">
+    <div class="eyebrow">Come prepared</div>
+    <h1>What to bring, and when</h1>
+    <p>The documents, fees and decisions needed at each stage. Tick them off as you go — nothing here is stored, so it resets when you reload.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div id="checklists"></div>
+
+    <div class="panel" style="margin-top:8px">
+      <h3 style="font-size:20px; margin-bottom:10px">A note on fees</h3>
+      <p style="color:var(--ink-soft); font-size:14.5px; margin:0">
+        The $10 application fee is the only cost until you book. The option fee comes at booking,
+        the downpayment and stamp duty at lease signing, and the balance before key collection.
+        Budget for renovation separately — it isn't part of the flat price and often surprises first-time buyers.
+      </p>
+    </div>
+
+    <div class="cta-row" style="margin-top:26px">
+      <a class="btn btn-dark" href="guide.html">Read the guide →</a>
+      <a class="btn btn-line" href="calculator.html">Back to the calculator</a>
+    </div>
+  </div>
+</section>
+
+<script src="data/bto-data.js"></script>
+<script src="js/nav.js"></script>
+<script>
+  /* Checklist content lives here for now — move it into
+     data/bto-data.js if it grows or another page needs it. */
+  const CHECKLIST = [
+    {
+      stage: "Before you apply",
+      when: "Give yourself a few weeks",
+      items: [
+        "Singpass ready for both applicants (needed for Myinfo)",
+        "Check you're under the income ceiling for your household type",
+        "Apply for your HDB Flat Eligibility (HFE) letter on the HDB Flat Portal",
+        "Income documents — payslips, or IRAS statements if self-employed",
+        "NRIC details for everyone in the application",
+        "Marriage certificate, or agree to marry within HDB's window (Fiancé/Fiancée Scheme)",
+        "Decide who counts in your family nucleus",
+        "Check whether you qualify for any priority scheme"
+      ]
+    },
+    {
+      stage: "Applying in a launch",
+      when: "One-week window, four times a year",
+      items: [
+        "Valid HFE letter in hand",
+        "$10 application fee (payable online)",
+        "Shortlist up to four projects or units",
+        "Check each project's classification — Standard, Plus, or Prime",
+        "Note the estimated completion date for each project",
+        "Decide flat type before the window opens, not during it"
+      ]
+    },
+    {
+      stage: "Booking your flat",
+      when: "From about 4 weeks after ballot results",
+      items: [
+        "Option fee — around $500 to $2,000 depending on flat type",
+        "Grant application forms (EHG) completed",
+        "Both applicants present, or a letter of authorisation",
+        "A shortlist of backup units in case yours is taken",
+        "Check the site plan — which way the unit faces, what's nearby",
+        "Confirm your loan amount from the HFE letter"
+      ]
+    },
+    {
+      stage: "Signing the lease",
+      when: "Within about 9 months of booking",
+      items: [
+        "Downpayment ready — CPF, cash, or both",
+        "Buyer's stamp duty",
+        "Legal fees (conveyancing)",
+        "Fire insurance arrangement",
+        "Confirm CPF Ordinary Account balance is sufficient",
+        "Re-check that repayment still fits within the 30% MSR"
+      ]
+    },
+    {
+      stage: "Before key collection",
+      when: "When the flat is ready, 2.5–4 years later",
+      items: [
+        "Reapply for the HFE letter — HDB reassesses on current income",
+        "Settle any remaining payment",
+        "Home protection scheme (if using CPF for repayments)",
+        "Arrange a renovation budget and contractor quotes",
+        "Book the key collection appointment",
+        "A pineapple, if you're following tradition"
+      ]
+    }
+  ];
+
+  document.getElementById("checklists").innerHTML = CHECKLIST.map((c, ci) => `
+    <div class="check-stage">
+      <h3>${c.stage}</h3>
+      <div class="when">${c.when}</div>
+      <ul class="check-list">
+        ${c.items.map((it, ii) => `
+          <li>
+            <input type="checkbox" id="c${ci}-${ii}">
+            <label for="c${ci}-${ii}">${it}</label>
+          </li>`).join("")}
+      </ul>
+    </div>`).join("");
+</script>
+</body>
+</html>

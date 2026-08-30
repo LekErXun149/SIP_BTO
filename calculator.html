@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Affordability — KeyQuest</title>
+<meta name="description" content="Check your HDB BTO affordability: income ceiling, EHG grant estimate, downpayment, monthly repayment, MSR and TDSR.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="page-head">
+  <div class="wrap">
+    <div class="eyebrow">Step one</div>
+    <h1>Can you afford it?</h1>
+    <p>Slide in your numbers. We check the income ceiling, estimate your grant, and show whether the monthly repayment fits inside the caps — live, in your browser. Nothing is sent anywhere.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="calc">
+
+      <!-- ---------- inputs ---------- -->
+      <div class="panel">
+        <div class="field">
+          <label>Household type</label>
+          <div class="seg" id="segType" role="group" aria-label="Household type">
+            <button class="on" data-type="family">Couple / family</button>
+            <button data-type="single">Single (35+)</button>
+          </div>
+          <div class="hint" id="typeHint">Family BTO income ceiling: $14,000 a month.</div>
+        </div>
+
+        <div class="field">
+          <label>Gross monthly income <span class="val" id="incVal">$8,000</span></label>
+          <input type="range" id="income" min="1000" max="16000" step="100" value="8000" aria-label="Gross monthly income">
+          <div class="hint">Combined, before CPF deductions.</div>
+        </div>
+
+        <div class="field">
+          <label>Savings for downpayment (CPF + cash) <span class="val" id="savVal">$80,000</span></label>
+          <input type="range" id="savings" min="0" max="300000" step="5000" value="80000" aria-label="Savings available">
+        </div>
+
+        <div class="field">
+          <label>Target flat price <span class="val" id="priceVal">$450,000</span></label>
+          <input type="range" id="price" min="100000" max="800000" step="5000" value="450000" aria-label="Target flat price">
+          <div class="hint">New flats range from roughly $100k (2-room, outer areas) to $600k+ (larger or Prime).</div>
+        </div>
+
+        <div class="field">
+          <label>Other monthly debts <span class="val" id="debtVal">$0</span></label>
+          <input type="range" id="debts" min="0" max="4000" step="50" value="0" aria-label="Other monthly debt repayments">
+          <div class="hint">Car loan, study loan, credit card instalments — used for the TDSR check.</div>
+        </div>
+
+        <div class="field">
+          <label>Loan type</label>
+          <div class="seg" id="segLoan" role="group" aria-label="Loan type">
+            <button class="on" data-rate="2.6">HDB · 2.6%</button>
+            <button data-rate="3.5">Bank · ~3.5%</button>
+          </div>
+          <div class="hint">The HDB concessionary rate is 2.6%. Bank rates vary — 3.5% is illustrative only.</div>
+        </div>
+
+        <div class="field">
+          <label>Loan tenure <span class="val" id="tenVal">25 years</span></label>
+          <input type="range" id="tenure" min="10" max="25" step="1" value="25" aria-label="Loan tenure in years">
+        </div>
+      </div>
+
+      <!-- ---------- results ---------- -->
+      <div class="results">
+        <div class="verdict" id="verdict">
+          <h3><span id="verdictTitle">Eligible to apply</span> <span class="pill ok" id="verdictPill">CHECK</span></h3>
+          <p id="verdictText"></p>
+        </div>
+
+        <div class="grid2">
+          <div class="stat">
+            <div class="k">Estimated EHG grant</div>
+            <div class="v ok mono" id="rGrant">$0</div>
+            <div class="sub">Enhanced CPF Housing Grant</div>
+          </div>
+          <div class="stat">
+            <div class="k">Max loan · 75% LTV</div>
+            <div class="v mono" id="rLoan">$0</div>
+            <div class="sub">You borrow up to 75%</div>
+          </div>
+          <div class="stat">
+            <div class="k">Downpayment (25%)</div>
+            <div class="v mono" id="rDown">$0</div>
+            <div class="sub" id="rDownSub">vs your savings</div>
+          </div>
+          <div class="stat">
+            <div class="k">Monthly repayment</div>
+            <div class="v mono" id="rMonthly">$0</div>
+            <div class="sub" id="rMonthlySub">over 25 yrs</div>
+          </div>
+          <div class="stat">
+            <div class="k">Buyer's stamp duty</div>
+            <div class="v mono" id="rStamp">$0</div>
+            <div class="sub">payable on signing</div>
+          </div>
+          <div class="stat">
+            <div class="k">Total upfront cash/CPF</div>
+            <div class="v mono" id="rUpfront">$0</div>
+            <div class="sub">downpayment + stamp duty</div>
+          </div>
+        </div>
+
+        <div class="stat">
+          <div class="k">Mortgage Servicing Ratio — repayment as a share of income (cap 30%)</div>
+          <div class="v mono" id="rMsr">0%</div>
+          <div class="msr-bar"><div class="msr-fill" id="msrFill"></div></div>
+          <div class="sub" id="rMsrSub"></div>
+        </div>
+
+        <div class="stat">
+          <div class="k">Total Debt Servicing Ratio — all debts included (cap 55%)</div>
+          <div class="v mono" id="rTdsr">0%</div>
+          <div class="sub" id="rTdsrSub"></div>
+        </div>
+
+        <div class="cta-row" style="margin-top:6px">
+          <a class="btn btn-dark" href="journey.html">Next: walk the journey →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script src="data/bto-data.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/calculator.js"></script>
+</body>
+</html>
