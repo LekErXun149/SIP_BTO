@@ -16,7 +16,7 @@
   <div class="wrap">
     <div class="eyebrow">Come prepared</div>
     <h1>What to bring, and when</h1>
-    <p>The documents, fees and decisions needed at each stage. Tick them off as you go — nothing here is stored, so it resets when you reload.</p>
+    <p>The documents, fees and decisions needed at each stage. Tick them off as you go — your ticks are saved automatically on this device.</p>
   </div>
 </header>
 
@@ -41,6 +41,7 @@
 </section>
 
 <script src="data/bto-data.js"></script>
+<script src="js/progress.js"></script>
 <script src="js/nav.js"></script>
 <script>
   /* Checklist content lives here for now — move it into
@@ -110,6 +111,8 @@
     }
   ];
 
+  const saved = PROGRESS.get("checklist") || {};
+
   document.getElementById("checklists").innerHTML = CHECKLIST.map((c, ci) => `
     <div class="check-stage">
       <h3>${c.stage}</h3>
@@ -117,11 +120,16 @@
       <ul class="check-list">
         ${c.items.map((it, ii) => `
           <li>
-            <input type="checkbox" id="c${ci}-${ii}">
+            <input type="checkbox" id="c${ci}-${ii}" ${saved["c"+ci+"-"+ii] ? "checked" : ""}>
             <label for="c${ci}-${ii}">${it}</label>
           </li>`).join("")}
       </ul>
     </div>`).join("");
+
+  /* remember every tick */
+  document.querySelectorAll('.check-list input[type=checkbox]').forEach(box => {
+    box.addEventListener("change", () => PROGRESS.setChecklistItem(box.id, box.checked));
+  });
 </script>
 </body>
 </html>

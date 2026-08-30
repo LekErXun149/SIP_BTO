@@ -7,7 +7,7 @@
 const R = BTO_DATA.rules;
 const sgd = n => "$" + Math.round(n).toLocaleString("en-SG");
 
-let state = {
+const DEFAULT_STATE = {
   type: "family",
   income: 8000,
   savings: 80000,
@@ -16,6 +16,34 @@ let state = {
   tenure: 25,
   debts: 0
 };
+
+/* start from saved progress if there is any */
+let state = Object.assign({}, DEFAULT_STATE, PROGRESS.get("calculator") || {});
+
+/* push the restored values back into the controls */
+function restoreControls(){
+  const map = { income:"income", savings:"savings", price:"price", tenure:"tenure", debts:"debts" };
+  for(const [key, id] of Object.entries(map)){
+    const el = document.getElementById(id);
+    if(el) el.value = state[key];
+  }
+  document.getElementById("incVal").textContent   = sgd(state.income);
+  document.getElementById("savVal").textContent   = sgd(state.savings);
+  document.getElementById("priceVal").textContent = sgd(state.price);
+  document.getElementById("tenVal").textContent   = state.tenure + " years";
+  document.getElementById("debtVal").textContent  = sgd(state.debts);
+
+  [...document.getElementById("segType").children].forEach(b =>
+    b.classList.toggle("on", b.dataset.type === state.type));
+  [...document.getElementById("segLoan").children].forEach(b =>
+    b.classList.toggle("on", +b.dataset.rate === state.rate));
+
+  const fam = state.type === "family";
+  document.getElementById("typeHint").textContent = fam
+    ? `Family BTO income ceiling: ${sgd(R.incomeCeilingFamily)} a month.`
+    : `Singles aged 35+ can buy a 2-room Flexi; ceiling ${sgd(R.incomeCeilingSingle)} a month.`;
+  document.getElementById("income").max = fam ? 16000 : 9000;
+}
 
 /* Enhanced CPF Housing Grant — tiered estimate */
 function ehg(income, isFamily){
@@ -96,6 +124,9 @@ function render(){
   /* upfront cost breakdown */
   document.getElementById("rStamp").textContent = sgd(stampDuty(state.price));
   document.getElementById("rUpfront").textContent = sgd(down + stampDuty(state.price));
+
+  /* remember these settings for next time */
+  PROGRESS.set("calculator", Object.assign({}, state));
 }
 
 /* Buyer's Stamp Duty — standard residential tiers */
@@ -120,7 +151,8 @@ function bind(id, key, targetId, fmt){
   el.addEventListener("input", () => {
     state[key] = +el.value;
     if(targetId) document.getElementById(targetId).textContent = fmt(+el.value);
-    render();
+    restoreControls();
+render();
   });
 }
 bind("income",  "income",  "incVal",   v => sgd(v));
@@ -150,4 +182,6 @@ document.getElementById("segLoan").addEventListener("click", e => {
   render();
 });
 
+/* put any saved values back into the controls, then draw */
+restoreControls();
 render();

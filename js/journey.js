@@ -7,10 +7,13 @@ const stages = BTO_DATA.stages;
 const journeyBlock = document.getElementById("journeyBlock");
 buildBlock(journeyBlock, stages.length, 4);
 
-let step = 0;   // 0 = not started, 1..6 = stages cleared
+let step = PROGRESS.get("journeyStep") || 0;   // restored from saved progress
 
 function renderStage(){
   const card = document.getElementById("stageCard");
+  if(step > stages.length) step = stages.length;
+  if(step < 0) step = 0;
+  PROGRESS.set("journeyStep", step);
   lightFloors(journeyBlock, step);
 
   document.getElementById("jBarFill").style.width = (step / stages.length * 100) + "%";
