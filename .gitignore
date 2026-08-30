@@ -1,0 +1,37 @@
+# ---- Operating system junk ----
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# ---- Editors ----
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+
+# ---- Logs and temp files ----
+*.log
+npm-debug.log*
+*.tmp
+*.bak
+
+# ---- If Node tooling is ever added ----
+node_modules/
+.env
+.env.local
+
+# ---- Personal progress exports ----
+# Files downloaded from the site's "Save to file" button.
+# These are personal data and shouldn't end up in the repo.
+keyquest-progress-*.json

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page not found — KeyQuest</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/SIP_BTO/css/style.css">
+<style>
+  .lost{display:grid; place-items:center; min-height:62vh; text-align:center; padding:50px 0}
+  .lost .block{width:190px; margin-bottom:30px}
+  .lost h1{font-size:clamp(30px,5vw,46px); font-weight:800; margin-bottom:12px}
+  .lost .code{font-family:"IBM Plex Mono",monospace; font-size:13px; letter-spacing:.2em;
+    text-transform:uppercase; color:var(--amber-deep); margin-bottom:16px}
+  .lost p{color:var(--ink-soft); font-size:16.5px; max-width:44ch; margin:0 auto 28px}
+</style>
+</head>
+<body>
+
+<section>
+  <div class="wrap lost">
+    <div>
+      <div class="block" aria-hidden="true">
+        <div class="block-cap"></div>
+        <div class="block-body" id="lostBlock"></div>
+        <div class="block-base"></div>
+        <div class="block-label">nobody home</div>
+      </div>
+
+      <div class="code">Error 404</div>
+      <h1>This unit doesn't exist</h1>
+      <p>The page you're looking for isn't here — the link may be mistyped, or it may have moved. Everything else is still standing.</p>
+
+      <div class="cta-row" style="justify-content:center">
+        <a class="btn btn-amber" href="/SIP_BTO/index.html">Back to the homepage</a>
+        <a class="btn btn-line" href="/SIP_BTO/journey.html">Go to the journey</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="/SIP_BTO/data/bto-data.js"></script>
+<script src="/SIP_BTO/js/block.js"></script>
+<script>
+  /* one lit window in a dark block — nobody home */
+  const lost = document.getElementById("lostBlock");
+  buildBlock(lost, 5, 4);
+  lost.children[1].classList.add("lit");
+
+  /* minimal nav: this page can be served from any URL depth,
+     so links are absolute rather than relative */
+  document.body.insertAdjacentHTML("afterbegin", `
+    <nav>
+      <div class="wrap nav-in">
+        <a class="brand" href="/SIP_BTO/index.html">
+          <span class="key-dot"><span></span></span>KeyQuest
+        </a>
+        <div class="nav-links">
+          <a href="/SIP_BTO/index.html">Home</a>
+          <a href="/SIP_BTO/calculator.html">Affordability</a>
+          <a href="/SIP_BTO/journey.html">The journey</a>
+          <a href="/SIP_BTO/guide.html">Guide</a>
+          <a href="/SIP_BTO/checklist.html">Checklist</a>
+        </div>
+      </div>
+    </nav>
+  `);
+</script>
+</body>
+</html>
