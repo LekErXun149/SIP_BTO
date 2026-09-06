@@ -464,3 +464,10 @@ nav{top:0}
 .sum-bar-fill{height:100%; border-radius:99px; background:linear-gradient(90deg,var(--amber),var(--amber-glow));
   transition:width .6s ease}
 .summary .tip a{color:var(--amber-deep); font-weight:600}
+
+/* borrow-amount shortcuts */
+.borrow-actions{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+.mini-btn{font-family:"IBM Plex Mono",monospace; font-size:11.5px; font-weight:500;
+  background:var(--paper); color:var(--ink-soft); border:1px solid var(--line);
+  padding:6px 12px; border-radius:7px; cursor:pointer; transition:border-color .15s ease, color .15s ease}
+.mini-btn:hover{border-color:var(--amber); color:var(--amber-deep)}

@@ -156,6 +156,18 @@ rather than a search result.
 
 Every quota is an "up to" figure — an upper limit, not a guarantee. Keep that wording.
 
+## Borrowing is a choice, not a requirement
+
+The 75% loan-to-value figure is a **ceiling** on what HDB will lend, not an amount you
+must borrow. If savings cover more than the 25% minimum downpayment, the buyer can
+borrow less — or nothing at all.
+
+`calculator.js` therefore treats the loan as a user-controlled value bounded by the cap.
+It defaults to whatever savings don't already cover, but stops auto-following the moment
+the user sets it themselves (`state.borrowTouched`). Don't "simplify" this back to
+`price * 0.75` — that would tell someone who can pay cash that they owe 25 years of
+repayments.
+
 ## Two interest rates
 
 The calculator uses both, on purpose:
@@ -171,11 +183,11 @@ affordability check wrong at borderline incomes.
 
 ## Cache busting
 
-CSS and JS links carry a version number, e.g. `css/style.css?v=0.8`. Browsers cache
+CSS and JS links carry a version number, e.g. `css/style.css?v=0.9`. Browsers cache
 these files aggressively, so **bump the version in every page** whenever you change
 a shared file — otherwise returning visitors keep seeing the old one.
 
-Current version is **0.8**. Increase by 0.1 each time you change any shared CSS or
+Current version is **0.9**. Increase by 0.1 each time you change any shared CSS or
 JS file. A quick find-and-replace across the HTML files does it.
 
 ## Deploying

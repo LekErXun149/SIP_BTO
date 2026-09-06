@@ -15,7 +15,9 @@ const DEFAULT_STATE = {
   rate: R.hdbLoanRate,
   stressRate: R.hdbStressRate,
   tenure: 25,
-  debts: 0
+  debts: 0,
+  borrow: null,        // null = follow the sensible default
+  borrowTouched: false // once the user sets it, stop auto-following
 };
 
 /* start from saved progress if there is any */
@@ -28,7 +30,8 @@ const CONTROLS = [
   { key:"savings", slider:"savings", num:"savingsNum" },
   { key:"price",   slider:"price",   num:"priceNum"   },
   { key:"debts",   slider:"debts",   num:"debtsNum"   },
-  { key:"tenure",  slider:"tenure",  num:"tenureNum"  }
+  { key:"tenure",  slider:"tenure",  num:"tenureNum"  },
+  { key:"borrow",  slider:"borrow",  num:"borrowNum"  }
 ];
 
 /* `state` is the single source of truth. The slider is only a view of it —
@@ -44,7 +47,7 @@ function clampToSlider(slider, v){
 
 /* paint both controls from state, without triggering their handlers */
 function syncControls(except){
-  CONTROLS.forEach(c => {
+  CONTROLS.filter(c => c.key !== "borrow").forEach(c => {
     const slider = document.getElementById(c.slider);
     const num    = document.getElementById(c.num);
     const v = state[c.key];
@@ -96,6 +99,33 @@ function ehg(income, isFamily){
   return Math.max(floor, Math.round((maxGrant - bandsAbove * step) / 1000) * 1000);
 }
 
+/* Keep the borrow control's range tied to the flat price, and explain
+   what the current choice means. Called from render(), so it follows
+   whenever price or savings change. */
+function syncBorrowControl(maxLoan, suggested, loan){
+  const slider = document.getElementById("borrow");
+  const num    = document.getElementById("borrowNum");
+  if(!slider || !num) return;
+
+  const cap = Math.round(maxLoan);
+  slider.max = cap;
+  num.max    = cap;
+
+  if(document.activeElement !== num) num.value = Math.round(loan);
+  slider.value = Math.round(loan);
+
+  const hint = document.getElementById("borrowHint");
+  if(loan === 0){
+    hint.textContent = "Your savings cover the whole flat, so no loan is needed. Some buyers still borrow to keep cash free for renovation or emergencies.";
+  }else if(loan >= cap - 0.5){
+    hint.textContent = `The most HDB will lend on a ${sgd(state.price)} flat is ${sgd(cap)} (${R.ltv * 100}% loan-to-value). You're borrowing the maximum.`;
+  }else if(state.savings >= state.price - loan){
+    hint.textContent = `Your savings cover the rest. Borrowing less costs less interest; borrowing more keeps cash free.`;
+  }else{
+    hint.textContent = `You'd need ${sgd(state.price - loan)} upfront, which is ${sgd(state.price - loan - state.savings)} more than your savings.`;
+  }
+}
+
 function monthlyRepay(loan, annualRatePct, years){
   const r = annualRatePct / 100 / 12, n = years * 12;
   if(r === 0) return loan / n;
@@ -123,27 +153,55 @@ function render(){
   /* grant */
   document.getElementById("rGrant").textContent = sgd(ehg(state.income, isFamily));
 
-  /* loan and downpayment */
-  const loan = state.price * R.ltv;
-  const down = state.price * (1 - R.ltv);
+  /* The LTV limit is a CEILING on borrowing, not a requirement. If savings
+     cover more than the minimum downpayment you may borrow less — or nothing
+     at all. Some buyers still borrow the maximum on purpose, to keep cash
+     free, so the amount is the user's choice rather than forced. */
+  const maxLoan = state.price * R.ltv;          // most HDB will lend
+  const minDown = state.price * (1 - R.ltv);    // least you must put in
+
+  /* default: cover as much as savings allow, without exceeding the cap */
+  const suggested = Math.max(0, Math.min(maxLoan, state.price - state.savings));
+  if(!state.borrowTouched) state.borrow = suggested;
+
+  const loan = Math.max(0, Math.min(state.borrow ?? suggested, maxLoan));
+  const down = state.price - loan;               // whatever isn't borrowed
+
+  syncBorrowControl(maxLoan, suggested, loan);
+
   document.getElementById("rLoan").textContent = sgd(loan);
+  document.getElementById("rLoanSub").textContent = loan === 0
+    ? "no loan needed — paid in full"
+    : `of a ${sgd(maxLoan)} maximum (${R.ltv * 100}% LTV)`;
+
   document.getElementById("rDown").textContent = sgd(down);
-  document.getElementById("rDownSub").textContent =
-    state.savings >= down ? "covered by your savings ✓" : "short by " + sgd(down - state.savings);
+  const dsub = document.getElementById("rDownSub");
+  if(down < minDown - 0.5){
+    dsub.textContent = `below the ${sgd(minDown)} minimum — borrow less`;
+  }else if(state.savings >= down){
+    dsub.textContent = down === state.price
+      ? "paid entirely from savings ✓"
+      : "covered by your savings ✓";
+  }else{
+    dsub.textContent = "short by " + sgd(down - state.savings);
+  }
 
   /* Monthly repayment — at the rate you actually pay. */
-  const m = monthlyRepay(loan, state.rate, state.tenure);
+  const m = loan > 0 ? monthlyRepay(loan, state.rate, state.tenure) : 0;
   document.getElementById("rMonthly").textContent = sgd(m);
-  document.getElementById("rMonthlySub").textContent = `over ${state.tenure} yrs at ${state.rate}%`;
+  document.getElementById("rMonthlySub").textContent = loan > 0
+    ? `over ${state.tenure} yrs at ${state.rate}%`
+    : "nothing to repay";
 
   /* Eligibility repayment — at the stress-test floor. This is the figure
      HDB (or the bank) uses to decide how much you may borrow, so it is the
      one that must pass MSR and TDSR. It is always the higher of the two. */
   const stressRate = state.rate === R.hdbLoanRate ? R.hdbStressRate : R.bankStressRate;
-  const mStress = monthlyRepay(loan, Math.max(stressRate, state.rate), state.tenure);
+  const mStress = loan > 0 ? monthlyRepay(loan, Math.max(stressRate, state.rate), state.tenure) : 0;
   document.getElementById("rStress").textContent = sgd(mStress);
-  document.getElementById("rStressSub").textContent =
-    `what ${state.rate === R.hdbLoanRate ? "HDB" : "the bank"} tests you against, at ${Math.max(stressRate, state.rate)}%`;
+  document.getElementById("rStressSub").textContent = loan > 0
+    ? `what ${state.rate === R.hdbLoanRate ? "HDB" : "the bank"} tests you against, at ${Math.max(stressRate, state.rate)}%`
+    : "no loan, so no affordability check";
 
   /* MSR — assessed on the stressed repayment, not the actual one */
   const msrPct = (mStress / state.income) * 100;
@@ -154,9 +212,11 @@ function render(){
   const fill = document.getElementById("msrFill");
   fill.style.width = Math.min(100, msrPct / R.msrCap * 100) + "%";
   fill.style.background = withinMsr ? "var(--ok)" : "var(--warn)";
-  document.getElementById("rMsrSub").textContent = withinMsr
-    ? `Within the ${R.msrCap}% cap, tested at ${Math.max(stressRate, state.rate)}%.`
-    : `Over the ${R.msrCap}% cap — lower the price, lengthen the tenure, or raise income.`;
+  document.getElementById("rMsrSub").textContent = loan === 0
+    ? "No loan, so the ratio doesn't apply."
+    : withinMsr
+      ? `Within the ${R.msrCap}% cap, tested at ${Math.max(stressRate, state.rate)}%.`
+      : `Over the ${R.msrCap}% cap — borrow less, lengthen the tenure, or pick a cheaper flat.`;
 
   /* TDSR — also assessed on the stressed repayment, plus other debts */
   const tdsrPct = ((mStress + state.debts) / state.income) * 100;
@@ -205,6 +265,7 @@ CONTROLS.forEach(c => {
   /* dragging the slider */
   slider.addEventListener("input", () => {
     state[c.key] = +slider.value;
+    if(c.key === "borrow") state.borrowTouched = true;
     syncControls(c.slider);
     render();
   });
@@ -217,6 +278,7 @@ CONTROLS.forEach(c => {
     const v = parseFloat(raw);
     if(isNaN(v)) return;
     state[c.key] = v;
+    if(c.key === "borrow") state.borrowTouched = true;
     syncControls(c.num);
     render();
   });
@@ -231,6 +293,19 @@ CONTROLS.forEach(c => {
     syncControls();
     render();
   });
+});
+
+/* shortcuts: borrow the cap, or put savings in first */
+document.getElementById("borrowMax").addEventListener("click", () => {
+  state.borrow = Math.round(state.price * R.ltv);
+  state.borrowTouched = true;
+  render();
+});
+document.getElementById("borrowMin").addEventListener("click", () => {
+  /* go back to following price and savings automatically */
+  state.borrowTouched = false;
+  state.borrow = null;
+  render();
 });
 
 document.getElementById("segType").addEventListener("click", e => {

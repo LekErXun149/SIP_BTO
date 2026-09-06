@@ -26,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=0.8">
+<link rel="stylesheet" href="css/style.css?v=0.9">
 </head>
 <body>
 
@@ -100,6 +100,25 @@
         </div>
 
         <div class="field">
+          <label for="borrowNum">How much do you want to borrow?</label>
+          <div class="num-row">
+            <div class="num-box">
+              <span class="num-pre">$</span>
+              <input type="number" id="borrowNum" min="0" max="1000000" step="1000" value="337500"
+                     inputmode="numeric" aria-label="Loan amount, type an exact value">
+              <span class="num-suf"></span>
+            </div>
+          </div>
+          <input type="range" id="borrow" min="0" max="1000000" step="1000" value="337500"
+                 aria-label="Loan amount slider">
+          <div class="borrow-actions">
+            <button type="button" class="mini-btn" id="borrowMax">Borrow the maximum</button>
+            <button type="button" class="mini-btn" id="borrowMin">Use my savings first</button>
+          </div>
+          <div class="hint" id="borrowHint"></div>
+        </div>
+
+        <div class="field">
           <label for="debtsNum">Other monthly debts</label>
           <div class="num-row">
             <div class="num-box">
@@ -157,12 +176,12 @@
             <div class="sub">Enhanced CPF Housing Grant — estimate</div>
           </div>
           <div class="stat">
-            <div class="k">Max loan · 75% LTV</div>
+            <div class="k">You're borrowing</div>
             <div class="v mono" id="rLoan">$0</div>
-            <div class="sub">You borrow up to 75%</div>
+            <div class="sub" id="rLoanSub">of a $0 maximum</div>
           </div>
           <div class="stat">
-            <div class="k">Downpayment (25%)</div>
+            <div class="k">You pay upfront</div>
             <div class="v mono" id="rDown">$0</div>
             <div class="sub" id="rDownSub">vs your savings</div>
           </div>
@@ -229,10 +248,10 @@
   </div>
 </section>
 
-<script src="data/bto-data.js?v=0.8"></script>
-<script src="js/progress.js?v=0.8"></script>
-<script src="js/nav.js?v=0.8"></script>
-<script src="js/sources.js?v=0.8"></script>
-<script src="js/calculator.js?v=0.8"></script>
+<script src="data/bto-data.js?v=0.9"></script>
+<script src="js/progress.js?v=0.9"></script>
+<script src="js/nav.js?v=0.9"></script>
+<script src="js/sources.js?v=0.9"></script>
+<script src="js/calculator.js?v=0.9"></script>
 </body>
 </html>
