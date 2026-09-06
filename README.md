@@ -19,6 +19,7 @@ Built as a Student Internship Programme (SIP) project.
 | `journey.html` | The six BTO stages as an interactive walkthrough |
 | `ballot.html` | Ballot odds — user enters a live application rate from HDB's portal |
 | `guide.html` | Standard/Plus/Prime, flat types, grants, glossary — with quizzes |
+| `options.html` | What to do if the ballot fails — SBF, open booking, resale |
 | `checklist.html` | Tickable documents and fees needed at each stage |
 
 Progress on all pages saves automatically, and can be exported to a file and
@@ -35,6 +36,7 @@ SIP_BTO/
 ├── journey.html          six-stage simulator
 ├── ballot.html           ballot odds simulator
 ├── guide.html            concepts + quizzes
+├── options.html          other routes if BTO doesn't work out
 ├── checklist.html        documents and fees
 ├── 404.html              shown for broken links
 │
@@ -136,11 +138,27 @@ Output is deliberately a **band** ("Competitive", "Tough") plus a rough ratio, n
 a precise percentage — the application rate alone cannot support one, because
 priority scheme quotas and ballot chances also affect the draw.
 
+## Two interest rates
+
+The calculator uses both, on purpose:
+
+- `hdbLoanRate` (2.6%) — what a buyer actually pays each month.
+- `hdbStressRate` (3.0%) — the floor HDB uses to work out how much they may borrow,
+  introduced in September 2022 to encourage prudent borrowing.
+
+Monthly repayment is shown at the real rate; the MSR and TDSR checks use the stressed
+figure, which is what HDB does. Bank borrowers are assessed against a 4.0% MAS floor.
+Don't "simplify" this by collapsing them into one rate — it would make the
+affordability check wrong at borderline incomes.
+
 ## Cache busting
 
-CSS and JS links carry a version number, e.g. `css/style.css?v=2`. Browsers cache
-these files aggressively, so **bump the number in every page** whenever you change
-a shared file — otherwise returning visitors keep seeing the old version.
+CSS and JS links carry a version number, e.g. `css/style.css?v=0.5`. Browsers cache
+these files aggressively, so **bump the version in every page** whenever you change
+a shared file — otherwise returning visitors keep seeing the old one.
+
+Current version is **0.5**. Increase by 0.1 each time you change any shared CSS or
+JS file. A quick find-and-replace across the HTML files does it.
 
 ## Deploying
 

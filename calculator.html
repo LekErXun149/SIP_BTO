@@ -26,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=4">
+<link rel="stylesheet" href="css/style.css?v=0.5">
 </head>
 <body>
 
@@ -55,40 +55,90 @@
         </div>
 
         <div class="field">
-          <label>Gross monthly income <span class="val" id="incVal">$8,000</span></label>
-          <input type="range" id="income" min="1000" max="16000" step="100" value="8000" aria-label="Gross monthly income">
-          <div class="hint">Combined, before CPF deductions.</div>
+          <label for="incomeNum">Gross monthly income</label>
+          <div class="num-row">
+            <div class="num-box">
+              <span class="num-pre">$</span>
+              <input type="number" id="incomeNum" min="1000" max="25000" step="100" value="8000"
+                     inputmode="numeric" aria-label="Gross monthly income, type an exact value">
+              <span class="num-suf">/mo</span>
+            </div>
+          </div>
+          <input type="range" id="income" min="1000" max="25000" step="100" value="8000"
+                 aria-label="Gross monthly income slider">
+          <div class="hint">Combined, before CPF deductions. Drag the slider or type an exact figure.</div>
         </div>
 
         <div class="field">
-          <label>Savings for downpayment (CPF + cash) <span class="val" id="savVal">$80,000</span></label>
-          <input type="range" id="savings" min="0" max="300000" step="5000" value="80000" aria-label="Savings available">
+          <label for="savingsNum">Savings for downpayment (CPF + cash)</label>
+          <div class="num-row">
+            <div class="num-box">
+              <span class="num-pre">$</span>
+              <input type="number" id="savingsNum" min="0" max="600000" step="1000" value="80000"
+                     inputmode="numeric" aria-label="Savings for downpayment (CPF + cash), type an exact value">
+              <span class="num-suf"></span>
+            </div>
+          </div>
+          <input type="range" id="savings" min="0" max="600000" step="1000" value="80000"
+                 aria-label="Savings for downpayment (CPF + cash) slider">
+          <div class="hint">CPF Ordinary Account plus cash you can put towards the flat.</div>
         </div>
 
         <div class="field">
-          <label>Target flat price <span class="val" id="priceVal">$450,000</span></label>
-          <input type="range" id="price" min="100000" max="800000" step="5000" value="450000" aria-label="Target flat price">
+          <label for="priceNum">Target flat price</label>
+          <div class="num-row">
+            <div class="num-box">
+              <span class="num-pre">$</span>
+              <input type="number" id="priceNum" min="100000" max="1200000" step="1000" value="450000"
+                     inputmode="numeric" aria-label="Target flat price, type an exact value">
+              <span class="num-suf"></span>
+            </div>
+          </div>
+          <input type="range" id="price" min="100000" max="1200000" step="1000" value="450000"
+                 aria-label="Target flat price slider">
           <div class="hint">New flats range from roughly $100k (2-room, outer areas) to $600k+ (larger or Prime).</div>
         </div>
 
         <div class="field">
-          <label>Other monthly debts <span class="val" id="debtVal">$0</span></label>
-          <input type="range" id="debts" min="0" max="4000" step="50" value="0" aria-label="Other monthly debt repayments">
+          <label for="debtsNum">Other monthly debts</label>
+          <div class="num-row">
+            <div class="num-box">
+              <span class="num-pre">$</span>
+              <input type="number" id="debtsNum" min="0" max="8000" step="50" value="0"
+                     inputmode="numeric" aria-label="Other monthly debts, type an exact value">
+              <span class="num-suf">/mo</span>
+            </div>
+          </div>
+          <input type="range" id="debts" min="0" max="8000" step="50" value="0"
+                 aria-label="Other monthly debts slider">
           <div class="hint">Car loan, study loan, credit card instalments — used for the TDSR check.</div>
         </div>
 
         <div class="field">
           <label>Loan type</label>
           <div class="seg" id="segLoan" role="group" aria-label="Loan type">
-            <button class="on" data-rate="2.6">HDB · 2.6%</button>
-            <button data-rate="3.5">Bank · ~3.5%</button>
+            <button class="on" data-rate="2.6" data-stress="3.0">HDB · 2.6%</button>
+            <button data-rate="3.5" data-stress="4.0">Bank · ~3.5%</button>
           </div>
-          <div class="hint">The HDB concessionary rate is 2.6%. Bank rates vary — 3.5% is illustrative only.</div>
+          <div class="hint" id="loanHint">
+            You pay 2.6% on an HDB loan. Separately, HDB checks how much you may borrow
+            using a 3.0% stress rate — both are shown below.
+          </div>
         </div>
 
         <div class="field">
-          <label>Loan tenure <span class="val" id="tenVal">25 years</span></label>
-          <input type="range" id="tenure" min="10" max="25" step="1" value="25" aria-label="Loan tenure in years">
+          <label for="tenureNum">Loan tenure</label>
+          <div class="num-row">
+            <div class="num-box">
+              <span class="num-pre"></span>
+              <input type="number" id="tenureNum" min="5" max="25" step="1" value="25"
+                     inputmode="numeric" aria-label="Loan tenure, type an exact value">
+              <span class="num-suf">years</span>
+            </div>
+          </div>
+          <input type="range" id="tenure" min="5" max="25" step="1" value="25"
+                 aria-label="Loan tenure slider">
+          <div class="hint">HDB loans run to a maximum of 25 years, or 65 minus your age, whichever is shorter.</div>
         </div>
       </div>
 
@@ -116,9 +166,14 @@
             <div class="sub" id="rDownSub">vs your savings</div>
           </div>
           <div class="stat">
-            <div class="k">Monthly repayment</div>
+            <div class="k">Monthly repayment — what you pay</div>
             <div class="v mono" id="rMonthly">$0</div>
             <div class="sub" id="rMonthlySub">over 25 yrs</div>
+          </div>
+          <div class="stat">
+            <div class="k">At the stress rate — what HDB checks</div>
+            <div class="v mono" id="rStress">$0</div>
+            <div class="sub" id="rStressSub">used for the ratios below</div>
           </div>
           <div class="stat">
             <div class="k">Buyer's stamp duty</div>
@@ -133,7 +188,7 @@
         </div>
 
         <div class="stat">
-          <div class="k">Mortgage Servicing Ratio — repayment as a share of income (cap 30%)</div>
+          <div class="k">Mortgage Servicing Ratio — stressed repayment as a share of income (cap 30%)</div>
           <div class="v mono" id="rMsr">0%</div>
           <div class="msr-bar"><div class="msr-fill" id="msrFill"></div></div>
           <div class="sub" id="rMsrSub"></div>
@@ -152,6 +207,12 @@
           <div class="src-slot" data-src="loans"></div>
           <div class="src-slot" data-src="msrTdsr"></div>
           <p class="src-note" style="margin-top:14px">
+            <b>Two interest rates, two jobs.</b> You pay 2.6% on an HDB loan, but HDB works out
+            how much you may borrow using a 3.0% floor introduced in September 2022 to encourage
+            prudent borrowing. The MSR and TDSR checks here use the stress figure, as HDB does.
+            Bank borrowers are assessed against a stricter 4.0% floor set by MAS.
+          </p>
+          <p class="src-note" style="margin-top:10px">
             The grant figure is an estimate — HDB publishes the maximum and the income
             ceiling but not the full band table, so it tapers evenly between them.
             Your actual grant is confirmed in your HFE letter.
@@ -167,10 +228,10 @@
   </div>
 </section>
 
-<script src="data/bto-data.js?v=4"></script>
-<script src="js/progress.js?v=4"></script>
-<script src="js/nav.js?v=4"></script>
-<script src="js/sources.js?v=4"></script>
-<script src="js/calculator.js?v=4"></script>
+<script src="data/bto-data.js?v=0.5"></script>
+<script src="js/progress.js?v=0.5"></script>
+<script src="js/nav.js?v=0.5"></script>
+<script src="js/sources.js?v=0.5"></script>
+<script src="js/calculator.js?v=0.5"></script>
 </body>
 </html>

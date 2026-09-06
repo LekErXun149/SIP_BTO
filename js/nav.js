@@ -10,6 +10,7 @@ const PAGES = [
   { file: "journey.html",    label: "The journey" },
   { file: "ballot.html",     label: "Ballot odds" },
   { file: "guide.html",      label: "Guide" },
+  { file: "options.html",    label: "Other routes" },
   { file: "checklist.html",  label: "Checklist" }
 ];
 

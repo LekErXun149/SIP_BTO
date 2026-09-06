@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Other routes — KeyQuest</title>
+<meta name="description" content="What to do if the BTO ballot doesn't go your way: trying again, Sale of Balance Flats, open booking, and buying resale.">
+
+<!-- how the link looks when shared -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="KeyQuest">
+<meta property="og:title" content="Other routes — KeyQuest">
+<meta property="og:description" content="What to do if the BTO ballot doesn't go your way: trying again, Sale of Balance Flats, open booking, and buying resale.">
+<meta property="og:image" content="https://lekerxun149.github.io/SIP_BTO/img/preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://lekerxun149.github.io/SIP_BTO/options.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Other routes — KeyQuest">
+<meta name="twitter:description" content="What to do if the BTO ballot doesn't go your way: trying again, Sale of Balance Flats, open booking, and buying resale.">
+<meta name="twitter:image" content="https://lekerxun149.github.io/SIP_BTO/img/preview.png">
+<link rel="icon" href="img/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<meta name="theme-color" content="#19203F">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=0.5">
+</head>
+<body>
+
+<header class="page-head">
+  <div class="wrap">
+    <div class="eyebrow">Plan B, and plan C</div>
+    <h1>If BTO doesn't work out</h1>
+    <p id="optIntro"></p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Six routes</div>
+      <h2>What else is available</h2>
+      <p>Roughly in order, from "keep trying" to "take a different road entirely". Several can run in parallel — nothing stops you watching for an open booking while balloting again.</p>
+    </div>
+
+    <div class="routes" id="optRoutes"></div>
+  </div>
+</section>
+
+<section style="background:#fff; border-top:1px solid var(--line); border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">The bits nobody mentions</div>
+      <h2>Three practical things</h2>
+      <p>Costs and situations that catch first-time buyers out, and that don't fit neatly anywhere else.</p>
+    </div>
+
+    <div class="practical" id="optPractical"></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="panel">
+      <h3 style="font-size:17px; margin-bottom:10px">Before you switch routes</h3>
+      <p style="color:var(--ink-soft); font-size:14.5px; margin:0 0 10px">
+        Eligibility, grants and loan limits differ between these routes. A resale flat has no income
+        ceiling to purchase, but income still governs your grants and your HDB loan. Grant amounts also
+        differ — the EHG applies to both new and resale flats, while the CPF Housing Grant for Resale
+        Flats and the Proximity Housing Grant apply to resale only.
+      </p>
+      <p style="color:var(--ink-soft); font-size:14.5px; margin:0">
+        <b style="color:var(--ink)">Check your own position before committing.</b> Your HFE letter sets
+        out what you qualify for on each route, and it is the only figure that counts.
+      </p>
+      <div class="src-slot" data-src="btoGuide"></div>
+      <div class="src-slot" data-src="grants"></div>
+      <div class="src-slot" data-src="hfe"></div>
+    </div>
+
+    <div class="cta-row" style="margin-top:26px">
+      <a class="btn btn-dark" href="ballot.html">← Back to ballot odds</a>
+      <a class="btn btn-line" href="calculator.html">Check affordability</a>
+    </div>
+  </div>
+</section>
+
+<script src="data/bto-data.js?v=0.5"></script>
+<script src="js/progress.js?v=0.5"></script>
+<script src="js/nav.js?v=0.5"></script>
+<script src="js/sources.js?v=0.5"></script>
+<script>
+  const O = BTO_DATA.options;
+  document.getElementById("optIntro").textContent = O.intro;
+
+  document.getElementById("optRoutes").innerHTML = O.routes.map((r, i) => `
+    <div class="route">
+      <div class="route-head">
+        <span class="route-no mono">${String(i + 1).padStart(2, "0")}</span>
+        <h3>${r.name}</h3>
+        <span class="tag">${r.check}</span>
+      </div>
+      <p class="route-what">${r.what}</p>
+      <div class="route-cols">
+        <div class="route-why"><b>Why it helps</b>${r.why}</div>
+        <div class="route-watch"><b>Watch out</b>${r.watch}</div>
+      </div>
+    </div>`).join("");
+
+  document.getElementById("optPractical").innerHTML = O.practical.map(p => `
+    <div class="card">
+      <h3>${p.name}</h3>
+      <p>${p.body}</p>
+    </div>`).join("");
+</script>
+</body>
+</html>

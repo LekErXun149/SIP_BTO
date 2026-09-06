@@ -341,3 +341,41 @@ nav{top:0}
   .portal-cta{flex-direction:column; align-items:stretch}
   .portal-cta .btn{justify-content:center}
 }
+
+/* ============================================================
+   Paired slider + manual number input
+   ============================================================ */
+.num-row{display:flex; justify-content:flex-end; margin-bottom:10px}
+.num-box{display:inline-flex; align-items:center; gap:2px; background:var(--paper);
+  border:1px solid var(--line); border-radius:9px; padding:5px 11px;
+  transition:border-color .15s ease, background .15s ease}
+.num-box:focus-within{border-color:var(--amber); background:#fff}
+.num-pre,.num-suf{font-family:"IBM Plex Mono",monospace; font-size:13px; color:var(--ink-soft); flex:none}
+.num-box input{font-family:"IBM Plex Mono",monospace; font-size:16px; font-weight:600;
+  color:var(--amber-deep); background:none; border:none; outline:none; width:88px; text-align:right;
+  padding:0; -moz-appearance:textfield}
+.num-box input::-webkit-outer-spin-button,
+.num-box input::-webkit-inner-spin-button{-webkit-appearance:none; margin:0}
+.field label{display:block}
+
+/* ============================================================
+   Options page — routes and practical cards
+   ============================================================ */
+.routes{display:flex; flex-direction:column; gap:14px}
+.route{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg);
+  padding:24px; box-shadow:var(--shadow)}
+.route-head{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:12px}
+.route-no{font-size:13px; color:var(--amber-deep); letter-spacing:.1em; flex:none}
+.route-head h3{font-size:20px; margin:0; flex:1; min-width:200px}
+.route-what{font-size:15.5px; color:#3b4060; margin:0 0 16px}
+.route-cols{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+@media(max-width:700px){.route-cols{grid-template-columns:1fr}}
+.route-why,.route-watch{font-size:14px; line-height:1.6; padding:14px 16px; border-radius:var(--r)}
+.route-why{background:#F2FAF6; border:1px solid #BFE0CF; color:#245943}
+.route-watch{background:#FBF3E4; border:1px solid #F1DDB4; color:#7A5510}
+.route-why b,.route-watch b{display:block; font-family:"IBM Plex Mono",monospace; font-size:11px;
+  letter-spacing:.13em; text-transform:uppercase; margin-bottom:6px; opacity:.8}
+
+.practical{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+@media(max-width:900px){.practical{grid-template-columns:1fr}}
+.practical .card h3{font-size:18px; margin-bottom:8px}

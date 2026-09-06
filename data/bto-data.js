@@ -64,8 +64,15 @@ const BTO_DATA = {
     incomeCeilingExtended: 24000,    // extended families; each nucleus still capped at 16000
     ehgMaxFamily: 120000,            // raised from 80000 in Aug 2024
     ehgMaxSingle: 60000,             // raised from 40000 in Aug 2024
-    hdbLoanRate: 2.6,                // HDB concessionary rate, %
+    /* Two different rates, doing two different jobs:
+       - hdbLoanRate is what you actually PAY (pegged 0.1% above CPF OA).
+       - hdbStressRate is the floor HDB uses to work out how much you may
+         BORROW. Introduced Sept 2022 to encourage prudent borrowing.
+       Banks are held to a stricter MAS floor for the same purpose. */
+    hdbLoanRate: 2.6,                // what you pay on an HDB loan, %
+    hdbStressRate: 3.0,              // floor HDB uses to compute eligible loan, %
     bankLoanRate: 3.5,               // illustrative bank rate, %
+    bankStressRate: 4.0,             // MAS medium-term floor for bank loans, %
     ltv: 0.75,                       // max loan-to-value for HDB loan
     msrCap: 30,                      // mortgage servicing ratio cap, %
     tdsrCap: 55,                     // total debt servicing ratio cap, %
@@ -129,6 +136,75 @@ const BTO_DATA = {
       { name:"Woodgrove Acres, Woodlands — 2-room Flexi, singles",
         rate:17.8, type:"ft-single",
         blurb:"157 units drew over 1,053 applications. Singles compete for a small reserved pool." }
+    ]
+  },
+
+
+  /* ---------- "what if BTO doesn't work out" page ----------
+     Mostly writing — safe for a non-coder teammate to edit. Each route
+     is one card on options.html. Keep `check` short; it renders as a tag. */
+  options: {
+    intro: "A BTO ballot can go against you, and for some households BTO isn't the best route at all. None of that is the end of the road — here's what else exists.",
+
+    routes: [
+      {
+        name: "Try again next launch",
+        check: "Free",
+        what: "An unsuccessful ballot costs you nothing but time. Your HFE letter stays valid for 9 months, so you can usually apply again without redoing the paperwork. Launches run several times a year.",
+        why: "Odds have improved recently — in the February 2026 exercise the median first-timer family rate was 0.8 for 3-room and larger flats, meaning supply outstripped demand in that category.",
+        watch: "Check your HFE letter's expiry before the next window. If it has lapsed, reapply early — processing takes weeks."
+      },
+      {
+        name: "Use your extra ballot chances",
+        check: "Automatic",
+        what: "First-timers who are unsuccessful twice get additional ballot chances from their third attempt onwards under the 2-Ballot Chance scheme. First-timer families already get 2 chances, and FT(PMC) households get 3.",
+        why: "Persistence is built into the system by design. Repeated attempts genuinely raise your odds rather than resetting them.",
+        watch: "From the February 2027 exercise, first-timer families will also receive one additional ballot chance for each Singapore Citizen child aged 18 and below."
+      },
+      {
+        name: "Aim at a less subscribed project",
+        check: "Same process",
+        what: "Application rates vary enormously within a single launch. In June 2026 one Sembawang project drew fewer first-timer applicants than it had units, while a Bukit Merah Prime project drew 3.3 times as many.",
+        why: "Changing which project you apply for is the single biggest lever you control. Non-mature towns and Standard classification are usually far less contested.",
+        watch: "Weigh the trade-off honestly — a shorter queue often means a longer commute or fewer amenities nearby."
+      },
+      {
+        name: "Sale of Balance Flats (SBF)",
+        check: "Separate exercise",
+        what: "SBF offers flats left unselected from earlier launches, plus units returned by buyers. Many are already built or close to completion.",
+        why: "The wait can be dramatically shorter than BTO's three to five years — sometimes you can move in within months.",
+        watch: "Choice is limited to whatever is left, and competition can be intense precisely because the flats are ready."
+      },
+      {
+        name: "Open Booking of Flats",
+        check: "First come, first served",
+        what: "Flats still unselected after an SBF exercise are released for open booking. There is no ballot — you apply and can book a flat as soon as the next working day.",
+        why: "It removes the ballot from the equation entirely. If you need a home urgently, this is the fastest route into a new flat.",
+        watch: "Availability is unpredictable and stock moves quickly. You need your HFE letter ready in advance to act."
+      },
+      {
+        name: "Buy a resale flat",
+        check: "No ballot, no income ceiling",
+        what: "Resale flats are bought on the open market from existing owners. There is no ballot and no income ceiling to purchase, though income limits still apply to grants and HDB loans.",
+        why: "You choose the exact unit, town and floor, and move in within months rather than years. This is the main route for households above the BTO income ceiling.",
+        watch: "Prices are set by the market, not subsidised, so the upfront cost is higher. Grants offset some of this — first-timer families can receive up to $230,000 in total grants on a resale flat, against $120,000 on a BTO."
+      }
+    ],
+
+    /* practical extras that used to have nowhere to live */
+    practical: [
+      {
+        name: "Where do you live while you wait?",
+        body: "BTO construction takes roughly two and a half to four years. Most buyers stay with family, rent privately, or apply for the Parenthood Provisional Housing Scheme (PPHS), which offers subsidised interim rental of a whole flat to eligible families waiting for their BTO. There is also a PPHS voucher scheme to offset open-market rent for some households."
+      },
+      {
+        name: "Renovation is not in the flat price",
+        body: "This is the cost that most often catches first-time buyers out. A new flat comes bare — flooring, built-in carpentry, kitchen fittings and lighting are all yours to arrange. Budget for it separately and early, and remember it is largely a cash expense, since CPF cannot be used for renovation."
+      },
+      {
+        name: "Backing out has consequences",
+        body: "Rejecting or not turning up to a flat selection appointment, or cancelling after booking, can cost you. Depending on the stage you may forfeit your option fee and face a period during which you cannot apply again. Read the terms in your booking letter before deciding — the penalties are real but the specifics vary by situation."
+      }
     ]
   },
 

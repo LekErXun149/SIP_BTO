@@ -13,6 +13,7 @@ const DEFAULT_STATE = {
   savings: 80000,
   price: 450000,
   rate: R.hdbLoanRate,
+  stressRate: R.hdbStressRate,
   tenure: 25,
   debts: 0
 };
@@ -20,29 +21,39 @@ const DEFAULT_STATE = {
 /* start from saved progress if there is any */
 let state = Object.assign({}, DEFAULT_STATE, PROGRESS.get("calculator") || {});
 
-/* push the restored values back into the controls */
+/* Each control is a slider paired with a number box. They stay in sync:
+   drag the slider and the box follows, type in the box and the slider follows. */
+const CONTROLS = [
+  { key:"income",  slider:"income",  num:"incomeNum"  },
+  { key:"savings", slider:"savings", num:"savingsNum" },
+  { key:"price",   slider:"price",   num:"priceNum"   },
+  { key:"debts",   slider:"debts",   num:"debtsNum"   },
+  { key:"tenure",  slider:"tenure",  num:"tenureNum"  }
+];
+
+function clamp(el, v){
+  const mn = parseFloat(el.min), mx = parseFloat(el.max);
+  if(!isNaN(mn) && v < mn) return mn;
+  if(!isNaN(mx) && v > mx) return mx;
+  return v;
+}
+
 function restoreControls(){
-  const map = { income:"income", savings:"savings", price:"price", tenure:"tenure", debts:"debts" };
-  for(const [key, id] of Object.entries(map)){
-    const el = document.getElementById(id);
-    if(el) el.value = state[key];
-  }
-  document.getElementById("incVal").textContent   = sgd(state.income);
-  document.getElementById("savVal").textContent   = sgd(state.savings);
-  document.getElementById("priceVal").textContent = sgd(state.price);
-  document.getElementById("tenVal").textContent   = state.tenure + " years";
-  document.getElementById("debtVal").textContent  = sgd(state.debts);
+  CONTROLS.forEach(c => {
+    const s = document.getElementById(c.slider);
+    const n = document.getElementById(c.num);
+    if(s) s.value = state[c.key];
+    if(n) n.value = state[c.key];
+  });
 
   [...document.getElementById("segType").children].forEach(b =>
     b.classList.toggle("on", b.dataset.type === state.type));
   [...document.getElementById("segLoan").children].forEach(b =>
     b.classList.toggle("on", +b.dataset.rate === state.rate));
 
-  const fam = state.type === "family";
-  document.getElementById("typeHint").textContent = fam
+  document.getElementById("typeHint").textContent = state.type === "family"
     ? `Family BTO income ceiling: ${sgd(R.incomeCeilingFamily)} a month.`
     : `Singles aged 35+ can buy a 2-room Flexi; ceiling ${sgd(R.incomeCeilingSingle)} a month.`;
-  document.getElementById("income").max = fam ? 16000 : 9000;
 }
 
 /* Enhanced CPF Housing Grant — ESTIMATE ONLY.
@@ -105,13 +116,22 @@ function render(){
   document.getElementById("rDownSub").textContent =
     state.savings >= down ? "covered by your savings ✓" : "short by " + sgd(down - state.savings);
 
-  /* monthly repayment */
+  /* Monthly repayment — at the rate you actually pay. */
   const m = monthlyRepay(loan, state.rate, state.tenure);
   document.getElementById("rMonthly").textContent = sgd(m);
   document.getElementById("rMonthlySub").textContent = `over ${state.tenure} yrs at ${state.rate}%`;
 
-  /* MSR */
-  const msrPct = (m / state.income) * 100;
+  /* Eligibility repayment — at the stress-test floor. This is the figure
+     HDB (or the bank) uses to decide how much you may borrow, so it is the
+     one that must pass MSR and TDSR. It is always the higher of the two. */
+  const stressRate = state.rate === R.hdbLoanRate ? R.hdbStressRate : R.bankStressRate;
+  const mStress = monthlyRepay(loan, Math.max(stressRate, state.rate), state.tenure);
+  document.getElementById("rStress").textContent = sgd(mStress);
+  document.getElementById("rStressSub").textContent =
+    `what ${state.rate === R.hdbLoanRate ? "HDB" : "the bank"} tests you against, at ${Math.max(stressRate, state.rate)}%`;
+
+  /* MSR — assessed on the stressed repayment, not the actual one */
+  const msrPct = (mStress / state.income) * 100;
   const rMsr = document.getElementById("rMsr");
   rMsr.textContent = msrPct.toFixed(1) + "%";
   const withinMsr = msrPct <= R.msrCap;
@@ -120,11 +140,11 @@ function render(){
   fill.style.width = Math.min(100, msrPct / R.msrCap * 100) + "%";
   fill.style.background = withinMsr ? "var(--ok)" : "var(--warn)";
   document.getElementById("rMsrSub").textContent = withinMsr
-    ? `Within the ${R.msrCap}% cap — this repayment looks sustainable.`
+    ? `Within the ${R.msrCap}% cap, tested at ${Math.max(stressRate, state.rate)}%.`
     : `Over the ${R.msrCap}% cap — lower the price, lengthen the tenure, or raise income.`;
 
-  /* TDSR — includes other debts */
-  const tdsrPct = ((m + state.debts) / state.income) * 100;
+  /* TDSR — also assessed on the stressed repayment, plus other debts */
+  const tdsrPct = ((mStress + state.debts) / state.income) * 100;
   const rTdsr = document.getElementById("rTdsr");
   const withinTdsr = tdsrPct <= R.tdsrCap;
   rTdsr.textContent = tdsrPct.toFixed(1) + "%";
@@ -191,6 +211,10 @@ document.getElementById("segLoan").addEventListener("click", e => {
   [...e.currentTarget.children].forEach(x => x.classList.remove("on"));
   b.classList.add("on");
   state.rate = +b.dataset.rate;
+  state.stressRate = b.dataset.stress ? +b.dataset.stress : R.hdbStressRate;
+  document.getElementById("loanHint").innerHTML = state.rate === R.hdbLoanRate
+    ? `You pay ${R.hdbLoanRate}% on an HDB loan. Separately, HDB checks how much you may borrow using a ${R.hdbStressRate}% stress rate — both are shown below.`
+    : `Bank rates vary; ${R.bankLoanRate}% is illustrative. MAS requires banks to assess you against a stricter ${R.bankStressRate}% floor.`;
   render();
 });
 

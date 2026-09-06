@@ -75,7 +75,15 @@ const PROGRESS = (function(){
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
     const url  = URL.createObjectURL(blob);
     const a    = document.createElement("a");
-    const stamp = new Date().toISOString().slice(0, 10);
+
+    /* date AND time — people often export several times in a day, and
+       identical filenames end up as "(1)", "(2)" with no way to tell
+       which is which. Local time, not UTC. */
+    const d = new Date();
+    const p = n => String(n).padStart(2, "0");
+    const stamp = `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`
+                + `-${p(d.getHours())}${p(d.getMinutes())}`;
+
     a.href = url;
     a.download = `keyquest-progress-${stamp}.json`;
     document.body.appendChild(a);
