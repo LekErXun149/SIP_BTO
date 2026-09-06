@@ -26,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=1.0">
+<link rel="stylesheet" href="css/style.css?v=0.11">
 </head>
 <body>
 
@@ -173,7 +173,7 @@
           <div class="stat">
             <div class="k">Estimated EHG grant</div>
             <div class="v ok mono" id="rGrant">$0</div>
-            <div class="sub">Enhanced CPF Housing Grant — estimate</div>
+            <div class="sub">Enhanced CPF Housing Grant</div>
           </div>
           <div class="stat">
             <div class="k">You're borrowing</div>
@@ -205,6 +205,11 @@
             <div class="v mono" id="rUpfront">$0</div>
             <div class="sub">downpayment + stamp duty</div>
           </div>
+          <div class="stat">
+            <div class="k">Of that, minimum in cash</div>
+            <div class="v mono" id="rCash">$0</div>
+            <div class="sub" id="rCashSub"></div>
+          </div>
         </div>
 
         <div class="stat">
@@ -233,7 +238,13 @@
             Bank borrowers are assessed against a stricter 4.0% floor set by MAS.
           </p>
           <p class="src-note" style="margin-top:10px">
-            The grant figure is an estimate — HDB publishes the maximum and the income
+            <b>Same LTV, different cash.</b> HDB and bank loans both cap at 75%, so the
+            downpayment is 25% either way. The difference is what it can be paid with: an
+            HDB loan's downpayment can come entirely from CPF OA, while a bank loan needs
+            at least 5% of the price in hard cash however much CPF you hold.
+          </p>
+          <p class="src-note" style="margin-top:10px">
+            The grant figure is — HDB publishes the maximum and the income
             ceiling but not the full band table, so it tapers evenly between them.
             Your actual grant is confirmed in your HFE letter.
           </p>
@@ -248,10 +259,10 @@
   </div>
 </section>
 
-<script src="data/bto-data.js?v=1.0"></script>
-<script src="js/progress.js?v=1.0"></script>
-<script src="js/nav.js?v=1.0"></script>
-<script src="js/sources.js?v=1.0"></script>
-<script src="js/calculator.js?v=1.0"></script>
+<script src="data/bto-data.js?v=0.11"></script>
+<script src="js/progress.js?v=0.11"></script>
+<script src="js/nav.js?v=0.11"></script>
+<script src="js/sources.js?v=0.11"></script>
+<script src="js/calculator.js?v=0.11"></script>
 </body>
 </html>

@@ -77,13 +77,53 @@ const BTO_DATA = {
     hdbStressRate: 3.0,              // floor HDB uses to compute eligible loan, %
     bankLoanRate: 3.5,               // illustrative bank rate, %
     bankStressRate: 4.0,             // MAS medium-term floor for bank loans, %
-    ltv: 0.75,                       // max loan-to-value for HDB loan
+    ltv: 0.75,                       // max loan-to-value — same 75% for HDB and bank loans
+    /* The LTV is identical; what differs is the CASH component. An HDB loan's
+       25% downpayment can come entirely from CPF OA. A bank loan requires at
+       least 5% of the price in hard cash regardless of your CPF balance.
+       Source: rules.sources.loans */
+    cashMinHdb: 0,                   // no mandatory cash on an HDB loan
+    cashMinBank: 0.05,               // 5% of price must be cash on a bank loan
     msrCap: 30,                      // mortgage servicing ratio cap, %
     tdsrCap: 55,                     // total debt servicing ratio cap, %
     optionFeeRange: "$500 – $2,000",
     applicationFee: 10
   },
 
+
+
+  /* ---------- EHG amount tables ----------
+     HDB publishes these as fixed bands, NOT a smooth taper. Each row is
+     [upper income of the band, grant amount]. Read down the list and take
+     the first row whose upper bound your income doesn't exceed; above the
+     last row the grant is zero.
+
+     HDB publishes only two distinct tables:
+       full  — assessed on full household income.
+               Used for: families, and two-or-more first-timer singles.
+       half  — assessed on a single's income, or half the household income.
+               Used for: singles, first-timer/second-timer couples, and
+               applicants with a non-resident spouse.
+
+     `half` is currently `full` halved exactly on both axes. That is HDB's
+     doing, not an assumption in this code — test_ehg.js checks it still
+     holds, so if HDB ever changes one table and not the other, the test
+     fails rather than the site quietly going wrong.
+     Source: sources.grants */
+  ehgTable: {
+    full: [
+      [1500, 120000], [2000, 110000], [2500, 105000], [3000, 95000],
+      [3500,  90000], [4000,  80000], [4500,  70000], [5000, 65000],
+      [5500,  55000], [6000,  50000], [6500,  40000], [7000, 30000],
+      [7500,  25000], [8000,  20000], [8500,  10000], [9000,  5000]
+    ],
+    half: [
+      [ 750, 60000], [1000, 55000], [1250, 52500], [1500, 47500],
+      [1750, 45000], [2000, 40000], [2250, 35000], [2500, 32500],
+      [2750, 27500], [3000, 25000], [3250, 20000], [3500, 15000],
+      [3750, 12500], [4000, 10000], [4250,  5000], [4500,  2500]
+    ]
+  },
 
   /* ---------- ballot simulator ----------
      No application rates are hard-coded as "the" rate. The user reads a

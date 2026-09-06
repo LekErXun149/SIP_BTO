@@ -181,6 +181,33 @@ nav was simply cut off, with no cue that more existed. Don't go back to it.
 Note also that `position:sticky` on `.jblock-card` is switched off below 860px. Once
 the layout stacks into one column, a pinned element scrolls over the content beneath it.
 
+## The EHG tables
+
+`BTO_DATA.ehgTable` holds HDB's published grant bands. They are **not** a smooth taper —
+HDB drops $10,000 in some bands and $5,000 in others, with no regular pattern, so any
+formula would be wrong in most bands. `js/calculator.js` reads the table directly.
+
+HDB publishes only two distinct tables:
+
+| Table | Assessed on | Used for |
+|---|---|---|
+| `full` | Full household income | Families; two or more first-timer singles |
+| `half` | A single's income, or half the household income | Singles; first-timer/second-timer couples; applicants with a non-resident spouse |
+
+`half` is currently `full` halved exactly on both axes. That is HDB's doing, not an
+assumption in the code — `test_ehg.js` asserts it, so if HDB ever changes one table and
+not the other the test fails rather than the site quietly going wrong.
+
+When updating, type the bands straight from HDB's PDFs and re-run `node test_ehg.js`.
+
+## Same LTV, different cash
+
+HDB and bank loans both cap at 75% loan-to-value, so the downpayment is 25% either way.
+The difference is what it can be paid with: an HDB loan's downpayment can come entirely
+from CPF OA, while a bank loan needs at least 5% of the price in hard cash regardless of
+CPF balance (`rules.cashMinBank`). Don't collapse these into one figure — a CPF-rich,
+cash-poor buyer passes one and fails the other.
+
 ## Two interest rates
 
 The calculator uses both, on purpose:
@@ -208,11 +235,11 @@ under 860px.
 
 ## Cache busting
 
-CSS and JS links carry a version number, e.g. `css/style.css?v=1.0`. Browsers cache
+CSS and JS links carry a version number, e.g. `css/style.css?v=0.11`. Browsers cache
 these files aggressively, so **bump the version in every page** whenever you change
 a shared file — otherwise returning visitors keep seeing the old one.
 
-Current version is **1.0**. Increase by 0.1 each time you change any shared CSS or
+Current version is **0.11**. Increase by 0.1 each time you change any shared CSS or
 JS file. A quick find-and-replace across the HTML files does it.
 
 ## Deploying

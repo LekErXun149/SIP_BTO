@@ -74,34 +74,21 @@ function restoreControls(){
     : `Singles aged 35+ can buy a 2-room Flexi; ceiling ${sgd(R.incomeCeilingSingle)} a month.`;
 }
 
-/* Enhanced CPF Housing Grant — ESTIMATE ONLY.
-   HDB publishes the maximum ($120,000 families / $60,000 singles) and the
-   income ceiling ($9,000 / $4,500), but not the full band table, so this
-   tapers evenly across $500 income bands from the maximum down to a $5,000
-   floor at the ceiling. Treat it as a ballpark; the real figure comes from
-   your HFE letter. Source: BTO_DATA.sources.grants */
+/* Enhanced CPF Housing Grant — a straight lookup against HDB's published
+   bands, not an approximation. The bands don't step evenly (HDB drops
+   $10,000 in some and $5,000 in others), so any formula would be wrong in
+   most bands. Table choice depends on how the household is assessed:
+     families        -> full household income, `full` table
+     singles (35+)   -> the single's own income, `half` table
+   Source: BTO_DATA.sources.grants */
 function ehg(income, isFamily){
-  const ceiling = isFamily ? R.ehgCeilingFamily : R.ehgCeilingSingle;
-  if(income > ceiling) return 0;
-
-  const maxGrant = isFamily ? R.ehgMaxFamily : R.ehgMaxSingle;
-  const floor    = isFamily ? 5000 : 2500;    // smallest band
-  const baseBand = isFamily ? 1500 : 750;     // full grant at or below this
-  const bandSize = isFamily ? 500  : 250;
-
-  if(income <= baseBand) return maxGrant;
-
-  const totalBands = Math.ceil((ceiling - baseBand) / bandSize);
-  const bandsAbove = Math.ceil((income - baseBand) / bandSize);
-  const step = (maxGrant - floor) / totalBands;
-
-  /* round to the nearest $1,000 so it reads like a grant, not a calculation */
-  return Math.max(floor, Math.round((maxGrant - bandsAbove * step) / 1000) * 1000);
+  const table = isFamily ? BTO_DATA.ehgTable.full : BTO_DATA.ehgTable.half;
+  for(const [upperBound, amount] of table){
+    if(income <= upperBound) return amount;
+  }
+  return 0;   // above the last band = above the EHG income ceiling
 }
 
-/* Keep the borrow control's range tied to the flat price, and explain
-   what the current choice means. Called from render(), so it follows
-   whenever price or savings change. */
 function syncBorrowControl(maxLoan, suggested, loan){
   const slider = document.getElementById("borrow");
   const num    = document.getElementById("borrowNum");
@@ -231,6 +218,24 @@ function render(){
   /* upfront cost breakdown */
   document.getElementById("rStamp").textContent = sgd(stampDuty(state.price));
   document.getElementById("rUpfront").textContent = sgd(down + stampDuty(state.price));
+
+  /* Minimum cash. Both loan types cap at 75% LTV, so the downpayment is the
+     same — but an HDB loan's can be paid entirely from CPF OA, while a bank
+     loan needs at least 5% of the price in hard cash whatever your CPF
+     balance. That catches people who are CPF-rich but cash-poor. */
+  const isHdbLoan = state.rate === R.hdbLoanRate;
+  const cashMin = loan > 0
+    ? Math.min(down, state.price * (isHdbLoan ? R.cashMinHdb : R.cashMinBank))
+    : 0;
+  document.getElementById("rCash").textContent = sgd(cashMin);
+  const cashSub = document.getElementById("rCashSub");
+  if(loan === 0){
+    cashSub.textContent = "No loan, so no minimum applies — CPF can cover it all.";
+  }else if(isHdbLoan){
+    cashSub.textContent = "An HDB loan needs no cash — CPF OA can cover the whole downpayment.";
+  }else{
+    cashSub.textContent = `A bank loan needs ${R.cashMinBank * 100}% of the price in cash, whatever your CPF balance.`;
+  }
 
   /* remember these settings for next time */
   PROGRESS.set("calculator", Object.assign({}, state));
