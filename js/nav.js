@@ -24,16 +24,55 @@ const PAGES = [
     `<a href="${p.file}"${p.file === current ? ' class="active" aria-current="page"' : ''}>${p.label}</a>`
   ).join("");
 
+  const currentLabel = (PAGES.find(p => p.file === current) || PAGES[0]).label;
+
+  /* Eight pages don't fit across a phone. Wide screens get the links inline;
+     narrow ones get a labelled button that opens them as a panel, so nothing
+     is hidden off the edge of the screen. */
   document.body.insertAdjacentHTML("afterbegin", `
     <nav>
       <div class="wrap nav-in">
         <a class="brand" href="index.html">
           <span class="key-dot"><span></span></span>KeyQuest
         </a>
-        <div class="nav-links">${links}</div>
+        <div class="nav-links" id="navLinks">${links}</div>
+        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu">
+          <span class="nav-current">${currentLabel}</span>
+          <span class="nav-burger" aria-hidden="true"><span></span><span></span><span></span></span>
+          <span class="sr-only">Open menu</span>
+        </button>
+      </div>
+      <div class="nav-menu" id="navMenu" hidden>
+        <div class="wrap nav-menu-in">${links}</div>
       </div>
     </nav>
   `);
+
+  const toggle = document.getElementById("navToggle");
+  const menu   = document.getElementById("navMenu");
+
+  function setOpen(open){
+    menu.hidden = !open;
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.classList.toggle("open", open);
+  }
+
+  toggle.addEventListener("click", e => {
+    e.stopPropagation();
+    setOpen(menu.hidden);
+  });
+
+  /* tapping anywhere else, or pressing Escape, closes it */
+  document.addEventListener("click", e => {
+    if(!menu.hidden && !menu.contains(e.target)) setOpen(false);
+  });
+  document.addEventListener("keydown", e => {
+    if(e.key === "Escape" && !menu.hidden){ setOpen(false); toggle.focus(); }
+  });
+  /* if the screen widens back to the inline layout, don't leave it open */
+  window.addEventListener("resize", () => {
+    if(window.innerWidth > 900 && !menu.hidden) setOpen(false);
+  });
 })();
 
 (function buildFooter(){

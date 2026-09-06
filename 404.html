@@ -12,9 +12,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/SIP_BTO/css/style.css?v=0.9">
+<link rel="stylesheet" href="/SIP_BTO/css/style.css?v=1.0">
 <style>
-  .lost{display:grid; place-items:center; min-height:62vh; text-align:center; padding:50px 0}
+  /* padding-top/bottom only — .wrap is on the same element and a shorthand
+     `padding` here would wipe out its side gutters */
+  .lost{display:grid; place-items:center; min-height:62vh; text-align:center;
+    padding-top:50px; padding-bottom:50px}
   .lost .block{width:190px; margin-bottom:30px}
   .lost h1{font-size:clamp(30px,5vw,46px); font-weight:800; margin-bottom:12px}
   .lost .code{font-family:"IBM Plex Mono",monospace; font-size:13px; letter-spacing:.2em;
@@ -46,8 +49,8 @@
   </div>
 </section>
 
-<script src="/SIP_BTO/data/bto-data.js?v=0.9"></script>
-<script src="/SIP_BTO/js/block.js?v=0.9"></script>
+<script src="/SIP_BTO/data/bto-data.js?v=1.0"></script>
+<script src="/SIP_BTO/js/block.js?v=1.0"></script>
 <script>
   /* one lit window in a dark block — nobody home */
   const lost = document.getElementById("lostBlock");

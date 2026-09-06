@@ -168,6 +168,19 @@ the user sets it themselves (`state.borrowTouched`). Don't "simplify" this back 
 `price * 0.75` — that would tell someone who can pay cash that they owe 25 years of
 repayments.
 
+## Mobile navigation
+
+Eight pages don't fit across a phone. Above 900px the links sit inline; below that
+`js/nav.js` renders a labelled button showing the current page, which opens the full
+list as a panel. Both sets of links come from the same `PAGES` array, so adding a page
+still means editing one line.
+
+The earlier approach — horizontal scrolling with hidden scrollbars — looked like the
+nav was simply cut off, with no cue that more existed. Don't go back to it.
+
+Note also that `position:sticky` on `.jblock-card` is switched off below 860px. Once
+the layout stacks into one column, a pinned element scrolls over the content beneath it.
+
 ## Two interest rates
 
 The calculator uses both, on purpose:
@@ -181,13 +194,25 @@ figure, which is what HDB does. Bank borrowers are assessed against a 4.0% MAS f
 Don't "simplify" this by collapsing them into one rate — it would make the
 affordability check wrong at borderline incomes.
 
+## Two mobile traps to avoid
+
+**Don't use the `padding` shorthand on an element that also has `.wrap`.**
+`.wrap` sets `padding: 0 22px` for the side gutters; a shorthand `padding` on the same
+element resets those to zero and the text sits flush against the screen edge. Use
+`padding-top` / `padding-bottom` instead. This bit `.hero-in` and `.lost`.
+
+**Don't leave `position:sticky` on when a layout stacks.** The journey block card is
+sticky beside the stage card on desktop, but once the grid collapses to one column
+the pinned block scrolls over the card below it. It's reset to `position:static`
+under 860px.
+
 ## Cache busting
 
-CSS and JS links carry a version number, e.g. `css/style.css?v=0.9`. Browsers cache
+CSS and JS links carry a version number, e.g. `css/style.css?v=1.0`. Browsers cache
 these files aggressively, so **bump the version in every page** whenever you change
 a shared file — otherwise returning visitors keep seeing the old one.
 
-Current version is **0.9**. Increase by 0.1 each time you change any shared CSS or
+Current version is **1.0**. Increase by 0.1 each time you change any shared CSS or
 JS file. A quick find-and-replace across the HTML files does it.
 
 ## Deploying
