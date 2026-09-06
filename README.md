@@ -20,6 +20,7 @@ Built as a Student Internship Programme (SIP) project.
 | `ballot.html` | Ballot odds — user enters a live application rate from HDB's portal |
 | `guide.html` | Standard/Plus/Prime, flat types, grants, glossary — with quizzes |
 | `options.html` | What to do if the ballot fails — SBF, open booking, resale |
+| `quiz.html` | 20 questions in 5 rounds, with a reason for every option |
 | `checklist.html` | Tickable documents and fees needed at each stage |
 
 Progress on all pages saves automatically, and can be exported to a file and
@@ -37,6 +38,7 @@ SIP_BTO/
 ├── ballot.html           ballot odds simulator
 ├── guide.html            concepts + quizzes
 ├── options.html          other routes if BTO doesn't work out
+├── quiz.html             20-question quiz, scored
 ├── checklist.html        documents and fees
 ├── 404.html              shown for broken links
 │
@@ -91,24 +93,29 @@ edit the colours at the top of that script and run `python3 make_images.py`.
 → Create the HTML file, copy the `<head>` from an existing page, then add one line
 to the `PAGES` list in `js/nav.js`. The nav and footer appear automatically.
 
-### Adding a quiz
+### Adding a quiz question
 
-Add an entry to `quizzes` in `data/bto-data.js`:
+All questions live in `BTO_DATA.quiz.rounds` and appear on `quiz.html`. Append to any
+round's `questions` array:
 
 ```js
-myQuiz: {
+{
   q: "Your question?",
-  options: ["A", "B", "C", "D"],
-  answer: 2,          // zero-based — this means "C"
-  why: "Explanation shown after answering."
+  answer: 1,                    // zero-based — this means the second option
+  options: [
+    { t: "First option",  why: "Why this one is wrong." },
+    { t: "Second option", why: "Correct. Why this one is right." },
+    { t: "Third option",  why: "Why this one is wrong." },
+    { t: "Fourth option", why: "Why this one is wrong." }
+  ]
 }
 ```
 
-Then drop this anywhere in `guide.html`:
+**Every option needs its own `why`.** That's the point of the format: someone who picks
+the wrong answer sees why *their* choice was wrong alongside why the right one is right.
+A generic explanation attached only to the correct answer doesn't do that.
 
-```html
-<div class="quiz-slot" data-quiz="myQuiz"></div>
-```
+Keep four options per question, and make sure any figures match `BTO_DATA.rules`.
 
 ---
 
@@ -164,11 +171,11 @@ affordability check wrong at borderline incomes.
 
 ## Cache busting
 
-CSS and JS links carry a version number, e.g. `css/style.css?v=0.7`. Browsers cache
+CSS and JS links carry a version number, e.g. `css/style.css?v=0.8`. Browsers cache
 these files aggressively, so **bump the version in every page** whenever you change
 a shared file — otherwise returning visitors keep seeing the old one.
 
-Current version is **0.7**. Increase by 0.1 each time you change any shared CSS or
+Current version is **0.8**. Increase by 0.1 each time you change any shared CSS or
 JS file. A quick find-and-replace across the HTML files does it.
 
 ## Deploying

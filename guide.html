@@ -26,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=0.7">
+<link rel="stylesheet" href="css/style.css?v=0.8">
 </head>
 <body>
 
@@ -59,7 +59,6 @@
     </div>
 
     <div class="src-slot" data-src="classification"></div>
-    <div class="quiz-slot" data-quiz="classification"></div>
   </div>
 </section>
 
@@ -99,7 +98,6 @@
     </div>
 
     <div class="src-slot" data-src="grants"></div>
-    <div class="quiz-slot" data-quiz="money"></div>
   </div>
 </section>
 
@@ -114,10 +112,16 @@
 
     <dl class="terms" id="glossary"></dl>
 
-    <div class="quiz-slot" data-quiz="journey"></div>
-
-    <div class="cta-row" style="margin-top:26px">
-      <a class="btn btn-dark" href="calculator.html">Try the affordability calculator →</a>
+    <div class="panel" style="margin-top:30px; text-align:center">
+      <h3 style="font-size:19px; margin-bottom:8px">Think it stuck?</h3>
+      <p style="color:var(--ink-soft); font-size:14.5px; margin:0 auto 16px; max-width:52ch">
+        Twenty questions across five rounds, drawn from this page and the rest of the site.
+        Every answer explains itself — including the ones you get wrong.
+      </p>
+      <div class="cta-row" style="justify-content:center">
+        <a class="btn btn-amber" href="quiz.html">Take the quiz →</a>
+        <a class="btn btn-line" href="calculator.html">Try the calculator</a>
+      </div>
     </div>
   </div>
 </section>
@@ -156,8 +160,6 @@
 
     <div class="src-slot" data-src="priority"></div>
     <div class="src-slot" data-src="familyCare"></div>
-
-    <div class="quiz-slot" data-quiz="priority"></div>
   </div>
 </section>
 
@@ -172,9 +174,9 @@
   </div>
 </section>
 
-<script src="data/bto-data.js?v=0.7"></script>
-<script src="js/progress.js?v=0.7"></script>
-<script src="js/nav.js?v=0.7"></script>
+<script src="data/bto-data.js?v=0.8"></script>
+<script src="js/progress.js?v=0.8"></script>
+<script src="js/nav.js?v=0.8"></script>
 <script>
   /* Standard / Plus / Prime — rows built from the data file */
   const rows = [
@@ -225,7 +227,6 @@
     `<div class="term"><dt>${t.term}</dt><dd>${t.def}</dd></div>`
   ).join("");
 </script>
-<script src="js/sources.js?v=0.7"></script>
-<script src="js/quiz.js?v=0.7"></script>
+<script src="js/sources.js?v=0.8"></script>
 </body>
 </html>

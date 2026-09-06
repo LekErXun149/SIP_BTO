@@ -11,6 +11,7 @@ const PAGES = [
   { file: "ballot.html",     label: "Ballot odds" },
   { file: "guide.html",      label: "Guide" },
   { file: "options.html",    label: "Other routes" },
+  { file: "quiz.html",       label: "Quiz" },
   { file: "checklist.html",  label: "Checklist" }
 ];
 

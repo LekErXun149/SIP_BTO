@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — KeyQuest</title>
+<meta name="description" content="Twenty questions on Singapore's HDB BTO process, across five rounds, with an explanation for every answer.">
+
+<!-- how the link looks when shared -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="KeyQuest">
+<meta property="og:title" content="Quiz — KeyQuest">
+<meta property="og:description" content="Twenty questions on Singapore's HDB BTO process, across five rounds, with an explanation for every answer.">
+<meta property="og:image" content="https://lekerxun149.github.io/SIP_BTO/img/preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://lekerxun149.github.io/SIP_BTO/quiz.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Quiz — KeyQuest">
+<meta name="twitter:description" content="Twenty questions on Singapore's HDB BTO process, across five rounds, with an explanation for every answer.">
+<meta name="twitter:image" content="https://lekerxun149.github.io/SIP_BTO/img/preview.png">
+<link rel="icon" href="img/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<meta name="theme-color" content="#19203F">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=0.8">
+</head>
+<body>
+
+<header class="page-head">
+  <div class="wrap">
+    <div class="eyebrow">Twenty questions</div>
+    <h1>How much did it stick?</h1>
+    <p>Five rounds, four questions each, drawn from everything on this site. Every answer comes with an explanation — including why the option you picked was wrong, not just what the right one was.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+
+    <div class="q-header">
+      <div class="q-header-top">
+        <span class="q-stat mono" id="qProgress">0 of 20 answered</span>
+        <span class="q-stat score mono" id="qScore">—</span>
+      </div>
+      <div class="jbar"><div class="jbar-fill" id="qBarFill"></div></div>
+      <div class="q-rounds" id="qRounds"></div>
+    </div>
+
+    <div class="q-card" id="qCard"><!-- filled by js/quiz.js --></div>
+
+    <p class="src-note" style="margin-top:22px">
+      Your answers are saved automatically on this device, so you can stop and come back.
+      Every question is based on material elsewhere on this site — if one catches you out,
+      the round summary at the end points to the page that covers it.
+    </p>
+
+    <div class="cta-row" style="margin-top:20px">
+      <a class="btn btn-line" href="guide.html">Read the guide</a>
+      <a class="btn btn-line" href="calculator.html">Check affordability</a>
+    </div>
+  </div>
+</section>
+
+<script src="data/bto-data.js?v=0.8"></script>
+<script src="js/progress.js?v=0.8"></script>
+<script src="js/nav.js?v=0.8"></script>
+<script src="js/quiz.js?v=0.8"></script>
+</body>
+</html>
