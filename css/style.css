@@ -379,3 +379,10 @@ nav{top:0}
 .practical{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
 @media(max-width:900px){.practical{grid-template-columns:1fr}}
 .practical .card h3{font-size:18px; margin-bottom:8px}
+
+/* typed value sits past the slider's range — the slider is pinned, so
+   flag the box to explain why the thumb has stopped moving */
+.num-box.beyond{border-color:var(--amber); background:#FBF3E4}
+.num-box.beyond input{color:var(--amber-deep)}
+.num-box.beyond::after{content:"beyond slider"; font-family:"IBM Plex Mono",monospace;
+  font-size:10px; letter-spacing:.06em; color:var(--amber-deep); opacity:.8; margin-left:6px}

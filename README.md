@@ -153,11 +153,11 @@ affordability check wrong at borderline incomes.
 
 ## Cache busting
 
-CSS and JS links carry a version number, e.g. `css/style.css?v=0.5`. Browsers cache
+CSS and JS links carry a version number, e.g. `css/style.css?v=0.6`. Browsers cache
 these files aggressively, so **bump the version in every page** whenever you change
 a shared file — otherwise returning visitors keep seeing the old one.
 
-Current version is **0.5**. Increase by 0.1 each time you change any shared CSS or
+Current version is **0.6**. Increase by 0.1 each time you change any shared CSS or
 JS file. A quick find-and-replace across the HTML files does it.
 
 ## Deploying

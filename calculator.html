@@ -26,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=0.5">
+<link rel="stylesheet" href="css/style.css?v=0.6">
 </head>
 <body>
 
@@ -59,14 +59,14 @@
           <div class="num-row">
             <div class="num-box">
               <span class="num-pre">$</span>
-              <input type="number" id="incomeNum" min="1000" max="25000" step="100" value="8000"
+              <input type="number" id="incomeNum" min="1000" max="100000" step="100" value="8000"
                      inputmode="numeric" aria-label="Gross monthly income, type an exact value">
               <span class="num-suf">/mo</span>
             </div>
           </div>
-          <input type="range" id="income" min="1000" max="25000" step="100" value="8000"
+          <input type="range" id="income" min="1000" max="100000" step="100" value="8000"
                  aria-label="Gross monthly income slider">
-          <div class="hint">Combined, before CPF deductions. Drag the slider or type an exact figure.</div>
+          <div class="hint">Combined, before CPF deductions. Drag the slider, or type an exact figure — typed values can go past the slider’s range.</div>
         </div>
 
         <div class="field">
@@ -74,12 +74,12 @@
           <div class="num-row">
             <div class="num-box">
               <span class="num-pre">$</span>
-              <input type="number" id="savingsNum" min="0" max="600000" step="1000" value="80000"
+              <input type="number" id="savingsNum" min="0" max="500000" step="1000" value="80000"
                      inputmode="numeric" aria-label="Savings for downpayment (CPF + cash), type an exact value">
               <span class="num-suf"></span>
             </div>
           </div>
-          <input type="range" id="savings" min="0" max="600000" step="1000" value="80000"
+          <input type="range" id="savings" min="0" max="500000" step="1000" value="80000"
                  aria-label="Savings for downpayment (CPF + cash) slider">
           <div class="hint">CPF Ordinary Account plus cash you can put towards the flat.</div>
         </div>
@@ -89,12 +89,12 @@
           <div class="num-row">
             <div class="num-box">
               <span class="num-pre">$</span>
-              <input type="number" id="priceNum" min="100000" max="1200000" step="1000" value="450000"
+              <input type="number" id="priceNum" min="100000" max="1000000" step="1000" value="450000"
                      inputmode="numeric" aria-label="Target flat price, type an exact value">
               <span class="num-suf"></span>
             </div>
           </div>
-          <input type="range" id="price" min="100000" max="1200000" step="1000" value="450000"
+          <input type="range" id="price" min="100000" max="1000000" step="1000" value="450000"
                  aria-label="Target flat price slider">
           <div class="hint">New flats range from roughly $100k (2-room, outer areas) to $600k+ (larger or Prime).</div>
         </div>
@@ -104,12 +104,12 @@
           <div class="num-row">
             <div class="num-box">
               <span class="num-pre">$</span>
-              <input type="number" id="debtsNum" min="0" max="8000" step="50" value="0"
+              <input type="number" id="debtsNum" min="0" max="100000" step="50" value="0"
                      inputmode="numeric" aria-label="Other monthly debts, type an exact value">
               <span class="num-suf">/mo</span>
             </div>
           </div>
-          <input type="range" id="debts" min="0" max="8000" step="50" value="0"
+          <input type="range" id="debts" min="0" max="100000" step="50" value="0"
                  aria-label="Other monthly debts slider">
           <div class="hint">Car loan, study loan, credit card instalments — used for the TDSR check.</div>
         </div>
@@ -119,6 +119,7 @@
           <div class="seg" id="segLoan" role="group" aria-label="Loan type">
             <button class="on" data-rate="2.6" data-stress="3.0">HDB · 2.6%</button>
             <button data-rate="3.5" data-stress="4.0">Bank · ~3.5%</button>
+            <button data-rate="4.0" data-stress="4.0">MAS floor · 4.0%</button>
           </div>
           <div class="hint" id="loanHint">
             You pay 2.6% on an HDB loan. Separately, HDB checks how much you may borrow
@@ -228,10 +229,10 @@
   </div>
 </section>
 
-<script src="data/bto-data.js?v=0.5"></script>
-<script src="js/progress.js?v=0.5"></script>
-<script src="js/nav.js?v=0.5"></script>
-<script src="js/sources.js?v=0.5"></script>
-<script src="js/calculator.js?v=0.5"></script>
+<script src="data/bto-data.js?v=0.6"></script>
+<script src="js/progress.js?v=0.6"></script>
+<script src="js/nav.js?v=0.6"></script>
+<script src="js/sources.js?v=0.6"></script>
+<script src="js/calculator.js?v=0.6"></script>
 </body>
 </html>

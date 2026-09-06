@@ -31,20 +31,35 @@ const CONTROLS = [
   { key:"tenure",  slider:"tenure",  num:"tenureNum"  }
 ];
 
-function clamp(el, v){
-  const mn = parseFloat(el.min), mx = parseFloat(el.max);
+/* `state` is the single source of truth. The slider is only a view of it —
+   it has a limited range, so it shows the value pinned to its own bounds
+   while state keeps the real number. Writing to .value never fires an
+   input event, so there is no feedback loop between the two controls. */
+function clampToSlider(slider, v){
+  const mn = parseFloat(slider.min), mx = parseFloat(slider.max);
   if(!isNaN(mn) && v < mn) return mn;
   if(!isNaN(mx) && v > mx) return mx;
   return v;
 }
 
-function restoreControls(){
+/* paint both controls from state, without triggering their handlers */
+function syncControls(except){
   CONTROLS.forEach(c => {
-    const s = document.getElementById(c.slider);
-    const n = document.getElementById(c.num);
-    if(s) s.value = state[c.key];
-    if(n) n.value = state[c.key];
+    const slider = document.getElementById(c.slider);
+    const num    = document.getElementById(c.num);
+    const v = state[c.key];
+    if(slider && except !== c.slider) slider.value = clampToSlider(slider, v);
+    if(num    && except !== c.num)    num.value = v;
+    /* flag when the value sits outside the slider's reach */
+    if(slider && num){
+      const mx = parseFloat(slider.max);
+      num.closest(".num-box")?.classList.toggle("beyond", !isNaN(mx) && v > mx);
+    }
   });
+}
+
+function restoreControls(){
+  syncControls();
 
   [...document.getElementById("segType").children].forEach(b =>
     b.classList.toggle("on", b.dataset.type === state.type));
@@ -177,21 +192,46 @@ function stampDuty(price){
 }
 
 /* ---------- wire up the inputs ---------- */
-function bind(id, key, targetId, fmt){
-  const el = document.getElementById(id);
-  if(!el) return;
-  el.addEventListener("input", () => {
-    state[key] = +el.value;
-    if(targetId) document.getElementById(targetId).textContent = fmt(+el.value);
-    restoreControls();
-render();
+
+/* ---------- wire the paired inputs ----------
+   One set of listeners only. State is authoritative; each handler repaints
+   the *other* control, never its own, so the two can't fight. Writing to
+   .value doesn't fire an input event, so there's no feedback loop. */
+CONTROLS.forEach(c => {
+  const slider = document.getElementById(c.slider);
+  const num    = document.getElementById(c.num);
+  if(!slider || !num) return;
+
+  /* dragging the slider */
+  slider.addEventListener("input", () => {
+    state[c.key] = +slider.value;
+    syncControls(c.slider);
+    render();
   });
-}
-bind("income",  "income",  "incVal",   v => sgd(v));
-bind("savings", "savings", "savVal",   v => sgd(v));
-bind("price",   "price",   "priceVal", v => sgd(v));
-bind("tenure",  "tenure",  "tenVal",   v => v + " years");
-bind("debts",   "debts",   "debtVal",  v => sgd(v));
+
+  /* typing a figure. The typed number wins even if it's past the slider's
+     range — the slider just pins at its end and the box is flagged. */
+  num.addEventListener("input", () => {
+    const raw = String(num.value).trim();
+    if(raw === "" || raw === "-") return;
+    const v = parseFloat(raw);
+    if(isNaN(v)) return;
+    state[c.key] = v;
+    syncControls(c.num);
+    render();
+  });
+
+  /* on leaving the field: empty or below the minimum snaps back */
+  num.addEventListener("blur", () => {
+    let v = parseFloat(num.value);
+    const mn = parseFloat(num.min);
+    if(isNaN(v)) v = state[c.key];
+    if(!isNaN(mn) && v < mn) v = mn;
+    state[c.key] = v;
+    syncControls();
+    render();
+  });
+});
 
 document.getElementById("segType").addEventListener("click", e => {
   const b = e.target.closest("button"); if(!b) return;
@@ -202,7 +242,6 @@ document.getElementById("segType").addEventListener("click", e => {
   document.getElementById("typeHint").textContent = fam
     ? `Family BTO income ceiling: ${sgd(R.incomeCeilingFamily)} a month.`
     : `Singles aged 35+ can buy a 2-room Flexi; ceiling ${sgd(R.incomeCeilingSingle)} a month.`;
-  document.getElementById("income").max = fam ? 16000 : 9000;
   render();
 });
 
@@ -212,9 +251,14 @@ document.getElementById("segLoan").addEventListener("click", e => {
   b.classList.add("on");
   state.rate = +b.dataset.rate;
   state.stressRate = b.dataset.stress ? +b.dataset.stress : R.hdbStressRate;
-  document.getElementById("loanHint").innerHTML = state.rate === R.hdbLoanRate
-    ? `You pay ${R.hdbLoanRate}% on an HDB loan. Separately, HDB checks how much you may borrow using a ${R.hdbStressRate}% stress rate — both are shown below.`
-    : `Bank rates vary; ${R.bankLoanRate}% is illustrative. MAS requires banks to assess you against a stricter ${R.bankStressRate}% floor.`;
+  const hint = document.getElementById("loanHint");
+  if(state.rate === R.hdbLoanRate){
+    hint.innerHTML = `You pay ${R.hdbLoanRate}% on an HDB loan. Separately, HDB checks how much you may borrow using a ${R.hdbStressRate}% floor — both figures are shown.`;
+  }else if(state.rate === R.bankStressRate){
+    hint.innerHTML = `A worst-case view: repayment and the affordability check both computed at the ${R.bankStressRate}% floor MAS requires banks to assess against. Useful for stress-testing your budget.`;
+  }else{
+    hint.innerHTML = `Bank rates vary; ${R.bankLoanRate}% is illustrative. MAS requires banks to assess you against a stricter ${R.bankStressRate}% floor.`;
+  }
   render();
 });
 
