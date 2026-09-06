@@ -42,8 +42,12 @@ const BTO_DATA = {
                     url: "https://www.mynicehome.gov.sg/get-started/hdb-bto-sales-launch/" },
     btoGuide:     { label: "HDB MyNiceHome — how to buy a BTO flat",
                     url: "https://www.mynicehome.gov.sg/get-started/hdb-bto-sbf-buying-guide/" },
-    priority:     { label: "HDB MyNiceHome — priority schemes",
+    priority:     { label: "HDB — priority schemes (official list)",
+                    url: "https://www.hdb.gov.sg/buying-a-flat/bto-sbf-and-open-booking-of-flats/process-for-buying-a-new-flat/application/priority-schemes" },
+    priorityGuide:{ label: "HDB MyNiceHome — priority schemes explained",
                     url: "https://www.mynicehome.gov.sg/get-started/hdb-priority-schemes-guide/" },
+    familyCare:   { label: "HDB — Family Care Scheme (Proximity) announcement",
+                    url: "https://www.hdb.gov.sg/about-us/news-and-publications/press-releases/new-fcs-proximity-better-supports-parents-and-children-to-live-closer-together" },
     hfe:          { label: "HDB MyNiceHome — applying for an HFE letter",
                     url: "https://www.mynicehome.gov.sg/get-started/hdb-hfe-guide/" }
   },
@@ -208,6 +212,83 @@ const BTO_DATA = {
     ]
   },
 
+
+  /* ---------- priority schemes ----------
+     WARNING TO ANYONE EDITING THIS: the Married Child Priority Scheme
+     (MCPS) and the Senior Priority Scheme for living near parents were
+     REPLACED by the Family Care Scheme (Proximity) from the July 2025
+     sales exercises. Many property websites still describe MCPS as
+     current — they are out of date. Check hdb.gov.sg, not Google.
+     Source: sources.priority and sources.familyCare */
+  priority: {
+    intro: "The ballot isn't one big draw. HDB reserves slices of every launch for particular households, so qualifying for a scheme means competing inside a smaller pool instead of the open one. Every quota below is an upper limit — \"up to\" — not a guarantee that all reserved units get taken.",
+
+    /* the baseline everyone should understand first */
+    ballotChances: [
+      { who:"First-timer family",                    chances:2, note:"The standard for married couples and families buying their first flat." },
+      { who:"First-Timer (Parents & Married Couples)", chances:3, note:"FT(PMC): first-timer families with a child aged 18 or below, or married couples aged 40 and below." },
+      { who:"First-timer single (35+)",              chances:1, note:"Buying a 2-room Flexi under the Single Singapore Citizen Scheme." },
+      { who:"Second-timer",                          chances:1, note:"You have bought a subsidised flat before." }
+    ],
+
+    schemes: [
+      {
+        name: "Family & Parenthood Priority Scheme (FPPS)",
+        who: "First-timer married couples with a child aged 18 or below, and young married couples.",
+        quota: "Up to 40% of BTO flats, up to 60% of SBF",
+        note: "The broadest scheme by far. Applying for a 4-room or smaller Standard flat gives FPPS applicants first call on that reserved share."
+      },
+      {
+        name: "Family Care Scheme (Proximity)",
+        who: "Parents and their children — married or single — applying to live together or near each other.",
+        quota: "Up to 30% of BTO flats for first-timers; up to 5% BTO and 3% SBF for second-timers",
+        note: "Replaced the Married Child Priority Scheme and the Senior Priority Scheme from July 2025. Applying to live WITH your parents ranks above living NEAR them (within 4km), and the arrangement must hold through the 5-year MOP."
+      },
+      {
+        name: "Family Care Scheme (Joint Balloting)",
+        who: "Parents and their children applying together for two units in the same project.",
+        quota: "Projects offering 2-room Flexi or 3-room flats",
+        note: "A joint application for two flats in one project, so both generations move in near each other at the same time."
+      },
+      {
+        name: "Third Child Priority Scheme (TCPS)",
+        who: "Families with three or more children — and, since June 2026, families expecting a third.",
+        quota: "Up to 10% of BTO flats and SBF units",
+        note: "The quota doubled from 5% in June 2026 and eligibility widened. Open to both first- and second-timer households."
+      },
+      {
+        name: "Senior Priority Scheme",
+        who: "Seniors buying a 2-room Flexi flat to age in place in a familiar area.",
+        quota: "Set aside within each launch",
+        note: "Still runs for seniors buying to age in place. The separate senior priority for living near children now sits under the Family Care Scheme instead."
+      },
+      {
+        name: "Tenants' Priority Scheme (TPS)",
+        who: "Tenants of HDB rental flats buying a home of their own.",
+        quota: "Set aside within each launch",
+        note: "A route out of public rental into ownership."
+      },
+      {
+        name: "ASSIST",
+        who: "Divorced or widowed parents with children, buying again.",
+        quota: "Set aside within each launch",
+        note: "Assistance Scheme for Second-Timers. Recognises that a second purchase after divorce or bereavement isn't an upgrade."
+      }
+    ],
+
+    /* things that aren't schemes but change your odds */
+    alsoMatters: [
+      { name:"First-timers get most of the supply",
+        body:"Before any scheme applies, HDB sets aside at least 95% of 4-room and larger flats, and 85% of 3-room flats in non-mature areas, for first-timers. This is why first-timer and second-timer application rates for the very same flats look so different." },
+      { name:"First-timer singles have their own share",
+        body:"Up to 65% of 2-room Flexi BTO flats and up to 5% of Sale of Balance Flats are set aside for first-timer singles, after seniors are allocated." },
+      { name:"An extra chance per child, from February 2027",
+        body:"From the February 2027 sales exercise, first-timer families will receive one additional ballot chance for each Singapore Citizen child aged 18 and below — so larger families get proportionally more entries." },
+      { name:"Quotas are ceilings, not floors",
+        body:"Every figure here is an \"up to\". If fewer scheme applicants apply than the quota allows, the unused units return to the general pool. Qualifying improves your position; it never guarantees a flat." }
+    ]
+  },
+
   /* ---------- the six journey stages ---------- */
   stages: [
     {
@@ -330,6 +411,12 @@ const BTO_DATA = {
       options: ["Yes — it's comfortably within", "No — it's over the cap", "MSR doesn't apply to HDB flats", "Only if you take a bank loan"],
       answer: 1,
       why: "MSR caps repayment at 30% of gross monthly income. 30% of $6,000 is $1,800, so $2,100 is over the limit. You'd need a cheaper flat, a longer tenure, or higher income."
+    },
+    priority: {
+      q: "A first-timer family with a 3-year-old child applies for a BTO flat. How many ballot chances do they get?",
+      options: ["1", "2", "3", "Unlimited"],
+      answer: 2,
+      why: "Having a child aged 18 or below puts them in the First-Timer (Parents & Married Couples) category, which carries 3 ballot chances instead of the standard 2 for first-timer families. Second-timers and singles get 1."
     },
     journey: {
       q: "You've received a queue number in the ballot. What does it mean?",

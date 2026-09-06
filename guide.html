@@ -26,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=0.6">
+<link rel="stylesheet" href="css/style.css?v=0.7">
 </head>
 <body>
 
@@ -122,7 +122,46 @@
   </div>
 </section>
 
+
+<!-- ---------- priority schemes ---------- -->
 <section style="background:#fff; border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Tilting the odds</div>
+      <h2>Priority schemes</h2>
+      <p id="prioIntro"></p>
+    </div>
+
+    <h3 style="font-size:19px; margin-bottom:6px">Start with your ballot chances</h3>
+    <p style="color:var(--ink-soft); font-size:15px; margin:0 0 16px; max-width:62ch">
+      Before any scheme applies, your applicant category decides how many entries you get in the draw.
+      This is the single biggest thing most people don't realise.
+    </p>
+    <div class="table-scroll">
+      <table id="chanceTable">
+        <thead><tr><th>You are</th><th>Ballot chances</th><th>Meaning</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <h3 style="font-size:19px; margin:34px 0 6px">The schemes themselves</h3>
+    <p style="color:var(--ink-soft); font-size:15px; margin:0 0 16px; max-width:62ch">
+      Qualify for one and you compete inside a reserved slice rather than the open pool.
+      You can usually only benefit from schemes you genuinely qualify for.
+    </p>
+    <div class="schemes" id="prioSchemes"></div>
+
+    <h3 style="font-size:19px; margin:34px 0 14px">Four things that also matter</h3>
+    <div class="cards3" id="prioAlso"></div>
+
+    <div class="src-slot" data-src="priority"></div>
+    <div class="src-slot" data-src="familyCare"></div>
+
+    <div class="quiz-slot" data-quiz="priority"></div>
+  </div>
+</section>
+
+<section style="border-top:1px solid var(--line)">
   <div class="wrap">
     <div class="sec-head">
       <div class="sec-eyebrow">Check us</div>
@@ -133,9 +172,9 @@
   </div>
 </section>
 
-<script src="data/bto-data.js?v=0.6"></script>
-<script src="js/progress.js?v=0.6"></script>
-<script src="js/nav.js?v=0.6"></script>
+<script src="data/bto-data.js?v=0.7"></script>
+<script src="js/progress.js?v=0.7"></script>
+<script src="js/nav.js?v=0.7"></script>
 <script>
   /* Standard / Plus / Prime — rows built from the data file */
   const rows = [
@@ -160,12 +199,33 @@
     `<tr><td>${g.name}</td><td>${g.amount}</td><td>${g.who}</td></tr>`
   ).join("");
 
+  /* priority schemes */
+  const P = BTO_DATA.priority;
+  document.getElementById("prioIntro").textContent = P.intro;
+
+  document.querySelector("#chanceTable tbody").innerHTML = P.ballotChances.map(c =>
+    `<tr><td>${c.who}</td><td class="mono chance-cell">${c.chances}</td><td>${c.note}</td></tr>`
+  ).join("");
+
+  document.getElementById("prioSchemes").innerHTML = P.schemes.map(sc => `
+    <div class="scheme">
+      <div class="scheme-head">
+        <h4>${sc.name}</h4>
+        <span class="tag">${sc.quota}</span>
+      </div>
+      <p class="scheme-who"><b>Who</b> ${sc.who}</p>
+      <p class="scheme-note">${sc.note}</p>
+    </div>`).join("");
+
+  document.getElementById("prioAlso").innerHTML = P.alsoMatters.map(a =>
+    `<div class="card"><h3>${a.name}</h3><p>${a.body}</p></div>`).join("");
+
   /* glossary */
   document.getElementById("glossary").innerHTML = BTO_DATA.glossary.map(t =>
     `<div class="term"><dt>${t.term}</dt><dd>${t.def}</dd></div>`
   ).join("");
 </script>
-<script src="js/sources.js?v=0.6"></script>
-<script src="js/quiz.js?v=0.6"></script>
+<script src="js/sources.js?v=0.7"></script>
+<script src="js/quiz.js?v=0.7"></script>
 </body>
 </html>

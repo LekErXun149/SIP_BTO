@@ -138,6 +138,17 @@ Output is deliberately a **band** ("Competitive", "Tough") plus a rough ratio, n
 a precise percentage — the application rate alone cannot support one, because
 priority scheme quotas and ballot chances also affect the draw.
 
+## Priority schemes — check before you edit
+
+`BTO_DATA.priority` holds the schemes. **The Married Child Priority Scheme and the
+Senior Priority Scheme for living near parents no longer exist** — the Family Care
+Scheme (Proximity) replaced both from the July 2025 sales exercises. Many property
+websites still describe MCPS as current, so verify against
+[HDB's priority schemes page](https://www.hdb.gov.sg/buying-a-flat/bto-sbf-and-open-booking-of-flats/process-for-buying-a-new-flat/application/priority-schemes)
+rather than a search result.
+
+Every quota is an "up to" figure — an upper limit, not a guarantee. Keep that wording.
+
 ## Two interest rates
 
 The calculator uses both, on purpose:
@@ -153,11 +164,11 @@ affordability check wrong at borderline incomes.
 
 ## Cache busting
 
-CSS and JS links carry a version number, e.g. `css/style.css?v=0.6`. Browsers cache
+CSS and JS links carry a version number, e.g. `css/style.css?v=0.7`. Browsers cache
 these files aggressively, so **bump the version in every page** whenever you change
 a shared file — otherwise returning visitors keep seeing the old one.
 
-Current version is **0.6**. Increase by 0.1 each time you change any shared CSS or
+Current version is **0.7**. Increase by 0.1 each time you change any shared CSS or
 JS file. A quick find-and-replace across the HTML files does it.
 
 ## Deploying
