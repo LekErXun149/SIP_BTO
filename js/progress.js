@@ -17,7 +17,7 @@
 const PROGRESS = (function(){
 
   const KEY = "keyquest-progress-v1";
-  const EMPTY = { journeyStep: 0, calculator: null, checklist: {}, savedAt: null };
+  const EMPTY = { journeyStep: 0, calculator: null, checklist: {}, ballot: null, savedAt: null };
 
   let data = structuredClone(EMPTY);
   let dirtySinceExport = false;   // changed since last file download?
@@ -60,6 +60,7 @@ const PROGRESS = (function(){
   function hasAnything(){
     return data.journeyStep > 0
         || data.calculator !== null
+        || data.ballot !== null
         || Object.values(data.checklist).some(Boolean);
   }
 
@@ -162,6 +163,7 @@ const PROGRESS = (function(){
     const bits = [];
     if(data.calculator)      bits.push("Affordability");
     if(data.journeyStep > 0) bits.push("The journey");
+    if(data.ballot)          bits.push("Ballot odds");
     if(Object.values(data.checklist).some(Boolean)) bits.push("Checklist");
 
     el.innerHTML = dirtySinceExport

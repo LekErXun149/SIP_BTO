@@ -73,6 +73,65 @@ const BTO_DATA = {
     applicationFee: 10
   },
 
+
+  /* ---------- ballot simulator ----------
+     No application rates are hard-coded as "the" rate. The user reads a
+     live figure off the HDB Flat Portal and types it in, so this data
+     never goes stale. The examples below are real published figures from
+     one past launch, used only to demonstrate how the tool behaves
+     outside an application window. Update or extend them freely. */
+  ballot: {
+    portalUrl: "https://homes.hdb.gov.sg/home/landing",
+    portalLabel: "HDB Flat Portal — live application rates",
+
+    /* ballot chances by applicant type */
+    applicantTypes: [
+      { id:"ft-family",  label:"First-timer family",              chances:2,
+        note:"Married couples and families buying their first flat." },
+      { id:"ft-pmc",     label:"First-timer, parents or married couple", chances:3,
+        note:"FT(PMC): first-timer families with children, or married couples aged 40 and below." },
+      { id:"ft-single",  label:"First-timer single (35+)",        chances:1,
+        note:"Buying a 2-room Flexi on your own." },
+      { id:"second",     label:"Second-timer",                    chances:1,
+        note:"You have bought a subsidised flat before. Odds are usually much tougher." }
+    ],
+
+    /* how to read the result — bands, not false precision */
+    bands: [
+      { max:1.0,  label:"More flats than applicants",  tone:"ok",
+        meaning:"Fewer people applied than there are units in your category. Almost everyone who applies should be offered a flat." },
+      { max:2.0,  label:"Good chance",                 tone:"ok",
+        meaning:"Competition is mild. A reasonable share of applicants in your category will be offered a flat this exercise." },
+      { max:5.0,  label:"Competitive",                 tone:"mid",
+        meaning:"Clearly oversubscribed. Many applicants will miss out, and you may need more than one attempt." },
+      { max:12.0, label:"Tough",                       tone:"warn",
+        meaning:"Heavily oversubscribed. Most applicants will not be offered a flat this exercise." },
+      { max:Infinity, label:"Very tough",              tone:"warn",
+        meaning:"Extremely oversubscribed. Only a small fraction of applicants will succeed. Consider a less popular project, or the resale market." }
+    ],
+
+    /* Real published figures from the June 2026 exercise, for the demo
+       button. Source: BTO_DATA.sources.ballot and press coverage. */
+    examplesLaunch: "June 2026 BTO exercise",
+    examples: [
+      { name:"Sembawang Portico / Brook — 4-room (Standard)",
+        rate:0.6, type:"ft-family",
+        blurb:"Fewer first-timer applicants than units. Standard classification, shorter waiting time, less popular estate." },
+      { name:"Kebun Baru, Ang Mo Kio — 4-room (Plus)",
+        rate:1.3, type:"ft-family",
+        blurb:"592 units drew 1,122 applications. Healthy but not frantic demand; Plus means a 10-year MOP." },
+      { name:"Berlayar Rise, Bukit Merah — 4-room (Prime)",
+        rate:3.3, type:"ft-family",
+        blurb:"5,285 applicants for 988 units. Prime classification in a central location." },
+      { name:"Berlayar Rise — 4-room, second-timers",
+        rate:23.9, type:"second",
+        blurb:"The same project seen from a second-timer's position. Same flats, very different odds." },
+      { name:"Woodgrove Acres, Woodlands — 2-room Flexi, singles",
+        rate:17.8, type:"ft-single",
+        blurb:"157 units drew over 1,053 applications. Singles compete for a small reserved pool." }
+    ]
+  },
+
   /* ---------- the six journey stages ---------- */
   stages: [
     {

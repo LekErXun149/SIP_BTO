@@ -296,3 +296,48 @@ nav{top:0}
 .src-item:hover{border-color:var(--amber)}
 .src-item .arrow{color:var(--amber-deep); font-size:15px; flex:none}
 .src-note{font-size:13px; color:var(--ink-soft); margin-top:16px; max-width:70ch}
+
+/* ============================================================
+   Ballot simulator
+   ============================================================ */
+.portal-cta{display:flex; align-items:center; justify-content:space-between; gap:20px;
+  flex-wrap:wrap; padding-bottom:20px; border-bottom:1px solid var(--line)}
+
+.how-list{margin:0; padding-left:22px; color:#3b4060}
+.how-list li{font-size:14.5px; margin-bottom:11px; line-height:1.6; padding-left:4px}
+.how-list li:last-child{margin-bottom:0}
+.how-list li::marker{color:var(--amber-deep); font-family:"IBM Plex Mono",monospace; font-size:13px}
+.how-list b{color:var(--ink)}
+
+.rate-input{display:flex; align-items:center; gap:12px}
+.rate-input input{font-family:"IBM Plex Mono",monospace; font-size:28px; font-weight:600;
+  width:130px; padding:10px 14px; border:1px solid var(--line); border-radius:10px;
+  background:var(--paper); color:var(--ink); text-align:center}
+.rate-input input:focus{outline:3px solid var(--amber); outline-offset:1px; background:#fff}
+.rate-x{font-family:"IBM Plex Mono",monospace; font-size:14px; color:var(--ink-soft)}
+
+.seg-wrap{display:flex; flex-wrap:wrap; gap:3px}
+.seg-wrap button{font-size:13px}
+
+.ex-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:12px}
+.ex-btn{display:flex; align-items:center; justify-content:space-between; gap:14px; text-align:left;
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:15px 18px;
+  font-family:inherit; font-size:14px; color:var(--ink); cursor:pointer;
+  transition:border-color .15s ease, transform .15s ease}
+.ex-btn:hover{border-color:var(--amber); transform:translateY(-2px)}
+.ex-btn.on{border-color:var(--amber); background:#FBF3E4}
+.ex-name{line-height:1.4}
+.ex-rate{font-size:17px; font-weight:600; color:var(--amber-deep); flex:none}
+
+.ex-note{max-height:0; overflow:hidden; opacity:0; transition:max-height .3s ease, opacity .3s ease,
+  padding .3s ease, margin .3s ease; background:#FBF3E4; border-radius:var(--r); font-size:14px;
+  color:#7A5510; padding:0 18px; margin-top:0}
+.ex-note.show{max-height:200px; opacity:1; padding:15px 18px; margin-top:14px;
+  border:1px solid #F1DDB4}
+.ex-note b{color:var(--amber-deep)}
+.ex-src{display:block; margin-top:7px; font-size:12.5px; opacity:.85}
+
+@media(max-width:520px){
+  .portal-cta{flex-direction:column; align-items:stretch}
+  .portal-cta .btn{justify-content:center}
+}

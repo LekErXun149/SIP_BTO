@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ballot odds — KeyQuest</title>
+<meta name="description" content="Read the live BTO application rate from the HDB Flat Portal and see what it means for your ballot odds.">
+
+<!-- how the link looks when shared -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="KeyQuest">
+<meta property="og:title" content="Ballot odds — KeyQuest">
+<meta property="og:description" content="Read the live BTO application rate from the HDB Flat Portal and see what it means for your ballot odds.">
+<meta property="og:image" content="https://lekerxun149.github.io/SIP_BTO/img/preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://lekerxun149.github.io/SIP_BTO/ballot.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ballot odds — KeyQuest">
+<meta name="twitter:description" content="Read the live BTO application rate from the HDB Flat Portal and see what it means for your ballot odds.">
+<meta name="twitter:image" content="https://lekerxun149.github.io/SIP_BTO/img/preview.png">
+<link rel="icon" href="img/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<meta name="theme-color" content="#19203F">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=4">
+</head>
+<body>
+
+<header class="page-head">
+  <div class="wrap">
+    <div class="eyebrow">Ballot odds</div>
+    <h1>What are your chances?</h1>
+    <p>A queue number isn't a flat, and the ballot isn't a queue — it's a random draw. This tool takes the live application rate straight from HDB and tells you what it actually means for you.</p>
+  </div>
+</header>
+
+<!-- ================= STEP 1: GET THE NUMBER ================= -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Step one</div>
+      <h2>Get the live rate from HDB</h2>
+      <p>We don't store application rates here — they change every launch, so anything we saved would be out of date within months. Instead, take the real figure from the source.</p>
+    </div>
+
+    <div class="panel">
+      <div class="portal-cta">
+        <div>
+          <h3 style="font-size:19px; margin-bottom:6px">HDB Flat Portal</h3>
+          <p style="color:var(--ink-soft); font-size:14.5px; margin:0">
+            During an application window, HDB publishes live application rates for every project
+            and flat type, updated several times a day.
+          </p>
+        </div>
+        <a class="btn btn-amber portal-link" target="_blank" rel="noopener">Open the Flat Portal ↗</a>
+      </div>
+
+      <h3 style="font-size:16px; margin:24px 0 12px">Finding the right number</h3>
+      <ol class="how-list">
+        <li><b>Open the sales launch</b> that's currently taking applications, then the project you're interested in.</li>
+        <li><b>Find the application rate table.</b> HDB breaks it down by flat type and by applicant type.</li>
+        <li><b>Read your own row — not the headline.</b> The project's overall figure mixes everyone together. You want the rate for <i>your</i> applicant type and <i>your</i> flat type. These differ enormously: in one June 2026 project, first-timers faced 3.3× while second-timers faced 23.9× for the same flats.</li>
+        <li><b>Check near the end of the window.</b> Rates climb as the deadline approaches, so a figure read on day one understates the competition. You can change your selection until applications close.</li>
+      </ol>
+
+      <div class="tip" style="margin-top:18px">
+        <b>No launch open right now? </b>Application rates only exist during an application window.
+        Use the example figures further down to see how this works in the meantime.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STEP 2: ENTER IT ================= -->
+<section style="background:#fff; border-top:1px solid var(--line); border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Step two</div>
+      <h2>Enter what you found</h2>
+      <p>Two inputs. Both come straight off the portal page you just opened.</p>
+    </div>
+
+    <div class="calc">
+      <div class="panel">
+        <div class="field">
+          <label for="bRate">Application rate</label>
+          <div class="rate-input">
+            <input type="number" id="bRate" min="0.1" max="100" step="0.1" value="3.0"
+                   aria-describedby="bRateHelp">
+            <span class="rate-x">× subscribed</span>
+          </div>
+          <div class="hint" id="bRateHelp">
+            The number of applicants per unit, shown on the portal as a figure like
+            "1.3" or "17.8". A rate of 3.0 means three people applied for every flat available.
+            Enter the figure for your applicant type and flat type.
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Your applicant type</label>
+          <div class="seg seg-wrap" id="bTypes" role="group" aria-label="Applicant type"></div>
+          <div class="hint">
+            This decides how many ballot chances you get, which affects your position in the draw.
+            Pick the same category you read the rate from.
+          </div>
+        </div>
+      </div>
+
+      <div class="results">
+        <div class="verdict" id="bResult">
+          <h3><span id="bBand">Competitive</span> <span class="pill" id="bPill">3.0× SUBSCRIBED</span></h3>
+          <p id="bMeaning"></p>
+        </div>
+
+        <div class="grid2">
+          <div class="stat">
+            <div class="k">Roughly</div>
+            <div class="v mono" id="bRatio">About 1 in 3</div>
+            <div class="sub" id="bRatioSub"></div>
+          </div>
+          <div class="stat">
+            <div class="k">Your ballot chances</div>
+            <div class="v mono" id="bChances">2 chances</div>
+            <div class="sub" id="bChancesSub"></div>
+          </div>
+        </div>
+
+        <div class="stat">
+          <div class="k">Very rough sense of how many attempts</div>
+          <div class="v mono" id="bAttempts">~1–3 tries</div>
+          <div class="sub" id="bAttemptsSub"></div>
+        </div>
+
+        <div class="tip">
+          <b>Worth knowing · </b><span id="bCaveat"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DEMO ================= -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Try it</div>
+      <h2>Real figures from a past launch</h2>
+      <p>These are actual published rates from one recent exercise. Tap any of them to load it above and see how differently the same launch treats different buyers.</p>
+    </div>
+
+    <div class="ex-grid" id="bExamples"></div>
+    <div class="ex-note" id="bExampleNote"></div>
+
+    <p class="src-note" style="margin-top:18px">
+      These are illustrative only — they show how the tool behaves, not what you would face today.
+      Rates move a lot between launches: median first-timer family rates for larger flats sat near
+      1.3 in June 2026, but regularly exceeded 5–10 times during the pandemic years. Always use a live figure.
+    </p>
+  </div>
+</section>
+
+<!-- ================= LIMITS ================= -->
+<section style="background:#fff; border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Be careful with this</div>
+      <h2>What this tool can't tell you</h2>
+    </div>
+
+    <div class="cards3">
+      <div class="card">
+        <h3>It's not a prediction</h3>
+        <p>The ballot is a random draw. A good rate doesn't guarantee a flat and a bad one doesn't rule it out. This shows the shape of the competition, not your outcome.</p>
+      </div>
+      <div class="card">
+        <h3>Priority schemes aren't counted</h3>
+        <p>HDB reserves slices of each project for specific groups — families with children, buyers living near parents. If you qualify, your real odds are better than the raw rate suggests.</p>
+      </div>
+      <div class="card">
+        <h3>A queue number isn't a flat</h3>
+        <p>Succeeding in the ballot only earns you a turn to choose. If your number is high, the units you wanted may be gone before your turn comes.</p>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:20px">
+      <h3 style="font-size:17px; margin-bottom:10px">Disclaimer</h3>
+      <p style="color:var(--ink-soft); font-size:14.5px; margin:0 0 10px">
+        This simulator is an educational tool, not financial, legal or housing advice, and it is not
+        affiliated with or endorsed by HDB. It takes a single published figure — the application rate —
+        and explains what that figure means. It cannot account for priority scheme quotas, the exact
+        split of supply between applicant groups, or how HDB's computerised ballot allocates within
+        each pool.
+      </p>
+      <p style="color:var(--ink-soft); font-size:14.5px; margin:0">
+        The output is deliberately given as a rough band rather than a precise percentage, because the
+        application rate alone cannot support a precise figure. Treat it as a sense of scale.
+        <b style="color:var(--ink)">For your actual application, rely on the live figures and guidance on the
+        HDB Flat Portal</b>, and on your HFE letter.
+      </p>
+      <div class="src-slot" data-src="ballot"></div>
+      <div class="src-slot" data-src="priority"></div>
+      <div class="src-slot" data-src="btoGuide"></div>
+    </div>
+
+    <div class="cta-row" style="margin-top:26px">
+      <a class="btn btn-dark" href="journey.html">See the full journey →</a>
+      <a class="btn btn-line" href="guide.html">Read the guide</a>
+    </div>
+  </div>
+</section>
+
+<script src="data/bto-data.js?v=4"></script>
+<script src="js/progress.js?v=4"></script>
+<script src="js/nav.js?v=4"></script>
+<script src="js/sources.js?v=4"></script>
+<script src="js/ballot.js?v=4"></script>
+</body>
+</html>

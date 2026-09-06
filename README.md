@@ -17,6 +17,7 @@ Built as a Student Internship Programme (SIP) project.
 | `index.html` | Homepage — overview and links to everything |
 | `calculator.html` | Affordability: income ceiling, EHG grant estimate, downpayment, monthly repayment, MSR and TDSR |
 | `journey.html` | The six BTO stages as an interactive walkthrough |
+| `ballot.html` | Ballot odds — user enters a live application rate from HDB's portal |
 | `guide.html` | Standard/Plus/Prime, flat types, grants, glossary — with quizzes |
 | `checklist.html` | Tickable documents and fees needed at each stage |
 
@@ -32,6 +33,7 @@ SIP_BTO/
 ├── index.html            homepage
 ├── calculator.html       affordability tool
 ├── journey.html          six-stage simulator
+├── ballot.html           ballot odds simulator
 ├── guide.html            concepts + quizzes
 ├── checklist.html        documents and fees
 ├── 404.html              shown for broken links
@@ -46,6 +48,7 @@ SIP_BTO/
 │   ├── block.js          the lit-window block graphic
 │   ├── calculator.js     affordability logic
 │   ├── journey.js        stage simulator logic
+│   ├── ballot.js         ballot odds logic
 │   └── quiz.js           quiz component
 │
 ├── data/
@@ -117,6 +120,22 @@ locally.
 
 ---
 
+## The ballot simulator, and why it stores no rates
+
+BTO application rates change every launch, so any figure hard-coded here would be
+wrong within months. Instead `ballot.html` sends the user to the HDB Flat Portal to
+read the live rate for their own applicant type and flat type, and they type it in.
+That keeps it accurate with no upkeep.
+
+`BTO_DATA.ballot.examples` holds real published figures from one past launch, used
+only by the demo buttons so the tool still works between application windows. Those
+are clearly labelled as illustrative. When you refresh them, update
+`BTO_DATA.ballot.examplesLaunch` too so the date on screen stays honest.
+
+Output is deliberately a **band** ("Competitive", "Tough") plus a rough ratio, never
+a precise percentage — the application rate alone cannot support one, because
+priority scheme quotas and ballot chances also affect the draw.
+
 ## Cache busting
 
 CSS and JS links carry a version number, e.g. `css/style.css?v=2`. Browsers cache
@@ -135,55 +154,6 @@ git push
 
 Changes go live in about a minute. If a page looks stale afterwards, hard refresh
 with `Ctrl + Shift + R` — that's browser caching, not a failed deploy.
-
----
-
-## Working as a team
-
-- Don't commit directly to `main` once more than one person is working.
-- Create a branch per feature, open a Pull Request, get it reviewed, then merge.
-- Pull before you start work and again before you push.
-- To undo something already pushed, use `git revert`, never `git reset --hard`
-  or force push — those rewrite shared history and break everyone else's copy.
-
-Because CSS, JS and content live in separate files, two people can usually work at
-the same time without merge conflicts. Keep it that way.
-
----
-
-## Accuracy and sources
-
-Every figure links back to the official page it came from. Those URLs live in
-`BTO_DATA.sources` (`data/bto-data.js`) and are rendered by `js/sources.js`:
-
-```html
-<div class="src-slot" data-src="grants"></div>   <!-- one source link -->
-<div class="src-all"></div>                      <!-- the full list -->
-<div class="notice-slot"></div>                  <!-- current policy notice -->
-```
-
-**Policy changes fast.** Income ceilings were raised on 24 August 2026 (families
-$14,000 → $16,000; singles 35+ $7,000 → $8,000), and the EHG maximum rose to
-$120,000 in August 2024. Both are reflected in the data file.
-
-**HDB moved their website in 2026** and dropped `/residential/` from every URL,
-which broke all the old links. Most sources now point to
-[MyNiceHome](https://www.mynicehome.gov.sg/), HDB's own buyer-facing site, which has
-been more stable. If a source link 404s, search the page title on hdb.gov.sg rather
-than guessing at a new path — and check the links periodically.
-
-When you revise figures:
-
-1. Verify against the official page in `BTO_DATA.sources`.
-2. Update the number in `BTO_DATA.rules`.
-3. Update `BTO_DATA.lastUpdated`.
-4. Update or clear `BTO_DATA.notice` — set it to `null` to hide the banner.
-
-The EHG amount is an **estimate**. HDB publishes the maximum and the income ceiling
-but not the full band table, so `js/calculator.js` tapers evenly between them. It is
-labelled as an estimate wherever it appears. Don't present it as exact.
-
-These figures are for education only and are not financial advice.
 
 ---
 

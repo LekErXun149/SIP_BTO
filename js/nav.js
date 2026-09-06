@@ -8,6 +8,7 @@ const PAGES = [
   { file: "index.html",      label: "Home" },
   { file: "calculator.html", label: "Affordability" },
   { file: "journey.html",    label: "The journey" },
+  { file: "ballot.html",     label: "Ballot odds" },
   { file: "guide.html",      label: "Guide" },
   { file: "checklist.html",  label: "Checklist" }
 ];
