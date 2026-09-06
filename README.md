@@ -228,6 +228,11 @@ affordability check wrong at borderline incomes.
 element resets those to zero and the text sits flush against the screen edge. Use
 `padding-top` / `padding-bottom` instead. This bit `.hero-in` and `.lost`.
 
+**Don't put `flex:none` on a tag whose text can run long.** The priority scheme quota
+strings are full sentences; sized to their content inside a flex row they spilled out of
+the card. `.scheme-head` stacks vertically and the tag wraps, and the base `.tag` is
+capped at `max-width:100%`.
+
 **Don't leave `position:sticky` on when a layout stacks.** The journey block card is
 sticky beside the stage card on desktop, but once the grid collapses to one column
 the pinned block scrolls over the card below it. It's reset to `position:static`
@@ -235,11 +240,11 @@ under 860px.
 
 ## Cache busting
 
-CSS and JS links carry a version number, e.g. `css/style.css?v=0.11`. Browsers cache
+CSS and JS links carry a version number, e.g. `css/style.css?v=0.12`. Browsers cache
 these files aggressively, so **bump the version in every page** whenever you change
 a shared file — otherwise returning visitors keep seeing the old one.
 
-Current version is **0.11**. Increase by 0.1 each time you change any shared CSS or
+Current version is **0.12**. Increase by 0.1 each time you change any shared CSS or
 JS file. A quick find-and-replace across the HTML files does it.
 
 ## Deploying
