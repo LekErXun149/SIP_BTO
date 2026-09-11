@@ -1,268 +1,135 @@
-# KeyQuest — HDB BTO, gamified
+# KeyQuest
 
-An interactive guide to Singapore's HDB Build-To-Order process. Work out what you
-can afford, learn the rules that actually matter, and play through all six stages
-of the journey from ballot to keys.
+**An interactive guide to Singapore's HDB Build-To-Order process, built for first-time
+applicants aged 21–35.**
 
-**Live site:** https://lekerxun149.github.io/SIP_BTO
+Work out what you can afford, understand the rules that actually matter, see what the
+ballot odds really mean, and walk through all six stages from application to keys.
 
-Built as a Student Internship Programme (SIP) project.
+🔗 **[Open the site](https://lekerxun149.github.io/SIP_BTO)**
 
 ---
 
-## What it does
+## USI2001 Social Innovation Project
 
-| Page | What's on it |
+This module is about helping sociality to face many current issues and challenges faced
+in our society. SIT students are given the opportunities to address some of the
+multi-faceted issues and challenges in a multi-pronged, problem-solving approach, and
+through inter-disciplinary collaboration. This experience will nurture students' ability
+to see the broader connection of issues and challenges and bring about an awareness of
+the multiple considerations that need to be weighed in.
+
+---
+
+## Problem statement
+
+> How might we help first-time BTO applicants aged 21–35 understand downpayment, grants
+> and affordability trade-offs so that they can plan confidently and realistically?
+
+---
+
+## Abstract
+
+Young Singaporeans aged 21–35 are increasingly eager to plan for home ownership, with
+Singapore being a country with one of the world's highest home ownership rates of 90.8
+per cent (Lee, 2025). Complex housing terminology, varying grant eligibility criteria,
+and uncertainty around downpayment amounts such as the introduction of the new Standard,
+Plus and Prime system for new BTO projects complicates the decision process in buying a
+BTO flat, making it a daunting task (Yeap, 2025). This project explores how accessible
+and engaging financial guidance can help young BTO applicants better understand
+downpayments, grants, and affordability trade-offs, enabling them to make informed,
+realistic, and confident homeownership decisions.
+
+---
+
+## Why this site
+
+Buying a first flat in Singapore is one of the largest financial decisions a young adult
+will make, and the information needed to make it well is scattered, dense, and written
+for people who already understand it.
+
+KeyQuest addresses that in four ways:
+
+**It makes the numbers personal.** Rather than explaining what a Mortgage Servicing Ratio
+is, the affordability calculator shows whether *your* figures pass it — including the
+distinction between the interest rate you pay and the higher rate HDB tests you against,
+which is the kind of detail that surprises people at the worst moment.
+
+**It makes the process visible.** The journey lays out all six stages with realistic
+timings, so the three-to-five-year reality is clear from the start rather than discovered
+along the way.
+
+**It makes the odds honest.** The ballot tool takes the live application rate from HDB's
+own portal and explains what it means — including why the same flats look completely
+different to a first-timer and a second-timer.
+
+**It doesn't abandon you if BTO doesn't fit.** Anyone over the income ceiling, or facing
+impossible odds, gets a page of real alternatives rather than a dead end.
+
+Every figure links back to the official HDB page it came from, because housing policy
+changes often — several times during this project alone.
+
+---
+
+## What's on the site
+
+| Page | What it covers |
 |---|---|
-| `index.html` | Homepage — overview and links to everything |
-| `calculator.html` | Affordability: income ceiling, EHG grant estimate, downpayment, monthly repayment, MSR and TDSR |
-| `journey.html` | The six BTO stages as an interactive walkthrough |
-| `ballot.html` | Ballot odds — user enters a live application rate from HDB's portal |
-| `guide.html` | Standard/Plus/Prime, flat types, grants, glossary — with quizzes |
-| `options.html` | What to do if the ballot fails — SBF, open booking, resale |
-| `quiz.html` | 20 questions in 5 rounds, with a reason for every option |
-| `checklist.html` | Tickable documents and fees needed at each stage |
+| **Home** | Overview and a way into everything else |
+| **Affordability** | Income ceiling, EHG grant, downpayment, repayments, MSR and TDSR |
+| **The journey** | Six stages from HFE letter to key collection |
+| **Ballot odds** | What a live application rate means for you |
+| **Guide** | Standard/Plus/Prime, flat types, grants, priority schemes, glossary |
+| **Other routes** | If the ballot fails: SBF, open booking, resale, and the hidden costs |
+| **Quiz** | 20 questions, with an explanation for every option |
+| **Checklist** | Documents, fees and decisions at each stage |
 
-Progress on all pages saves automatically, and can be exported to a file and
-loaded back on another device.
-
----
-
-## Project structure
-
-```
-SIP_BTO/
-├── index.html            homepage
-├── calculator.html       affordability tool
-├── journey.html          six-stage simulator
-├── ballot.html           ballot odds simulator
-├── guide.html            concepts + quizzes
-├── options.html          other routes if BTO doesn't work out
-├── quiz.html             20-question quiz, scored
-├── checklist.html        documents and fees
-├── 404.html              shown for broken links
-│
-├── css/
-│   └── style.css         ALL styling for every page
-│
-├── js/
-│   ├── nav.js            shared nav bar + footer (injected into every page)
-│   ├── sources.js        renders source links and the policy notice
-│   ├── progress.js       auto-save, file export/import, close warning
-│   ├── block.js          the lit-window block graphic
-│   ├── calculator.js     affordability logic
-│   ├── journey.js        stage simulator logic
-│   ├── ballot.js         ballot odds logic
-│   └── quiz.js           quiz component
-│
-├── data/
-│   └── bto-data.js       ALL policy figures and content
-│
-├── img/
-│   ├── favicon.ico       browser tab icon
-│   ├── favicon-32.png
-│   ├── apple-touch-icon.png
-│   └── preview.png       1200x630 card shown when the link is shared
-│
-├── make_images.py        regenerates the images above (optional)
-├── README.md
-└── .gitignore
-```
-
-The images are generated from the site's own design tokens by `make_images.py`,
-so there is no third-party artwork and no licensing question. To change them,
-edit the colours at the top of that script and run `python3 make_images.py`.
+Progress saves automatically and can be exported to a file to carry between devices.
 
 ---
 
-## Where to make changes
+## Team
 
-**Changing a policy figure** (income ceiling, interest rate, grant amount)
-→ `data/bto-data.js`, in the `rules` section. Change it once; every page updates.
-
-**Changing colours, fonts or spacing**
-→ `css/style.css`, in the `:root` block at the top.
-
-**Adding or editing journey stages**
-→ `data/bto-data.js`, the `stages` array.
-
-**Adding a glossary term, grant, or flat type**
-→ `data/bto-data.js` — the matching array. The tables build themselves.
-
-**Adding a new page**
-→ Create the HTML file, copy the `<head>` from an existing page, then add one line
-to the `PAGES` list in `js/nav.js`. The nav and footer appear automatically.
-
-### Adding a quiz question
-
-All questions live in `BTO_DATA.quiz.rounds` and appear on `quiz.html`. Append to any
-round's `questions` array:
-
-```js
-{
-  q: "Your question?",
-  answer: 1,                    // zero-based — this means the second option
-  options: [
-    { t: "First option",  why: "Why this one is wrong." },
-    { t: "Second option", why: "Correct. Why this one is right." },
-    { t: "Third option",  why: "Why this one is wrong." },
-    { t: "Fourth option", why: "Why this one is wrong." }
-  ]
-}
-```
-
-**Every option needs its own `why`.** That's the point of the format: someone who picks
-the wrong answer sees why *their* choice was wrong alongside why the right one is right.
-A generic explanation attached only to the correct answer doesn't do that.
-
-Keep four options per question, and make sure any figures match `BTO_DATA.rules`.
-
----
-
-## Running it locally
-
-No build step, no installation. Open `index.html` in a browser.
-
-One caveat: saving uses browser storage, which some browsers restrict when a page
-is opened directly from disk. **Test the save/load features on the live URL**, not
-locally.
-
----
-
-## The ballot simulator, and why it stores no rates
-
-BTO application rates change every launch, so any figure hard-coded here would be
-wrong within months. Instead `ballot.html` sends the user to the HDB Flat Portal to
-read the live rate for their own applicant type and flat type, and they type it in.
-That keeps it accurate with no upkeep.
-
-`BTO_DATA.ballot.examples` holds real published figures from one past launch, used
-only by the demo buttons so the tool still works between application windows. Those
-are clearly labelled as illustrative. When you refresh them, update
-`BTO_DATA.ballot.examplesLaunch` too so the date on screen stays honest.
-
-Output is deliberately a **band** ("Competitive", "Tough") plus a rough ratio, never
-a precise percentage — the application rate alone cannot support one, because
-priority scheme quotas and ballot chances also affect the draw.
-
-## Priority schemes — check before you edit
-
-`BTO_DATA.priority` holds the schemes. **The Married Child Priority Scheme and the
-Senior Priority Scheme for living near parents no longer exist** — the Family Care
-Scheme (Proximity) replaced both from the July 2025 sales exercises. Many property
-websites still describe MCPS as current, so verify against
-[HDB's priority schemes page](https://www.hdb.gov.sg/buying-a-flat/bto-sbf-and-open-booking-of-flats/process-for-buying-a-new-flat/application/priority-schemes)
-rather than a search result.
-
-Every quota is an "up to" figure — an upper limit, not a guarantee. Keep that wording.
-
-## Borrowing is a choice, not a requirement
-
-The 75% loan-to-value figure is a **ceiling** on what HDB will lend, not an amount you
-must borrow. If savings cover more than the 25% minimum downpayment, the buyer can
-borrow less — or nothing at all.
-
-`calculator.js` therefore treats the loan as a user-controlled value bounded by the cap.
-It defaults to whatever savings don't already cover, but stops auto-following the moment
-the user sets it themselves (`state.borrowTouched`). Don't "simplify" this back to
-`price * 0.75` — that would tell someone who can pay cash that they owe 25 years of
-repayments.
-
-## Mobile navigation
-
-Eight pages don't fit across a phone. Above 900px the links sit inline; below that
-`js/nav.js` renders a labelled button showing the current page, which opens the full
-list as a panel. Both sets of links come from the same `PAGES` array, so adding a page
-still means editing one line.
-
-The earlier approach — horizontal scrolling with hidden scrollbars — looked like the
-nav was simply cut off, with no cue that more existed. Don't go back to it.
-
-Note also that `position:sticky` on `.jblock-card` is switched off below 860px. Once
-the layout stacks into one column, a pinned element scrolls over the content beneath it.
-
-## The EHG tables
-
-`BTO_DATA.ehgTable` holds HDB's published grant bands. They are **not** a smooth taper —
-HDB drops $10,000 in some bands and $5,000 in others, with no regular pattern, so any
-formula would be wrong in most bands. `js/calculator.js` reads the table directly.
-
-HDB publishes only two distinct tables:
-
-| Table | Assessed on | Used for |
+| | Name | Programme |
 |---|---|---|
-| `full` | Full household income | Families; two or more first-timer singles |
-| `half` | A single's income, or half the household income | Singles; first-timer/second-timer couples; applicants with a non-resident spouse |
+| 1 | Chloe Lai Xin Ni | BSc (Hons) DCIM |
+| 2 | Yeo Man Lin | BSc (Hons) DCIM |
+| 3 | See Toh Li Shan Nathlie | BSc (Hons) DCIM |
+| 4 | Chew Wen Xuan | BSc (Hons) DCIM |
+| 5 | Lek Er Xun | BEng (Hons) RSE |
 
-`half` is currently `full` halved exactly on both axes. That is HDB's doing, not an
-assumption in the code — `test_ehg.js` asserts it, so if HDB ever changes one table and
-not the other the test fails rather than the site quietly going wrong.
-
-When updating, type the bands straight from HDB's PDFs and re-run `node test_ehg.js`.
-
-## Same LTV, different cash
-
-HDB and bank loans both cap at 75% loan-to-value, so the downpayment is 25% either way.
-The difference is what it can be paid with: an HDB loan's downpayment can come entirely
-from CPF OA, while a bank loan needs at least 5% of the price in hard cash regardless of
-CPF balance (`rules.cashMinBank`). Don't collapse these into one figure — a CPF-rich,
-cash-poor buyer passes one and fails the other.
-
-## Two interest rates
-
-The calculator uses both, on purpose:
-
-- `hdbLoanRate` (2.6%) — what a buyer actually pays each month.
-- `hdbStressRate` (3.0%) — the floor HDB uses to work out how much they may borrow,
-  introduced in September 2022 to encourage prudent borrowing.
-
-Monthly repayment is shown at the real rate; the MSR and TDSR checks use the stressed
-figure, which is what HDB does. Bank borrowers are assessed against a 4.0% MAS floor.
-Don't "simplify" this by collapsing them into one rate — it would make the
-affordability check wrong at borderline incomes.
-
-## Two mobile traps to avoid
-
-**Don't use the `padding` shorthand on an element that also has `.wrap`.**
-`.wrap` sets `padding: 0 22px` for the side gutters; a shorthand `padding` on the same
-element resets those to zero and the text sits flush against the screen edge. Use
-`padding-top` / `padding-bottom` instead. This bit `.hero-in` and `.lost`.
-
-**Don't put `flex:none` on a tag whose text can run long.** The priority scheme quota
-strings are full sentences; sized to their content inside a flex row they spilled out of
-the card. `.scheme-head` stacks vertically and the tag wraps, and the base `.tag` is
-capped at `max-width:100%`.
-
-**Don't leave `position:sticky` on when a layout stacks.** The journey block card is
-sticky beside the stage card on desktop, but once the grid collapses to one column
-the pinned block scrolls over the card below it. It's reset to `position:static`
-under 860px.
-
-## Cache busting
-
-CSS and JS links carry a version number, e.g. `css/style.css?v=0.12`. Browsers cache
-these files aggressively, so **bump the version in every page** whenever you change
-a shared file — otherwise returning visitors keep seeing the old one.
-
-Current version is **0.12**. Increase by 0.1 each time you change any shared CSS or
-JS file. A quick find-and-replace across the HTML files does it.
-
-## Deploying
-
-The site is hosted on GitHub Pages from the `main` branch, root folder.
-
-```bash
-git add .
-git commit -m "describe what changed"
-git push
-```
-
-Changes go live in about a minute. If a page looks stale afterwards, hard refresh
-with `Ctrl + Shift + R` — that's browser caching, not a failed deploy.
+Singapore Institute of Technology
 
 ---
 
-## Built with
+## A note on accuracy
 
-Plain HTML, CSS and JavaScript. No frameworks, no build tools, no backend.
-Fonts are Bricolage Grotesque and IBM Plex, loaded from Google Fonts.
+KeyQuest is an educational tool. It is **not** financial, legal or housing advice, and it
+is not affiliated with or endorsed by HDB.
+
+Figures reflect publicly available HDB rules as of the date shown in the site footer, and
+every one links to its official source. Your actual eligibility, grants and loan are
+confirmed by HDB in your HFE letter. Always verify at
+[hdb.gov.sg](https://www.hdb.gov.sg) before making decisions.
+
+---
+
+## References
+
+Lee, L. (2025). *The Big Read: Young Singaporeans navigate the complexities of buying BTO
+flats.* Channel NewsAsia.
+https://www.channelnewsasia.com/today/big-read/hdb-bto-flats-classification-couples-singles-5479456
+
+Yeap, A. (2025). *Adulting: How to choose between Standard, Plus and Prime BTO flats.*
+Channel NewsAsia.
+https://www.channelnewsasia.com/today/adulting/buy-choose-hdb-bto-flat-standard-plus-prime-framework-5394661
+
+---
+
+## For developers
+
+Build instructions, project structure and maintenance notes are in
+**[MAINTENANCE.md](MAINTENANCE.md)**.
+
+The site is plain HTML, CSS and JavaScript — no frameworks, no build step, no backend.
+Open `index.html` in a browser to run it locally.
