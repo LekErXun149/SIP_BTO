@@ -12,6 +12,15 @@
   --dusk-a:#1B2348; --dusk-b:#3C2E54; --dusk-c:#8A4F3A;
   /* shape tokens */
   --r:12px; --r-lg:18px;
+  /* Text measure. In REM, not CH, on purpose: `ch` resolves against the
+     element's own font size, so 60ch on a 44px heading is a different
+     width from 60ch on a 16px paragraph — which is exactly how the page
+     header and the sections drifted apart. rem is root-relative, so one
+     token gives every block the same wrap point.
+     36rem = 576px, matching the 60ch the sections already used. */
+  --measure:36rem;        /* standard text column */
+  --measure-hero:30rem;   /* hero intro — deliberately tighter */
+  --measure-wide:50rem;   /* footer block */
   --shadow:0 1px 0 rgba(25,32,63,.04), 0 14px 34px -22px rgba(25,32,63,.35);
 }
 
@@ -57,10 +66,21 @@ nav{position:sticky; top:0; z-index:50; background:rgba(245,241,232,.9);
 
 /* ---------- page header (inner pages) ---------- */
 .page-head{background:linear-gradient(160deg,var(--dusk-a) 0%,var(--dusk-b) 100%); color:#F3EEE4; padding:52px 0 56px}
+/* Cap every child at the same measure. Previously only the paragraph was
+   capped, so a long h1 ran the full 1080px while its own paragraph stopped
+   at ~570px — the two blocks never lined up. */
+.page-head .eyebrow,
+.page-head h1,
+.page-head p{max-width:var(--measure)}
 .page-head h1{font-size:clamp(30px,4.6vw,44px); font-weight:800}
-.page-head p{color:#D7D2E4; font-size:17px; max-width:56ch; margin:16px 0 0}
-.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:12.5px; letter-spacing:.18em;
-  text-transform:uppercase; color:var(--amber-glow); margin-bottom:16px}
+.page-head p{color:#D7D2E4; font-size:17px; margin:16px 0 0}
+/* Same shape as .sec-eyebrow — the rule, the size and the tracking — so the
+   page header reads as the top of the same system rather than a separate
+   banner. Only the colour differs, for the dark background. */
+.eyebrow{display:inline-flex; align-items:center; gap:8px; font-family:"IBM Plex Mono",monospace;
+  font-size:12px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--amber-glow); margin-bottom:16px}
+.eyebrow::before{content:""; width:22px; height:2px; background:var(--amber-glow); flex:none}
 
 /* ---------- hero (homepage only) ---------- */
 .hero{background:linear-gradient(160deg,var(--dusk-a) 0%,var(--dusk-b) 58%,var(--dusk-c) 130%); color:#F3EEE4; overflow:hidden}
@@ -70,7 +90,7 @@ nav{position:sticky; top:0; z-index:50; background:rgba(245,241,232,.9);
   padding-top:74px; padding-bottom:86px}
 .hero h1{font-size:clamp(34px,5.4vw,58px); font-weight:800}
 .hero h1 em{font-style:normal; color:var(--amber)}
-.hero p{font-size:17.5px; color:#D7D2E4; max-width:46ch; margin:20px 0 30px}
+.hero p{font-size:17.5px; color:#D7D2E4; max-width:var(--measure-hero); margin:20px 0 30px}
 @media(max-width:860px){.hero-in{grid-template-columns:1fr; padding-top:54px; padding-bottom:64px}}
 
 /* ---------- buttons ---------- */
@@ -111,7 +131,7 @@ section{padding:56px 0}
    sides of the join leaves a gap that reads as a mistake, so halve the
    second one. */
 section + section{padding-top:34px}
-.sec-head{max-width:60ch; margin-bottom:34px}
+.sec-head{max-width:var(--measure); margin-bottom:34px}
 .sec-eyebrow{display:inline-flex; align-items:center; gap:8px; font-family:"IBM Plex Mono",monospace;
   font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--amber-deep); margin-bottom:14px}
 .sec-eyebrow::before{content:""; width:22px; height:2px; background:var(--amber)}
@@ -242,7 +262,7 @@ td:first-child,th:first-child{font-weight:600}
 /* ---------- footer ---------- */
 footer{padding:40px 0 56px; color:var(--ink-soft); font-size:13px; border-top:1px solid var(--line)}
 .disclaimer{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
-  padding:18px 20px; max-width:800px; line-height:1.65}
+  padding:18px 20px; max-width:var(--measure-wide); line-height:1.65}
 .disclaimer b{color:var(--ink)}
 .foot-mark{margin-top:22px; font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.04em}
 
@@ -305,7 +325,7 @@ nav{top:0}
   align-items:center; gap:12px; transition:border-color .15s ease}
 .src-item:hover{border-color:var(--amber)}
 .src-item .arrow{color:var(--amber-deep); font-size:15px; flex:none}
-.src-note{font-size:13px; color:var(--ink-soft); margin-top:16px; max-width:70ch}
+.src-note{font-size:13px; color:var(--ink-soft); margin-top:16px; max-width:var(--measure)}
 
 /* ============================================================
    Ballot simulator
@@ -548,7 +568,7 @@ nav{top:0}
 /* ============================================================
    About page
    ============================================================ */
-.prose{max-width:68ch}
+.prose{max-width:var(--measure)}
 .prose p{font-size:15.5px; color:#3b4060; line-height:1.7; margin:0 0 14px}
 .prose p:last-child{margin-bottom:0}
 
@@ -564,8 +584,11 @@ nav{top:0}
 .refs a:hover{text-decoration:underline}
 
 /* footer row with the About link */
+/* Same width as the disclaimer above it. Without this the row spans the full
+   1080px of .wrap while the disclaimer stops at 800px, so space-between
+   flings the About link 280px past the edge of the block it belongs to. */
 .foot-row{display:flex; justify-content:space-between; align-items:center; gap:16px;
-  flex-wrap:wrap; margin-top:22px}
+  flex-wrap:wrap; margin-top:22px; max-width:var(--measure-wide)}
 .foot-link{font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--amber-deep);
   text-decoration:none; font-weight:500}
 .foot-link:hover{text-decoration:underline}
