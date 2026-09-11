@@ -77,6 +77,12 @@ const PAGES = [
 
 (function buildFooter(){
   const updated = (typeof BTO_DATA !== "undefined") ? BTO_DATA.lastUpdated : "";
+
+  /* The About link lives here rather than in the nav: the nav is already at
+     nine items and this isn't a page anyone needs mid-task. A footer About
+     link is where people look for it anyway. */
+  const onAbout = window.location.pathname.split("/").pop() === "about.html";
+
   document.body.insertAdjacentHTML("beforeend", `
     <footer>
       <div class="wrap">
@@ -87,7 +93,10 @@ const PAGES = [
           HDB Flat Eligibility (HFE) letter, and policies change.
           <b>Always verify with HDB at hdb.gov.sg and the HDB Flat Portal before making any decisions.</b>
         </div>
-        <div class="foot-mark">KeyQuest · figures last checked ${updated} · built for SIP</div>
+        <div class="foot-row">
+          <span class="foot-mark">KeyQuest · figures last checked ${updated}</span>
+          ${onAbout ? "" : '<a class="foot-link" href="about.html">About this project →</a>'}
+        </div>
       </div>
     </footer>
   `);

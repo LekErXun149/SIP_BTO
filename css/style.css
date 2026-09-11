@@ -544,3 +544,28 @@ nav{top:0}
   .nav-menu-in{grid-template-columns:1fr}
   .brand{font-size:17px}
 }
+
+/* ============================================================
+   About page
+   ============================================================ */
+.prose{max-width:68ch}
+.prose p{font-size:15.5px; color:#3b4060; line-height:1.7; margin:0 0 14px}
+.prose p:last-child{margin-bottom:0}
+
+.quote{margin:0 0 20px; padding:18px 22px; background:#FBF3E4; border:1px solid #F1DDB4;
+  border-left:4px solid var(--amber); border-radius:var(--r);
+  font-family:"Bricolage Grotesque",sans-serif; font-weight:500; font-size:18px;
+  line-height:1.45; color:#7A5510}
+
+.refs p{font-size:14px; color:var(--ink-soft); line-height:1.65; margin:0 0 12px;
+  padding-left:22px; text-indent:-22px}
+.refs p:last-child{margin-bottom:0}
+.refs a{color:var(--amber-deep); font-weight:600; text-decoration:none; white-space:nowrap}
+.refs a:hover{text-decoration:underline}
+
+/* footer row with the About link */
+.foot-row{display:flex; justify-content:space-between; align-items:center; gap:16px;
+  flex-wrap:wrap; margin-top:22px}
+.foot-link{font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--amber-deep);
+  text-decoration:none; font-weight:500}
+.foot-link:hover{text-decoration:underline}
